@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/PCBRecheck"/>
+    <qresource prefix="/Icons">
+        <file>Icons/logo.png</file>
+    </qresource>
+</RCC>
