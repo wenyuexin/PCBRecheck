@@ -8,6 +8,7 @@ Configurator::Configurator(QFile *file)
 
 Configurator::~Configurator()
 {
+
 }
 
 //生成默认的参数配置文件
