@@ -7,4 +7,5 @@ int main(int argc, char *argv[])
 	PCBRecheck w;
 	w.show();
 	return a.exec();
+
 }
