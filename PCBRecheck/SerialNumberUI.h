@@ -7,10 +7,13 @@
 #include <QRegExpValidator>
 #include <QLatin1Char>
 
+namespace Ui {
 #ifndef FOLDER_HIERARCHY_TPYE
 #define FOLDER_HIERARCHY_TPYE
-typedef QMap<int, QMap<int, QList<int>>> FolderHierarchy;
-#endif
+	typedef QMap<int, QMap<int, QList<int>>> FolderHierarchy;
+#endif	
+}
+
 
 class SerialNumberUI : public QWidget
 {
@@ -23,7 +26,7 @@ private:
 	QString *sampleModelNum; //型号
 	QString *sampleBatchNum; //批次号
 	QString *sampleNum; //样本编号 QString
-	FolderHierarchy *folderHierarchy; //输出目录下的文件夹层次
+	Ui::FolderHierarchy *folderHierarchy; //输出目录下的文件夹层次
 	int sampleTypeNumSlice[2] = { 0,2 }; //型号的字符串切片范围
 	int sampleBatchNumSlice[2] = { 2, 2 };  //批次号的字符串切片范围
 	int sampleNumSlice[2] = { 4, 4 }; //样本编号的字符串切片范围
@@ -32,8 +35,8 @@ public:
 	SerialNumberUI(QWidget *parent = Q_NULLPTR);
 	~SerialNumberUI();
 
-	void setSerialNumPtr(QString **ptrArray);
-	void setFolderHierarchyPtr(FolderHierarchy *ptr);
+	void setSerialNum(QString **ptrArray);
+	inline void setFolderHierarchy(Ui::FolderHierarchy *ptr) { folderHierarchy = ptr; }
 	bool getNextSerialNum();
 
 private:

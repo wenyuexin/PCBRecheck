@@ -30,7 +30,7 @@ public:
 
 	QRectF boundingRect() const;
 	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
-	void setColor(const QColor &color) { brushColor = color; }
-	void setFullImageSizePtr(QSize *ptr);
+	inline void setColor(const QColor &color) { brushColor = color; }
+	inline void setFullImageSize(QSize *ptr) { fullImageSize = ptr; }
 };
 

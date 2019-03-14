@@ -30,11 +30,6 @@ void SysInitThread::run()
 
 /************************* 检修系统初始化 **************************/
 
-void SysInitThread::setRecheckConfigPtr(Ui::RecheckConfig * ptr)
-{
-	recheckConfig = ptr;
-}
-
 int SysInitThread::initRecheckConfig()
 {
 	//读取参数配置文件
@@ -60,11 +55,6 @@ int SysInitThread::initRecheckConfig()
 
 
 /************************* 路径信息初始化 **************************/
-
-void SysInitThread::setOutFolderHierarchyPtr(FolderHierarchy *ptr)
-{
-	OutputFolderHierarchy = ptr;
-}
 
 int SysInitThread::initOutFolderHierarchy()
 {
