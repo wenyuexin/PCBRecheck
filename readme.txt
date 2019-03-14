@@ -1,10 +1,10 @@
 # PCBRecheck  
 
-**开发环境：**  
+** 开发环境：**  
 Microsoft Visual Studio 2017 Professional  
 Qt 5.11.1  
 
-**文件说明：** 
+** 文件说明：** 
 PCBRecheck 主界面  
 SysInitThread 初始化线程  
 SerialNumberUI 编号设置界面  
