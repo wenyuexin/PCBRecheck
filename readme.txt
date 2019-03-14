@@ -1,12 +1,14 @@
+# PCBRecheck  
 
-PCBRecheck Ö÷½çÃæ
+**å¼€å‘ç¯å¢ƒï¼š**  
+Microsoft Visual Studio 2017 Professional  
+Qt 5.11.1  
 
-SysInitThread ³õÊ¼»¯Ïß³Ì
+**æ–‡ä»¶è¯´æ˜ï¼š** 
+PCBRecheck ä¸»ç•Œé¢  
+SysInitThread åˆå§‹åŒ–çº¿ç¨‹  
+SerialNumberUI ç¼–å·è®¾ç½®ç•Œé¢  
+ExitQueryUI é€€å‡ºè¯¢é—®ç•Œé¢  
+Configurator å‚æ•°é…ç½®å™¨  
+FlickeringArrow ä¸»ç•Œé¢ä¸­PCBå¤§å›¾ä¸Šé—ªçƒçš„ç®­å¤´  
 
-SerialNumberUI ±àºÅÉèÖÃ½çÃæ
-
-ExitQueryUI ÍË³öÑ¯ÎÊ½çÃæ
-
-Configurator ²ÎÊıÅäÖÃÆ÷
-
-FlickeringArrow Ö÷½çÃæÖĞPCB´óÍ¼ÉÏÉÁË¸µÄ¼ıÍ·
