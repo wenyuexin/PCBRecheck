@@ -27,12 +27,7 @@ FlickeringArrow::~FlickeringArrow()
 	delete[] arrowShapeArray;
 }
 
-/********************* 类方法 *********************/
-
-void FlickeringArrow::setFullImageSizePtr(QSize *ptr)
-{
-	fullImageSize = ptr;
-}
+/**************** 类方法 *******************/
 
 QRectF FlickeringArrow::boundingRect() const
 {

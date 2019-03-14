@@ -18,15 +18,15 @@ class SysInitThread :
 
 private:
 	QWidget *RecheckMainWidget;
-	FolderHierarchy *OutputFolderHierarchy; //输出目录下的文件夹层次
+	Ui::FolderHierarchy *OutputFolderHierarchy; //输出目录下的文件夹层次
 	Ui::RecheckConfig *recheckConfig; //检修系统的配置信息
 	
 public:
 	SysInitThread();
 	~SysInitThread();
 
-	void setOutFolderHierarchyPtr(FolderHierarchy *ptr);
-	void setRecheckConfigPtr(Ui::RecheckConfig * ptr);
+	void setOutFolderHierarchy(Ui::FolderHierarchy *ptr) { OutputFolderHierarchy = ptr; }
+	void setRecheckConfig(Ui::RecheckConfig *ptr) { recheckConfig = ptr; }
 
 protected:
 	void run();

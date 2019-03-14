@@ -23,8 +23,8 @@ PCBRecheck::PCBRecheck(QWidget *parent)
 
 	//系统初始化线程
 	sysInitThread = new SysInitThread;
-	sysInitThread->setOutFolderHierarchyPtr(&OutFolderHierarchy);
-	sysInitThread->setRecheckConfigPtr(&config);
+	sysInitThread->setOutFolderHierarchy(&OutFolderHierarchy);
+	sysInitThread->setRecheckConfig(&config);
 	sysInitThread->start(); //开启线程
 	connect(sysInitThread, SIGNAL(initializeFinished_initThread()), this, SLOT(do_showRecheckUI_initThread()));
 	connect(sysInitThread, SIGNAL(configError1_initThread()), this, SLOT(on_configError1_initThread()));
@@ -33,7 +33,7 @@ PCBRecheck::PCBRecheck(QWidget *parent)
 
 	//编号设置界面
 	serialNumberUI = new SerialNumberUI;
-	serialNumberUI->setSerialNumPtr(numPtrArray);
+	serialNumberUI->setSerialNum(numPtrArray);
 	connect(serialNumberUI, SIGNAL(showRecheckUI_numUI()), this, SLOT(do_showRecheckUI_numUI()));
 	connect(serialNumberUI, SIGNAL(exitRecheckSystem_numUI()), this, SLOT(do_exitRecheckSystem_numUI()));
 	
@@ -127,7 +127,7 @@ void PCBRecheck::do_showRecheckUI_initThread()
 	ImageFormat = config.ImageFormat;
 
 	//将输出目录下的文件夹层次传递给编号设置界面
-	serialNumberUI->setFolderHierarchyPtr(&OutFolderHierarchy);
+	serialNumberUI->setFolderHierarchy(&OutFolderHierarchy);
 
 	//显示PCB序号询问界面
 	showSerialNumberUI();
@@ -293,7 +293,7 @@ void PCBRecheck::showFullPcbImage()
 		//加载闪烁的箭头
 		timer->start(500); //启动定时器
 		setFlickeringArrowPos(); //更新闪烁箭头的位置
-		flickeringArrow.setFullImageSizePtr(&fullImageSize);
+		flickeringArrow.setFullImageSize(&fullImageSize);
 		fullPCBScene.addItem(&flickeringArrow); //将箭头加载进场景中
 
 		//控件设置与图像显示

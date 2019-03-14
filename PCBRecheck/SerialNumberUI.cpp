@@ -27,7 +27,7 @@ SerialNumberUI::~SerialNumberUI()
 /******************** 获取输入参数的指针 **********************/
 
 //传递PCB编号的指针
-void SerialNumberUI::setSerialNumPtr(QString **ptrArray)
+void SerialNumberUI::setSerialNum(QString **ptrArray)
 {
 	serialNum = ptrArray[0]; //PCB编号
 	sampleModelNum = ptrArray[1]; //样本类型编号
@@ -35,8 +35,6 @@ void SerialNumberUI::setSerialNumPtr(QString **ptrArray)
 	sampleNum = ptrArray[3]; //样本编号
 }
 
-//传递目录层次结构的指针
-void SerialNumberUI::setFolderHierarchyPtr(FolderHierarchy *ptr) { folderHierarchy = ptr; }
 
 /******************** 事件响应：敲击回车键 ********************/
 

@@ -62,7 +62,7 @@ private:
 	QVector<QStringList> flawImgInfoVec; //缺陷图的基本信息（坐标）
 	uint16_t flawIndicatorStatus; //指示灯亮灭状态
 
-	FolderHierarchy OutFolderHierarchy; //输出目录下的文件夹层次
+	Ui::FolderHierarchy OutFolderHierarchy; //输出目录下的文件夹层次
 
 public:
 	PCBRecheck(QWidget *parent = Q_NULLPTR);
