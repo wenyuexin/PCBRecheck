@@ -58,18 +58,23 @@ void SerialNumberUI::keyPressEvent(QKeyEvent *event)
 //产品序号=PCB型号+批次号+样本编号
 void SerialNumberUI::parseSerialNum()
 {
-	/*
-	*sampleTypeNumPtr = "1"; //型号
-	*sampleBatchNumPtr = "1"; //批次号
-	*sampleNumPtr = "3"; //样本编号
-	*/
+	if (serialNumSlice[0] != serialNum->size()) {
+		//showMessageBox(this, Invalid_SerialNum); return;
+		qDebug() << "SerialNumberUI: parseSerialNum: Invalid_SerialNum";
+		return;
+	}
 
-	*sampleModelNum = QString::number(serialNum->mid(
-		sampleTypeNumSlice[0], sampleTypeNumSlice[1]).toInt()); //型号
-	*sampleBatchNum = QString::number(serialNum->mid(
-		sampleBatchNumSlice[0], sampleBatchNumSlice[1]).toInt()); //批次号
-	*sampleNum = QString::number(serialNum->mid(
-		sampleNumSlice[0], sampleNumSlice[1]).toInt()); //样本编号
+	int to = 0;
+	int from = serialNumSlice[1];
+	*sampleModelNum = QString::number(serialNum->mid(to, serialNumSlice[1]).toInt()); //型号
+
+	to = from;
+	from = to + serialNumSlice[2];
+	*sampleBatchNum = QString::number(serialNum->mid(to, serialNumSlice[2]).toInt()); //批次号
+
+	to = from;
+	from = to + serialNumSlice[3];
+	*sampleNum = QString::number(serialNum->mid(to, serialNumSlice[3]).toInt()); //样本编号
 }
 
 //更新编号
@@ -82,8 +87,8 @@ bool SerialNumberUI::getNextSerialNum()
 		if (sampleImageList[i] == sampleNum->toInt()) {
 			if (i+1 < sampleImageList.size()) {
 				*sampleNum = QString::number(sampleImageList[i+1]);
-				*serialNum = (*serialNum).mid(0, sampleTypeNumSlice[1]+ sampleBatchNumSlice[1]) +
-					QString("%1").arg(sampleNum->toInt(), sampleNumSlice[1], 10, QLatin1Char('0'));
+				*serialNum = (*serialNum).mid(0, serialNumSlice[1]+ serialNumSlice[2]) +
+					QString("%1").arg(sampleNum->toInt(), serialNumSlice[0], 10, QLatin1Char('0'));
 				ui.lineEdit_serialNum->setText(*serialNum); //更新输入框中的产品序号
 				return true;
 			}
