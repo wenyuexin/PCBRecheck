@@ -6,6 +6,7 @@
 #include <QKeyEvent>
 #include <QRegExpValidator>
 #include <QLatin1Char>
+#include <QDebug>
 
 namespace Ui {
 #ifndef FOLDER_HIERARCHY_TPYE
@@ -27,9 +28,7 @@ private:
 	QString *sampleBatchNum; //批次号
 	QString *sampleNum; //样本编号 QString
 	Ui::FolderHierarchy *folderHierarchy; //输出目录下的文件夹层次
-	int sampleTypeNumSlice[2] = { 0,2 }; //型号的字符串切片范围
-	int sampleBatchNumSlice[2] = { 2, 2 };  //批次号的字符串切片范围
-	int sampleNumSlice[2] = { 4, 4 }; //样本编号的字符串切片范围
+	const int serialNumSlice[4] = { 8, 2, 2, 4 }; //序号组成
 
 public:
 	SerialNumberUI(QWidget *parent = Q_NULLPTR);
