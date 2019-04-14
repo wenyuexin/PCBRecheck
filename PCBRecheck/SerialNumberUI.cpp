@@ -46,8 +46,9 @@ void SerialNumberUI::keyPressEvent(QKeyEvent *event)
 			emit exitRecheckSystem_numUI();
 		}
 		else {
-			parseSerialNum(); //解析编号
-			emit showRecheckUI_numUI();
+			if (parseSerialNum()) { //解析编号
+				emit showRecheckUI_numUI();
+			}
 		}
 	}
 }
@@ -56,25 +57,25 @@ void SerialNumberUI::keyPressEvent(QKeyEvent *event)
 
 //编号解析：
 //产品序号=PCB型号+批次号+样本编号
-void SerialNumberUI::parseSerialNum()
+bool SerialNumberUI::parseSerialNum()
 {
 	if (serialNumSlice[0] != serialNum->size()) {
-		//showMessageBox(this, Invalid_SerialNum); return;
-		qDebug() << "SerialNumberUI: parseSerialNum: Invalid_SerialNum";
-		return;
+		QMessageBox::warning(this, QString::fromLocal8Bit("警告"),
+			QString::fromLocal8Bit("产品序号无效，请重新输入！  "),
+			QString::fromLocal8Bit("确定"));
+		return false;
 	}
 
-	int to = 0;
-	int from = serialNumSlice[1];
-	*sampleModelNum = QString::number(serialNum->mid(to, serialNumSlice[1]).toInt()); //型号
+	int begin = 0;
+	*sampleModelNum = QString::number(serialNum->mid(begin, serialNumSlice[1]).toInt()); //型号
 
-	to = from;
-	from = to + serialNumSlice[2];
-	*sampleBatchNum = QString::number(serialNum->mid(to, serialNumSlice[2]).toInt()); //批次号
+	begin += serialNumSlice[1];
+	*sampleBatchNum = QString::number(serialNum->mid(begin, serialNumSlice[2]).toInt()); //批次号
 
-	to = from;
-	from = to + serialNumSlice[3];
-	*sampleNum = QString::number(serialNum->mid(to, serialNumSlice[3]).toInt()); //样本编号
+	begin += serialNumSlice[2];
+	*sampleNum = QString::number(serialNum->mid(begin, serialNumSlice[3]).toInt()); //样本编号
+
+	return true;
 }
 
 //更新编号

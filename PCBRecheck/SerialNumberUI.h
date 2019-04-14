@@ -7,6 +7,7 @@
 #include <QRegExpValidator>
 #include <QLatin1Char>
 #include <QDebug>
+#include <QMessageBox>
 
 namespace Ui {
 #ifndef FOLDER_HIERARCHY_TPYE
@@ -39,7 +40,7 @@ public:
 	bool getNextSerialNum();
 
 private:
-	void parseSerialNum();
+	bool parseSerialNum();
 
 Q_SIGNALS:
 	void exitRecheckSystem_numUI();

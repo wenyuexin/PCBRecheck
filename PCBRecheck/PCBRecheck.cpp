@@ -197,11 +197,12 @@ void PCBRecheck::refreshRecheckUI()
 	ui.label_serialNum->setFont(font); //设置字体
 	ui.label_serialNum->setText(serialNum); //更新pcb编号
 
-	QString flawImageFolder = OutputDirPath + "/" + sampleTypeNum + "/" + sampleBatchNum + "/" + sampleNum;
+	QString flawImageFolder = OutputDirPath + "/" 
+		+ sampleTypeNum + "/" + sampleBatchNum + "/" + sampleNum;//检测结果所在的文件夹
 	if (!QFileInfo(flawImageFolder).isDir()) {
 		QMessageBox::warning(this, QString::fromLocal8Bit("警告"),
-			QString::fromLocal8Bit("路径定位失败，无法获取相应的检测结果!\n"
-				) + QString("path: **/output/" + sampleTypeNum + "/" + sampleBatchNum + "/" + sampleNum),
+			QString::fromLocal8Bit("路径定位失败，无法获取相应的检测结果!\n") 
+			+ QString("path: **/output/" + sampleTypeNum + "/" + sampleBatchNum + "/" + sampleNum),
 			QString::fromLocal8Bit("确定"));
 		Sleep(10);
 		showSerialNumberUI(); //显示PCB序号询问界面
@@ -213,7 +214,8 @@ void PCBRecheck::refreshRecheckUI()
 
 	//加载并显示PCB大图
 	currentFlawIndex = 0;
-	showFullPcbImage();
+	showFullPcbImage2();
+	ui.label_defectNum->setText(QString::number(defectNum));
 
 	/*加载并显示第1个缺陷小图*/
 	QFileInfo flawImgInfo(flawImgPathVec[0]);
@@ -247,6 +249,7 @@ void PCBRecheck::getFlawImgInfo(QString dirpath)
 }
 
 //加载并显示PCB大图
+//从template文件夹中读取fullImage为前缀的整图
 void PCBRecheck::showFullPcbImage()
 {
 	QString fullImageDirPath = TemplDirPath + "/" + sampleTypeNum + "/";
@@ -274,6 +277,79 @@ void PCBRecheck::showFullPcbImage()
 		}
 		else {
 			originalFullImageSize = QSize(-1,-1);
+		}
+
+		//删除场景中之前加载的元素
+		QList<QGraphicsItem *> itemList = fullPCBScene.items();
+		for (int i = 0; i < itemList.size(); i++) {
+			fullPCBScene.removeItem(itemList[i]);  //从scene中移除
+		}
+
+		//加载PCB大图
+		scaledFactor = min(qreal(ui.graphicsView_full->height() - 2) / fullImage.size().height(),
+			qreal(ui.graphicsView_full->width() - 2) / fullImage.size().width()); //PCB大图的尺寸变换因子
+		fullImage = fullImage.scaled(fullImage.size()*scaledFactor, Qt::KeepAspectRatio); //图像缩放
+		fullImageSize = fullImage.size(); //PCB大图的实际显示尺寸
+		fullPCBScene.addPixmap(QPixmap::fromImage(fullImage)); //将图像加载进场景中
+		fullPCBScene.setSceneRect(0, 0, fullImageSize.width(), fullImageSize.height()); //设置场景范围
+
+		//加载闪烁的箭头
+		timer->start(500); //启动定时器
+		setFlickeringArrowPos(); //更新闪烁箭头的位置
+		flickeringArrow.setFullImageSize(&fullImageSize);
+		fullPCBScene.addItem(&flickeringArrow); //将箭头加载进场景中
+
+		//控件设置与图像显示
+		ui.graphicsView_full->setFocusPolicy(Qt::NoFocus);
+		ui.graphicsView_full->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff); //禁用水平滚动条
+		ui.graphicsView_full->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff); //禁用垂直滚动条
+		ui.graphicsView_full->setScene(&fullPCBScene); //设置场景
+		ui.graphicsView_full->show(); //显示图像
+	}
+	else {
+		QMessageBox::warning(this, QString::fromLocal8Bit("警告"),
+			QString::fromLocal8Bit("无法加载相应的PCB整图!  "),
+			QString::fromLocal8Bit("确定"));
+		Sleep(10); //睡眠10ms
+		serialNumberUI->show(); //显示PCB序号询问界面
+	}
+}
+
+//加载并显示PCB大图
+//从对应的output文件夹的fullImage子文件夹中读取整图
+void PCBRecheck::showFullPcbImage2()
+{
+	QString flawImageFolder = OutputDirPath + "/" + sampleTypeNum + "/" 
+		+ sampleBatchNum + "/" + sampleNum;//检测结果所在的文件夹
+
+	QString fullImageDirPath = flawImageFolder + "/fullImage/";
+	QDir dir(fullImageDirPath);
+	dir.setFilter(QDir::Files | QDir::NoDotAndDotDot);
+	QStringList filters("*" + ImageFormat); //将ImgFormat格式的图片过滤出来 
+	dir.setNameFilters(filters);
+	QFileInfoList folder_list = dir.entryInfoList(); //获取文件列表
+
+	QString fullImgPath = "";
+	QStringList pcbInfoList;//整图的原图大小+缺陷总数
+	for (int i = 0; i < folder_list.size(); i++) {
+		if (folder_list.at(i).baseName().startsWith(fullImageNamePrefix)) {
+			fullImgPath = folder_list.at(i).absoluteFilePath();
+			pcbInfoList = folder_list.at(i).baseName().split("_");
+			break;
+		}
+	}
+
+	if (fullImage.load(fullImgPath)) {
+		//根据文件名获取PCB整图的原始尺寸
+		if (pcbInfoList.size() == 4) {
+			originalFullImageSize.setWidth(pcbInfoList[1].toInt());
+			originalFullImageSize.setHeight(pcbInfoList[2].toInt());
+			defectNum = pcbInfoList[3].toInt();
+			qDebug() << "defectNum =" << defectNum;
+		}
+		else {
+			originalFullImageSize = QSize(-1, -1);
+			defectNum = -1;
 		}
 
 		//删除场景中之前加载的元素
