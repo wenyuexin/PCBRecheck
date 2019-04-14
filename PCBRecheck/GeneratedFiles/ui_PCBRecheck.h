@@ -80,6 +80,8 @@ public:
     QLabel *label_serialNum;
     QSpacerItem *horizontalSpacer_33;
     QLabel *label_titleBarBackground;
+    QLabel *label_3;
+    QLabel *label_defectNum;
 
     void setupUi(QMainWindow *PCBRecheckClass)
     {
@@ -101,7 +103,7 @@ public:
         graphicsView_full = new QGraphicsView(centralWidget);
         graphicsView_full->setObjectName(QStringLiteral("graphicsView_full"));
         graphicsView_full->setEnabled(true);
-        graphicsView_full->setGeometry(QRect(70, 40, 580, 711));
+        graphicsView_full->setGeometry(QRect(-1, 30, 731, 731));
         QSizePolicy sizePolicy1(QSizePolicy::Preferred, QSizePolicy::Preferred);
         sizePolicy1.setHorizontalStretch(0);
         sizePolicy1.setVerticalStretch(0);
@@ -142,7 +144,7 @@ public:
         label_logo->setStyleSheet(QStringLiteral("border-image: url(:/Icons/logo.png);"));
         layoutWidget_2 = new QWidget(centralWidget);
         layoutWidget_2->setObjectName(QStringLiteral("layoutWidget_2"));
-        layoutWidget_2->setGeometry(QRect(680, 530, 77, 191));
+        layoutWidget_2->setGeometry(QRect(760, 530, 77, 191));
         verticalLayout = new QVBoxLayout(layoutWidget_2);
         verticalLayout->setSpacing(6);
         verticalLayout->setContentsMargins(11, 11, 11, 11);
@@ -188,7 +190,7 @@ public:
 
         label_flaw = new QLabel(centralWidget);
         label_flaw->setObjectName(QStringLiteral("label_flaw"));
-        label_flaw->setGeometry(QRect(820, 50, 450, 450));
+        label_flaw->setGeometry(QRect(880, 50, 450, 450));
         sizePolicy.setHeightForWidth(label_flaw->sizePolicy().hasHeightForWidth());
         label_flaw->setSizePolicy(sizePolicy);
         label_flaw->setStyleSheet(QStringLiteral("background-color: rgb(250, 250, 250);"));
@@ -196,7 +198,7 @@ public:
         label_flaw->setFrameShadow(QFrame::Sunken);
         layoutWidget = new QWidget(centralWidget);
         layoutWidget->setObjectName(QStringLiteral("layoutWidget"));
-        layoutWidget->setGeometry(QRect(810, 510, 481, 221));
+        layoutWidget->setGeometry(QRect(870, 510, 461, 221));
         verticalLayout_6 = new QVBoxLayout(layoutWidget);
         verticalLayout_6->setSpacing(6);
         verticalLayout_6->setContentsMargins(11, 11, 11, 11);
@@ -512,6 +514,23 @@ public:
         label_titleBarBackground->setObjectName(QStringLiteral("label_titleBarBackground"));
         label_titleBarBackground->setGeometry(QRect(3, 0, 1371, 31));
         label_titleBarBackground->setStyleSheet(QStringLiteral("background-color: rgb(240, 240, 248);"));
+        label_3 = new QLabel(centralWidget);
+        label_3->setObjectName(QStringLiteral("label_3"));
+        label_3->setGeometry(QRect(750, 200, 101, 31));
+        label_3->setFont(font6);
+        label_3->setAlignment(Qt::AlignCenter);
+        label_defectNum = new QLabel(centralWidget);
+        label_defectNum->setObjectName(QStringLiteral("label_defectNum"));
+        label_defectNum->setGeometry(QRect(750, 250, 100, 35));
+        sizePolicy3.setHeightForWidth(label_defectNum->sizePolicy().hasHeightForWidth());
+        label_defectNum->setSizePolicy(sizePolicy3);
+        label_defectNum->setMinimumSize(QSize(100, 35));
+        label_defectNum->setMaximumSize(QSize(100, 35));
+        label_defectNum->setFont(font5);
+        label_defectNum->setStyleSheet(QStringLiteral("background-color: rgb(250, 250, 250);"));
+        label_defectNum->setFrameShape(QFrame::Box);
+        label_defectNum->setFrameShadow(QFrame::Plain);
+        label_defectNum->setAlignment(Qt::AlignCenter);
         PCBRecheckClass->setCentralWidget(centralWidget);
         label_titleBarBackground->raise();
         line->raise();
@@ -521,6 +540,8 @@ public:
         layoutWidget_2->raise();
         label_flaw->raise();
         layoutWidget->raise();
+        label_3->raise();
+        label_defectNum->raise();
 
         retranslateUi(PCBRecheckClass);
 
@@ -553,6 +574,8 @@ public:
         label_6->setText(QApplication::translate("PCBRecheckClass", "\344\272\247\345\223\201\345\272\217\345\217\267", nullptr));
         label_serialNum->setText(QString());
         label_titleBarBackground->setText(QString());
+        label_3->setText(QApplication::translate("PCBRecheckClass", "\347\274\272\351\231\267\346\200\273\346\225\260", nullptr));
+        label_defectNum->setText(QString());
     } // retranslateUi
 
 };

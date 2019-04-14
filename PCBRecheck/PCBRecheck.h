@@ -63,6 +63,7 @@ private:
 	uint16_t flawIndicatorStatus; //指示灯亮灭状态
 
 	Ui::FolderHierarchy OutFolderHierarchy; //输出目录下的文件夹层次
+	int defectNum = 0;
 
 public:
 	PCBRecheck(QWidget *parent = Q_NULLPTR);
@@ -75,6 +76,7 @@ private:
 	
 	void refreshRecheckUI(); //更新检测界面
 	void showFullPcbImage(); //显示PCB整图
+	void showFullPcbImage2(); //显示PCB整图
 	void setFlickeringArrowPos(); //更新箭头的位置
 	void showSerialNumberUI();
 	void showExitQueryUI();
