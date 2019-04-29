@@ -7,9 +7,12 @@ PCBRecheck::PCBRecheck(QWidget *parent)
 {
 	ui.setupUi(this);
 
-	//多屏状态下选择在副屏显示
+	//判断并选择在主屏或者是副屏上显示
 	QDesktopWidget* desktop = QApplication::desktop();
-	QRect screenRect = desktop->screenGeometry(1);
+	QRect screenRect = desktop->screenGeometry(1);//副屏区域
+	if (screenRect.width() < 1440 || screenRect.height() < 900) {
+		screenRect = desktop->screenGeometry(0);//主屏区域
+	}
 	this->setGeometry(screenRect);
 
 	//全屏显示
@@ -24,16 +27,15 @@ PCBRecheck::PCBRecheck(QWidget *parent)
 	//系统初始化线程
 	sysInitThread = new SysInitThread;
 	sysInitThread->setOutFolderHierarchy(&OutFolderHierarchy);
-	sysInitThread->setRecheckConfig(&config);
+	sysInitThread->setRecheckConfig(&userConfig);
 	sysInitThread->start(); //开启线程
-	connect(sysInitThread, SIGNAL(initializeFinished_initThread()), this, SLOT(do_showRecheckUI_initThread()));
-	connect(sysInitThread, SIGNAL(configError1_initThread()), this, SLOT(on_configError1_initThread()));
-	connect(sysInitThread, SIGNAL(configError2_initThread()), this, SLOT(on_configError2_initThread()));
+	connect(sysInitThread, SIGNAL(sysInitFinished_initThread()), this, SLOT(on_sysInitFinished_initThread()));
+	connect(sysInitThread, SIGNAL(userConfigError_initThread()), this, SLOT(on_userConfigError_initThread()));
 	connect(sysInitThread, SIGNAL(outFolderHierarchyError_initThread()), this, SLOT(on_outFolderHierarchyError_initThread()));
 
 	//编号设置界面
 	serialNumberUI = new SerialNumberUI;
-	serialNumberUI->setSerialNum(numPtrArray);
+	serialNumberUI->setRuntimeParams(&runtimeParams);
 	connect(serialNumberUI, SIGNAL(showRecheckUI_numUI()), this, SLOT(do_showRecheckUI_numUI()));
 	connect(serialNumberUI, SIGNAL(exitRecheckSystem_numUI()), this, SLOT(do_exitRecheckSystem_numUI()));
 	
@@ -94,19 +96,11 @@ void PCBRecheck::initRecheckMainUI()
 
 /******************* 槽函数：初始化处理 *******************/
 
-void PCBRecheck::on_configError1_initThread()
+//当用户参数无效
+void PCBRecheck::on_userConfigError_initThread()
 {
-	QMessageBox::warning(this, QString::fromLocal8Bit("警告"),
-		QString::fromLocal8Bit("无法找到output文件夹!  \npath: ") + config.OutputDirPath,
-		QString::fromLocal8Bit("确定"));
-	exitRecheckSystem(); //退出系统
-}
-
-void PCBRecheck::on_configError2_initThread()
-{
-	QMessageBox::warning(this, QString::fromLocal8Bit("警告"),
-		QString::fromLocal8Bit("无法找到template文件夹!  \npath: ") + config.TemplDirPath,
-		QString::fromLocal8Bit("确定"));
+	userConfig.showMessageBox(this); //弹窗提示
+	pcb::delay(10); //延时
 	exitRecheckSystem(); //退出系统
 }
 
@@ -119,12 +113,13 @@ void PCBRecheck::on_outFolderHierarchyError_initThread()
 	exitRecheckSystem(); //退出系统
 }
 
-void PCBRecheck::do_showRecheckUI_initThread()
+//系统初始化结束
+void PCBRecheck::on_sysInitFinished_initThread()
 {
 	//处理初始化线程返回的参数
-	OutputDirPath = config.OutputDirPath;
-	TemplDirPath = config.TemplDirPath;
-	ImageFormat = config.ImageFormat;
+	//OutputDirPath = userConfig.OutputDirPath;
+	//TemplDirPath = userConfig.TemplDirPath;
+	//ImageFormat = userConfig.ImageFormat;
 
 	//将输出目录下的文件夹层次传递给编号设置界面
 	serialNumberUI->setFolderHierarchy(&OutFolderHierarchy);
@@ -195,14 +190,16 @@ void PCBRecheck::refreshRecheckUI()
 	/*更新界面中的PCB编号*/
 	QFont font("SimSun-ExtB", 16, 0); //字体，字体大小，加粗权重 
 	ui.label_serialNum->setFont(font); //设置字体
-	ui.label_serialNum->setText(serialNum); //更新pcb编号
+	ui.label_serialNum->setText(runtimeParams.serialNum); //更新pcb编号
 
-	QString flawImageFolder = OutputDirPath + "/" 
-		+ sampleTypeNum + "/" + sampleBatchNum + "/" + sampleNum;//检测结果所在的文件夹
+	QString flawImageFolder = userConfig.OutputDirPath + "/"
+		+ runtimeParams.sampleModelNum + "/" + runtimeParams.sampleBatchNum + "/" 
+		+ runtimeParams.sampleNum;//检测结果所在的文件夹
 	if (!QFileInfo(flawImageFolder).isDir()) {
 		QMessageBox::warning(this, QString::fromLocal8Bit("警告"),
 			QString::fromLocal8Bit("路径定位失败，无法获取相应的检测结果!\n") 
-			+ QString("path: **/output/" + sampleTypeNum + "/" + sampleBatchNum + "/" + sampleNum),
+			+ QString("path: ./output/" + runtimeParams.sampleModelNum + "/" 
+				+ runtimeParams.sampleBatchNum + "/" + runtimeParams.sampleNum),
 			QString::fromLocal8Bit("确定"));
 		Sleep(10);
 		showSerialNumberUI(); //显示PCB序号询问界面
@@ -236,7 +233,7 @@ void PCBRecheck::getFlawImgInfo(QString dirpath)
 	dir.setSorting(QDir::Name | QDir::Time | QDir::Reversed);
 	dir.setFilter(QDir::Files | QDir::NoDotAndDotDot);
 
-	QStringList filters("*" + ImageFormat); // 所有图片的格式为 bmp  将bmp格式的图片过滤出来 
+	QStringList filters("*" + userConfig.ImageFormat); // 所有图片的格式为 bmp  将bmp格式的图片过滤出来 
 	dir.setNameFilters(filters);
 
 	QFileInfoList folder_list = dir.entryInfoList();
@@ -252,10 +249,10 @@ void PCBRecheck::getFlawImgInfo(QString dirpath)
 //从template文件夹中读取fullImage为前缀的整图
 void PCBRecheck::showFullPcbImage()
 {
-	QString fullImageDirPath = TemplDirPath + "/" + sampleTypeNum + "/";
+	QString fullImageDirPath = userConfig.TemplDirPath + "/" + runtimeParams.sampleModelNum + "/";
 	QDir dir(fullImageDirPath);
 	dir.setFilter(QDir::Files | QDir::NoDotAndDotDot);
-	QStringList filters("*" + ImageFormat); //将ImgFormat格式的图片过滤出来 
+	QStringList filters("*" + userConfig.ImageFormat); //将ImgFormat格式的图片过滤出来 
 	dir.setNameFilters(filters);
 	QFileInfoList folder_list = dir.entryInfoList(); //获取文件列表
 
@@ -319,13 +316,15 @@ void PCBRecheck::showFullPcbImage()
 //从对应的output文件夹的fullImage子文件夹中读取整图
 void PCBRecheck::showFullPcbImage2()
 {
-	QString flawImageFolder = OutputDirPath + "/" + sampleTypeNum + "/" 
-		+ sampleBatchNum + "/" + sampleNum;//检测结果所在的文件夹
+	QString flawImageFolder = userConfig.OutputDirPath + "/" 
+		+ runtimeParams.sampleModelNum + "/"
+		+ runtimeParams.sampleBatchNum + "/" 
+		+ runtimeParams.sampleNum; //检测结果所在的文件夹
 
 	QString fullImageDirPath = flawImageFolder + "/fullImage/";
 	QDir dir(fullImageDirPath);
 	dir.setFilter(QDir::Files | QDir::NoDotAndDotDot);
-	QStringList filters("*" + ImageFormat); //将ImgFormat格式的图片过滤出来 
+	QStringList filters("*" + userConfig.ImageFormat); //将ImgFormat格式的图片过滤出来 
 	dir.setNameFilters(filters);
 	QFileInfoList folder_list = dir.entryInfoList(); //获取文件列表
 
@@ -383,7 +382,7 @@ void PCBRecheck::showFullPcbImage2()
 		QMessageBox::warning(this, QString::fromLocal8Bit("警告"),
 			QString::fromLocal8Bit("无法加载相应的PCB整图!  "),
 			QString::fromLocal8Bit("确定"));
-		Sleep(10); //睡眠10ms
+		pcb::delay(10); //延迟
 		serialNumberUI->show(); //显示PCB序号询问界面
 	}
 }

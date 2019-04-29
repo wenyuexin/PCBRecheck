@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1366</width>
-    <height>768</height>
+    <width>1440</width>
+    <height>900</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -24,8 +24,8 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>20</y>
-      <width>1371</width>
+      <y>30</y>
+      <width>1441</width>
       <height>20</height>
      </rect>
     </property>
@@ -40,9 +40,9 @@
     <property name="geometry">
      <rect>
       <x>-1</x>
-      <y>30</y>
-      <width>731</width>
-      <height>731</height>
+      <y>40</y>
+      <width>801</width>
+      <height>861</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -79,10 +79,10 @@
    <widget class="QLabel" name="label_5">
     <property name="geometry">
      <rect>
-      <x>650</x>
+      <x>680</x>
       <y>0</y>
-      <width>150</width>
-      <height>30</height>
+      <width>161</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -100,7 +100,7 @@
     <property name="font">
      <font>
       <family>黑体</family>
-      <pointsize>18</pointsize>
+      <pointsize>20</pointsize>
       <weight>50</weight>
       <bold>false</bold>
      </font>
@@ -115,10 +115,10 @@
    <widget class="QLabel" name="label_logo">
     <property name="geometry">
      <rect>
-      <x>620</x>
+      <x>639</x>
       <y>0</y>
-      <width>30</width>
-      <height>30</height>
+      <width>31</width>
+      <height>35</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -150,8 +150,8 @@
    <widget class="QWidget" name="layoutWidget_2">
     <property name="geometry">
      <rect>
-      <x>760</x>
-      <y>530</y>
+      <x>810</x>
+      <y>650</y>
       <width>77</width>
       <height>191</height>
      </rect>
@@ -244,10 +244,10 @@
    <widget class="QLabel" name="label_flaw">
     <property name="geometry">
      <rect>
-      <x>880</x>
-      <y>50</y>
-      <width>450</width>
-      <height>450</height>
+      <x>919</x>
+      <y>69</y>
+      <width>471</width>
+      <height>461</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -272,13 +272,199 @@
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>870</x>
-      <y>510</y>
-      <width>461</width>
-      <height>221</height>
+      <x>920</x>
+      <y>570</y>
+      <width>471</width>
+      <height>279</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_6">
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <spacer name="horizontalSpacer_34">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>30</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_3">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>84</width>
+           <height>21</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>16</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>缺陷编号</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_35">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_defectIdx">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>95</width>
+           <height>35</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>95</width>
+           <height>35</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>16</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(250, 250, 250);</string>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::Box</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Plain</enum>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_37">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>5</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_defectNum">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>137</width>
+           <height>21</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>137</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>16</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>（共计：     ）</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_36">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::MinimumExpanding</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <spacer name="verticalSpacer_10">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Fixed</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>15</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
@@ -720,7 +906,7 @@
        <property name="sizeHint" stdset="0">
         <size>
          <width>20</width>
-         <height>10</height>
+         <height>15</height>
         </size>
        </property>
       </spacer>
@@ -987,7 +1173,7 @@
        <property name="sizeHint" stdset="0">
         <size>
          <width>15</width>
-         <height>20</height>
+         <height>15</height>
         </size>
        </property>
       </spacer>
@@ -1054,13 +1240,13 @@
          </property>
          <property name="minimumSize">
           <size>
-           <width>210</width>
+           <width>220</width>
            <height>35</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>210</width>
+           <width>220</width>
            <height>35</height>
           </size>
          </property>
@@ -1108,8 +1294,8 @@
      <rect>
       <x>3</x>
       <y>0</y>
-      <width>1371</width>
-      <height>31</height>
+      <width>1441</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -1117,75 +1303,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_3">
-    <property name="geometry">
-     <rect>
-      <x>750</x>
-      <y>200</y>
-      <width>101</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>18</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>缺陷总数</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_defectNum">
-    <property name="geometry">
-     <rect>
-      <x>750</x>
-      <y>250</y>
-      <width>100</width>
-      <height>35</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="minimumSize">
-     <size>
-      <width>100</width>
-      <height>35</height>
-     </size>
-    </property>
-    <property name="maximumSize">
-     <size>
-      <width>100</width>
-      <height>35</height>
-     </size>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>16</pointsize>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(250, 250, 250);</string>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::Box</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Plain</enum>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
     </property>
    </widget>
    <zorder>label_titleBarBackground</zorder>
@@ -1197,7 +1314,10 @@
    <zorder>label_flaw</zorder>
    <zorder>layoutWidget</zorder>
    <zorder>label_3</zorder>
-   <zorder>label_defectNum</zorder>
+   <zorder>label_defectIdx</zorder>
+   <zorder>horizontalSpacer_34</zorder>
+   <zorder>horizontalSpacer_35</zorder>
+   <zorder>horizontalSpacer_36</zorder>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
