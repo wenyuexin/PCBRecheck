@@ -1,5 +1,8 @@
 #include "SysInitThread.h"
 
+using pcb::UserConfig;
+using pcb::Configurator;
+
 
 SysInitThread::SysInitThread()
 {
@@ -7,59 +10,51 @@ SysInitThread::SysInitThread()
 
 SysInitThread::~SysInitThread()
 {
+	qDebug() << "~SysInitThread";
 }
 
 void SysInitThread::run()
 {
 	//系统初始化操作，读取配置文件
-	if (initRecheckConfig() == -1) { 
-		emit configError1_initThread(); return;
-	}
-	else if (initRecheckConfig() == -2) {
-		emit configError2_initThread(); return;
-	}
+	if (!initUserConfig()) return;
 
 	//读取output文件夹下的目录层次
 	if (initOutFolderHierarchy() == -1) {
 		emit outFolderHierarchyError_initThread(); return;
 	}
 
-	emit initializeFinished_initThread();
+	emit sysInitFinished_initThread();
 }
 
 
 /************************* 检修系统初始化 **************************/
 
-int SysInitThread::initRecheckConfig()
+//初始化用户参数
+bool SysInitThread::initUserConfig()
 {
-	//读取参数配置文件
-	QString configFilePath = QDir::currentPath() + "/.config";
-	QFile config(configFilePath);
-	if (!config.open(QIODevice::ReadOnly)) {
-		Configurator::init(configFilePath);
+	if (!Configurator::loadConfigFile(".user.config", userConfig)) {
+		emit userConfigError_initThread(); return false;
 	}
 	else {
-		Configurator configurator(&config);
-		configurator.jsonReadValue("OutputFolder", recheckConfig->OutputDirPath);
-		configurator.jsonReadValue("TemplFolder", recheckConfig->TemplDirPath);
-		configurator.jsonReadValue("ImageFormat", recheckConfig->ImageFormat);
-		config.close();
-		//判断路径是否有效
-		if (!(QFileInfo(recheckConfig->OutputDirPath).isDir())) 
-			return -1;
-		if (!(QFileInfo(recheckConfig->TemplDirPath).isDir()))
-			return -2;
+		//参数有效性判断
+		UserConfig::ErrorCode code;//错误代码
+		code = userConfig->checkValidity(UserConfig::Index_All);
+		if (code != UserConfig::ValidConfig) {
+			emit userConfigError_initThread(); return false;
+		}
 	}
-	return 0;
-}
 
+	//emit sysInitStatus_initThread(pcb::chinese("系统参数获取结束   "));
+	pcb::delay(800);
+	return true;
+}
 
 /************************* 路径信息初始化 **************************/
 
 int SysInitThread::initOutFolderHierarchy()
 {
 	//获取output文件夹下的文件夹层次
-	getOutputFolderInfo(recheckConfig->OutputDirPath);
+	getOutputFolderInfo(userConfig->OutputDirPath);
 
 	//下面是对界面的一些初始化设置 - 暂无
 	if ((*OutputFolderHierarchy).size() == 0) return -1;
