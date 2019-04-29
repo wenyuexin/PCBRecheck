@@ -2,6 +2,7 @@
 
 #include <QWidget>
 #include "ui_SerialNumberUI.h"
+#include "RuntimeLib.h"
 #include <QString>
 #include <QKeyEvent>
 #include <QRegExpValidator>
@@ -24,23 +25,17 @@ class SerialNumberUI : public QWidget
 private:
 	Ui::SerialNumberUI ui;
 	QIntValidator intValidator;
-	QString *serialNum; //产品序号
-	QString *sampleModelNum; //型号
-	QString *sampleBatchNum; //批次号
-	QString *sampleNum; //样本编号 QString
+	pcb::RuntimeParams *runtimeParams; //运行参数
 	Ui::FolderHierarchy *folderHierarchy; //输出目录下的文件夹层次
-	const int serialNumSlice[4] = { 8, 2, 2, 4 }; //序号组成
 
 public:
 	SerialNumberUI(QWidget *parent = Q_NULLPTR);
 	~SerialNumberUI();
 
-	void setSerialNum(QString **ptrArray);
+	inline void setRuntimeParams(pcb::RuntimeParams *ptr) { runtimeParams = ptr; }
+
 	inline void setFolderHierarchy(Ui::FolderHierarchy *ptr) { folderHierarchy = ptr; }
 	bool getNextSerialNum();
-
-private:
-	bool parseSerialNum();
 
 Q_SIGNALS:
 	void exitRecheckSystem_numUI();
