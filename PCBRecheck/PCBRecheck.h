@@ -47,16 +47,14 @@ private:
 	QPixmap lightOffIcon; //灭灯图标 grey
 
 	QString IconFolder; //图标文件夹
-	Ui::RecheckConfig config; //检修系统配置信息
-	QString OutputDirPath;//检测结果存储路径
-	QString TemplDirPath;//模板文件的存储路径
-	QString ImageFormat; //图像后缀
+	pcb::UserConfig userConfig; //检修系统配置信息
+	pcb::RuntimeParams runtimeParams; //运行参数
 
-	QString serialNum; //序列号
-	QString sampleTypeNum; //型号
-	QString sampleBatchNum; //批次号
-	QString sampleNum; //样本编号
-	QString *numPtrArray[4] = { &serialNum, &sampleTypeNum, &sampleBatchNum, &sampleNum };
+	//QString serialNum; //序列号
+	//QString sampleTypeNum; //型号
+	//QString sampleBatchNum; //批次号
+	//QString sampleNum; //样本编号
+	//QString *numPtrArray[4] = { &serialNum, &sampleTypeNum, &sampleBatchNum, &sampleNum };
 	int currentFlawIndex; //当前正在显示的缺陷图
 	QVector<QString> flawImgPathVec; //当前样本对应的所有陷图的路径
 	QVector<QStringList> flawImgInfoVec; //缺陷图的基本信息（坐标）
@@ -86,14 +84,14 @@ private:
 	void switchFlawIndicator();
 
 private Q_SLOTS:
+	void on_sysInitFinished_initThread(); //初始化线程返回主界面
+	void on_userConfigError_initThread(); //初始化错误
+	void on_outFolderHierarchyError_initThread(); //初始化错误
+
 	void on_pushButton_plus2_clicked(); //点击加号按键
 	void on_pushButton_minus2_clicked(); //点击减号按键
 	void on_pushButton_exit2_clicked(); //点击退出按键
 	void keyPressEvent(QKeyEvent *event); //敲击键盘事件
-	void do_showRecheckUI_initThread(); //初始化线程返回主界面
-	void on_configError1_initThread(); //初始化错误
-	void on_configError2_initThread(); //初始化错误
-	void on_outFolderHierarchyError_initThread(); //初始化错误
 	void do_showRecheckUI_numUI(); //pcb编号设置界面返回主界面
 	void do_exitRecheckSystem_numUI(); //退出系统
 	void do_showSerialNumberUI_exitUI();

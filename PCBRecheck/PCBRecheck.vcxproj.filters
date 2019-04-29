@@ -51,6 +51,9 @@
     <ClCompile Include="FlickeringArrow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="RuntimeLib.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="PCBRecheck.h">
@@ -87,6 +90,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Configurator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeLib.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
