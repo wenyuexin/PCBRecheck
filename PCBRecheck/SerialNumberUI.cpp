@@ -45,11 +45,12 @@ void SerialNumberUI::keyPressEvent(QKeyEvent *event)
 				runtimeParams->showMessageBox(this);
 			} 
 			else {
-				emit showRecheckUI_numUI();
+				emit showRecheckMainUI_numUI();
 			}
 		}
 	}
 }
+
 
 /******************** PCB编号的自动更新 ********************/
 
