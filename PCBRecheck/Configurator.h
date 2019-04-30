@@ -26,8 +26,8 @@ namespace pcb
 	class UserConfig 
 	{
 	public:
-		QString TemplDirPath;//模板文件的存储路径
-		QString SampleDirPath;//样本文件存储路径
+		//QString TemplDirPath;//模板文件的存储路径
+		//QString SampleDirPath;//样本文件存储路径
 		QString OutputDirPath;//检测结果存储路径
 		QString ImageFormat; //图像后缀
 
@@ -35,8 +35,8 @@ namespace pcb
 		enum ConfigIndex {
 			Index_All,
 			Index_None,
-			Index_SampleDirPath,
-			Index_TemplDirPath,
+			//Index_SampleDirPath,
+			//Index_TemplDirPath,
 			Index_OutputDirPath,
 			Index_ImageFormat
 		};
@@ -47,8 +47,8 @@ namespace pcb
 			ValidValue = 0x000,
 			Uncheck = 0x100,
 			ConfigFileMissing = 0x101,
-			Invalid_SampleDirPath = 0x102,
-			Invalid_TemplDirPath = 0x103,
+			//Invalid_TemplDirPath = 0x102,
+			//Invalid_SampleDirPath = 0x103,
 			Invalid_OutputDirPath = 0x104,
 			Invalid_ImageFormat = 0x105,
 			Default = 0x2FF
@@ -77,9 +77,6 @@ namespace pcb
 	//参数配置文件的读写
 	class Configurator
 	{
-	public:
-		enum DATA_TYPE { TYPE_QSTRING, TYPE_INT, TYPE_LONG, TYPE_DOUBLE, TYPE_FLOAT };
-
 	private:
 		QFile *configFile;
 
