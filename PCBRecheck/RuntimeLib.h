@@ -16,13 +16,37 @@ namespace pcb
 #endif //RECHECK_FUNCTIONS
 
 
-#ifndef FOLDER_HIERARCHY_TPYE
-#define FOLDER_HIERARCHY_TPYE
+#ifndef RECHECK_ENUM_MESSAGE_BOX_TYPE
+#define RECHECK_ENUM_MESSAGE_BOX_TYPE
+	enum MessageBoxType {
+		Warning,
+		Information,
+		Question,
+		Critical,
+		About
+	};
+#endif //RECHECK_ENUM_MESSAGE_BOX_TYPE
+
+
+#ifndef RECHECK_TPYE_FOLDER_HIERARCHY
+#define RECHECK_TPYE_FOLDER_HIERARCHY
 	typedef QMap<int, QMap<int, QList<int>>> FolderHierarchy;
 #endif	
 
 
-#ifndef RECHECK_CLASS_RUNTIME_PARAMS
+#ifndef RECHECK_STRUCT
+#define RECHECK_STRUCT
+	struct FlawImageInfo {
+		QString filePath;
+		QString flawIndex;
+		QString xPos;
+		QString yPos;
+		QString flawType;
+	};
+#endif	
+
+
+#ifndef RECHECK_CLASS_RUNTIME_PARAMS 
 #define RECHECK_CLASS_RUNTIME_PARAMS
 	//程序运行期间使用的临时变量或参数
 	class RuntimeParams 
@@ -33,6 +57,7 @@ namespace pcb
 		QString sampleBatchNum; //批次号
 		QString sampleNum; //样本编号
 		QString AppDirPath; //程序所在目录
+		QString BufferDirPath; //缓存目录
 
 		enum ParamsIndex {
 			Index_All,
@@ -65,6 +90,7 @@ namespace pcb
 
 		void loadDefaultValue();
 		ErrorCode parseSerialNum();//产品序号解析
+		QString getRelativeFolderPath();
 		ErrorCode checkValidity(ParamsIndex index = Index_All); //检查参数有效性
 		bool isValid(bool doCheck = false);//判断运行参数类是否有效
 		void showMessageBox(QWidget *parent, ErrorCode code = Default); //弹窗警告

@@ -30,9 +30,10 @@ protected:
 
 private:
 	bool initUserConfig(); //读取配置文件
-	int initOutFolderHierarchy(); //初始化文件夹层次
-	void getOutputFolderInfo(QString dirpath);
-	void getTypeFolderInfo(int typeNum, QString typeFolder);
+	bool initOutputFolderHierarchy(); //初始化文件夹层次
+	bool getOutputFolderInfo(QString dirpath);
+	void getModelFolderInfo(int modelIndex, QString &modelFolderPath);
+	void getBatchFolderInfo(int modelIndex, int batchIndex, QString &batchFolderPath);
 	void NumList2StrList(const QList<int>& input, QStringList& output);
 
 Q_SIGNALS:

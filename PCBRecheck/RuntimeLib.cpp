@@ -10,7 +10,9 @@ RuntimeParams::RuntimeParams()
 	sampleModelNum = ""; //型号
 	sampleBatchNum = ""; //批次号
 	sampleNum = ""; //样本编号
+	
 	AppDirPath = ""; //程序所在目录
+	BufferDirPath = ""; //缓存目录
 }
 
 RuntimeParams::~RuntimeParams()
@@ -25,14 +27,18 @@ void RuntimeParams::loadDefaultValue()
 	sampleModelNum = ""; //型号
 	sampleBatchNum = ""; //批次号
 	sampleNum = ""; //样本编号
+
 	AppDirPath = QDir::currentPath(); //程序所在目录
+	BufferDirPath = AppDirPath + "/buffer/"; //缓存目录
+	QDir bufferDir(BufferDirPath);
+	if (!bufferDir.exists()) bufferDir.mkdir(BufferDirPath);
 }
 
 //解析产品序号
 RuntimeParams::ErrorCode RuntimeParams::parseSerialNum()
 {
-	if (this->checkValidity() != ValidValue) {
-		return ErrorCode::Invalid_serialNum;
+	if (this->checkValidity(Index_serialNum) != ValidValue) {
+		return Invalid_serialNum;
 	}
 
 	int begin = 0;
@@ -47,7 +53,13 @@ RuntimeParams::ErrorCode RuntimeParams::parseSerialNum()
 	sampleNum = serialNum.mid(begin, serialNumSlice[3]); //样本编号
 	sampleNum = QString::number(sampleNum.toInt());
 
-	return ErrorCode::ValidParams;
+	return ValidValues;
+}
+
+//根据产品序号生成相对路径
+QString RuntimeParams::getRelativeFolderPath()
+{
+	return QString("/" +sampleModelNum + "/" + sampleBatchNum + "/" + sampleNum);
 }
 
 //检查参数有效性

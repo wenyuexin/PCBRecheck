@@ -22,7 +22,7 @@ namespace pcb
 {
 #ifndef STRUCT_RECHECK_CONFIG
 #define STRUCT_RECHECK_CONFIG 
-	//参数配置
+	//用户参数配置
 	class UserConfig 
 	{
 	public:

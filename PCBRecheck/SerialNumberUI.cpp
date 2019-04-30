@@ -3,11 +3,18 @@
 using pcb::RuntimeParams;
 
 
-SerialNumberUI::SerialNumberUI(QWidget *parent)
+SerialNumberUI::SerialNumberUI(QWidget *parent, QRect &screenRect)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
 
+	//判断并选择在主屏或者是副屏上显示
+	QPoint widgetPos = screenRect.center();
+	widgetPos -= QPoint(this->width() / 2.0, this->height() / 2.0);
+	QRect widgetRect = QRect(widgetPos, this->size());
+	this->setGeometry(widgetRect);
+
+	//填充颜色
 	QPalette palette;
 	palette.setColor(QPalette::Background, QColor(246, 246, 246));
 	ui.label_background->setAutoFillBackground(true); //缺陷图
@@ -25,10 +32,11 @@ SerialNumberUI::SerialNumberUI(QWidget *parent)
 
 SerialNumberUI::~SerialNumberUI()
 {
+	qDebug() << "~SerialNumberUI";
 }
 
 
-/******************** 事件响应：敲击回车键 ********************/
+/************* 事件响应：敲击回车键 *************/
 
 void SerialNumberUI::keyPressEvent(QKeyEvent *event)
 {
@@ -52,7 +60,16 @@ void SerialNumberUI::keyPressEvent(QKeyEvent *event)
 }
 
 
-/******************** PCB编号的自动更新 ********************/
+/***************** 字符识别 ******************/
+
+//调用OCR模块进行识别
+void SerialNumberUI::recognize()
+{
+	QString BufferDirPath = runtimeParams->AppDirPath + "/buffer/";
+}
+
+
+/************* PCB编号的自动更新 *************/
 
 //更新编号
 bool SerialNumberUI::getNextSerialNum()
