@@ -25,34 +25,45 @@ class PCBRecheck : public QMainWindow
 {
 	Q_OBJECT
 
+public:
+	enum RecheckStatus {
+		NoError,
+		Uncheck,
+		CurrentBatchRechecked,
+		LoadFullImageFailed,
+		LoadFlawImageFailed,
+		OpenFlawImageFolderFailed,
+		Default
+	};
+
 private:
 	Ui::PCBRecheckClass ui;
 	SysInitThread *sysInitThread; //系统初始化线程
 	SerialNumberUI *serialNumberUI; //pcb编号设置界面
 	ExitQueryUI *exitQueryUI; //退出询问界面
+	pcb::UserConfig userConfig; //检修系统配置信息
+	pcb::RuntimeParams runtimeParams; //运行参数
+	RecheckStatus recheckStatus; //复查状态
 
-	QImage fullImage; //PCB大图
-	QString fullImageNamePrefix = "fullImage"; //文件名前缀
+	QPixmap fullImage; //PCB大图
+	const QString fullImageNamePrefix = "fullImage"; //文件名前缀
 	QSize originalFullImageSize; //PCB大图的原始尺寸
-	QSize fullImageSize; //PCB大图的显示尺寸
+	QSize fullImageItemSize; //PCB大图的显示尺寸
 	qreal scaledFactor; //PCB大图的尺寸变换因子
 	QGraphicsScene fullImageScene; //显示PCB大图的场景
 	FlickeringArrow flickeringArrow; //PCB大图上闪烁的箭头
 	QTimer *timer; //定时器
+
+	QString IconFolder; //图标文件夹
 	QPixmap lightOnIcon; //亮灯图标 red
 	QPixmap lightOffIcon; //灭灯图标 grey
 
-	QString IconFolder; //图标文件夹
-	pcb::UserConfig userConfig; //检修系统配置信息
-	pcb::RuntimeParams runtimeParams; //运行参数
-
+	int defectNum; //缺陷总数
 	int defectIndex; //当前正在显示的缺陷图
-	QVector<QString> flawImagePathVec; //当前样本对应的所有陷图的路径
-	QVector<QStringList> flawImageInfoVec; //缺陷图的基本信息（坐标）
+	QVector<pcb::FlawImageInfo> flawImageInfoVec; //缺陷图的信息
 	uint16_t flawIndicatorStatus; //指示灯亮灭状态
 
 	pcb::FolderHierarchy OutFolderHierarchy; //输出目录下的文件夹层次
-	int defectNum = 0;
 
 public:
 	PCBRecheck(QWidget *parent = Q_NULLPTR);
@@ -63,15 +74,21 @@ private:
 	void showLastFlawImage(); //显示上一张缺陷图
 	void showNextFlawImage(); //显示下一张缺陷图
 	
-	void refreshRecheckUI(); //更新检测界面
+	void refreshRecheckMainUI(); //更新检测界面
+	bool loadFullImage(); //加载PCB整图
 	void showFullImage(); //显示PCB整图
+	void initFlickeringArrow(); //加载初始的闪烁箭头
 	void setFlickeringArrowPos(); //更新箭头的位置
-	void showSerialNumberUI();
-	void showExitQueryUI();
-	void getFlawImgInfo(QString dirpath);
-	void exitRecheckSystem();
+
+	void getFlawImageInfo(QString dirpath);
 	void showFlawImage();
 	void switchFlawIndicator();
+
+	void showSerialNumberUI();
+	void showExitQueryUI();
+
+	void exitRecheckSystem();
+	void showMessageBox(pcb::MessageBoxType type, RecheckStatus status = Default);
 
 private Q_SLOTS:
 	void on_sysInitFinished_initThread(); //初始化线程返回主界面
@@ -87,6 +104,6 @@ private Q_SLOTS:
 	void do_exitRecheckSystem_numUI(); //退出系统
 
 	void do_showSerialNumberUI_exitUI();
-	void do_showRecheckUI_exitUI();
+	void do_showRecheckMainUI_exitUI();
 	void on_timeOut();
 };

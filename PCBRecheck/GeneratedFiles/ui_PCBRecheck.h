@@ -43,9 +43,11 @@ public:
     QSpacerItem *horizontalSpacer_34;
     QLabel *label_3;
     QSpacerItem *horizontalSpacer_35;
-    QLabel *label_defectIdx;
+    QLabel *label_defectIndex;
     QSpacerItem *horizontalSpacer_37;
+    QLabel *label_defectNum_left;
     QLabel *label_defectNum;
+    QLabel *label_defectNum_right;
     QSpacerItem *horizontalSpacer_36;
     QSpacerItem *verticalSpacer_10;
     QHBoxLayout *horizontalLayout;
@@ -123,7 +125,7 @@ public:
         graphicsView_full->setFrameShape(QFrame::NoFrame);
         label_5 = new QLabel(centralWidget);
         label_5->setObjectName(QStringLiteral("label_5"));
-        label_5->setGeometry(QRect(680, 0, 161, 41));
+        label_5->setGeometry(QRect(670, 0, 161, 41));
         sizePolicy.setHeightForWidth(label_5->sizePolicy().hasHeightForWidth());
         label_5->setSizePolicy(sizePolicy);
         label_5->setMinimumSize(QSize(50, 30));
@@ -136,7 +138,7 @@ public:
         label_5->setAlignment(Qt::AlignCenter);
         label_logo = new QLabel(centralWidget);
         label_logo->setObjectName(QStringLiteral("label_logo"));
-        label_logo->setGeometry(QRect(639, 0, 31, 35));
+        label_logo->setGeometry(QRect(629, 0, 31, 35));
         QSizePolicy sizePolicy2(QSizePolicy::Maximum, QSizePolicy::Maximum);
         sizePolicy2.setHorizontalStretch(0);
         sizePolicy2.setVerticalStretch(0);
@@ -151,7 +153,7 @@ public:
         label_logo->setStyleSheet(QStringLiteral("border-image: url(:/Icons/logo.png);"));
         layoutWidget_2 = new QWidget(centralWidget);
         layoutWidget_2->setObjectName(QStringLiteral("layoutWidget_2"));
-        layoutWidget_2->setGeometry(QRect(810, 650, 77, 191));
+        layoutWidget_2->setGeometry(QRect(810, 630, 77, 171));
         verticalLayout = new QVBoxLayout(layoutWidget_2);
         verticalLayout->setSpacing(6);
         verticalLayout->setContentsMargins(11, 11, 11, 11);
@@ -197,7 +199,7 @@ public:
 
         label_flaw = new QLabel(centralWidget);
         label_flaw->setObjectName(QStringLiteral("label_flaw"));
-        label_flaw->setGeometry(QRect(919, 69, 471, 461));
+        label_flaw->setGeometry(QRect(919, 69, 461, 461));
         sizePolicy.setHeightForWidth(label_flaw->sizePolicy().hasHeightForWidth());
         label_flaw->setSizePolicy(sizePolicy);
         label_flaw->setStyleSheet(QStringLiteral("background-color: rgb(250, 250, 250);"));
@@ -230,41 +232,63 @@ public:
 
         horizontalLayout_2->addWidget(label_3);
 
-        horizontalSpacer_35 = new QSpacerItem(20, 20, QSizePolicy::Fixed, QSizePolicy::Minimum);
+        horizontalSpacer_35 = new QSpacerItem(18, 20, QSizePolicy::Fixed, QSizePolicy::Minimum);
 
         horizontalLayout_2->addItem(horizontalSpacer_35);
 
-        label_defectIdx = new QLabel(layoutWidget);
-        label_defectIdx->setObjectName(QStringLiteral("label_defectIdx"));
+        label_defectIndex = new QLabel(layoutWidget);
+        label_defectIndex->setObjectName(QStringLiteral("label_defectIndex"));
         QSizePolicy sizePolicy3(QSizePolicy::Fixed, QSizePolicy::Preferred);
         sizePolicy3.setHorizontalStretch(0);
         sizePolicy3.setVerticalStretch(0);
-        sizePolicy3.setHeightForWidth(label_defectIdx->sizePolicy().hasHeightForWidth());
-        label_defectIdx->setSizePolicy(sizePolicy3);
-        label_defectIdx->setMinimumSize(QSize(95, 35));
-        label_defectIdx->setMaximumSize(QSize(95, 35));
-        label_defectIdx->setFont(font5);
-        label_defectIdx->setStyleSheet(QStringLiteral("background-color: rgb(250, 250, 250);"));
-        label_defectIdx->setFrameShape(QFrame::Box);
-        label_defectIdx->setFrameShadow(QFrame::Plain);
-        label_defectIdx->setAlignment(Qt::AlignCenter);
+        sizePolicy3.setHeightForWidth(label_defectIndex->sizePolicy().hasHeightForWidth());
+        label_defectIndex->setSizePolicy(sizePolicy3);
+        label_defectIndex->setMinimumSize(QSize(95, 35));
+        label_defectIndex->setMaximumSize(QSize(95, 35));
+        label_defectIndex->setFont(font5);
+        label_defectIndex->setStyleSheet(QStringLiteral("background-color: rgb(250, 250, 250);"));
+        label_defectIndex->setFrameShape(QFrame::Box);
+        label_defectIndex->setFrameShadow(QFrame::Plain);
+        label_defectIndex->setAlignment(Qt::AlignCenter);
 
-        horizontalLayout_2->addWidget(label_defectIdx);
+        horizontalLayout_2->addWidget(label_defectIndex);
 
-        horizontalSpacer_37 = new QSpacerItem(5, 20, QSizePolicy::Fixed, QSizePolicy::Minimum);
+        horizontalSpacer_37 = new QSpacerItem(3, 20, QSizePolicy::Fixed, QSizePolicy::Minimum);
 
         horizontalLayout_2->addItem(horizontalSpacer_37);
+
+        label_defectNum_left = new QLabel(layoutWidget);
+        label_defectNum_left->setObjectName(QStringLiteral("label_defectNum_left"));
+        sizePolicy.setHeightForWidth(label_defectNum_left->sizePolicy().hasHeightForWidth());
+        label_defectNum_left->setSizePolicy(sizePolicy);
+        label_defectNum_left->setMinimumSize(QSize(65, 21));
+        label_defectNum_left->setMaximumSize(QSize(65, 16777215));
+        label_defectNum_left->setFont(font5);
+        label_defectNum_left->setAlignment(Qt::AlignCenter);
+
+        horizontalLayout_2->addWidget(label_defectNum_left);
 
         label_defectNum = new QLabel(layoutWidget);
         label_defectNum->setObjectName(QStringLiteral("label_defectNum"));
         sizePolicy.setHeightForWidth(label_defectNum->sizePolicy().hasHeightForWidth());
         label_defectNum->setSizePolicy(sizePolicy);
-        label_defectNum->setMinimumSize(QSize(137, 21));
-        label_defectNum->setMaximumSize(QSize(137, 16777215));
+        label_defectNum->setMinimumSize(QSize(65, 21));
+        label_defectNum->setMaximumSize(QSize(65, 16777215));
         label_defectNum->setFont(font5);
         label_defectNum->setAlignment(Qt::AlignCenter);
 
         horizontalLayout_2->addWidget(label_defectNum);
+
+        label_defectNum_right = new QLabel(layoutWidget);
+        label_defectNum_right->setObjectName(QStringLiteral("label_defectNum_right"));
+        sizePolicy.setHeightForWidth(label_defectNum_right->sizePolicy().hasHeightForWidth());
+        label_defectNum_right->setSizePolicy(sizePolicy);
+        label_defectNum_right->setMinimumSize(QSize(13, 21));
+        label_defectNum_right->setMaximumSize(QSize(10, 16777215));
+        label_defectNum_right->setFont(font5);
+        label_defectNum_right->setAlignment(Qt::AlignCenter);
+
+        horizontalLayout_2->addWidget(label_defectNum_right);
 
         horizontalSpacer_36 = new QSpacerItem(40, 20, QSizePolicy::MinimumExpanding, QSizePolicy::Minimum);
 
@@ -273,7 +297,7 @@ public:
 
         verticalLayout_6->addLayout(horizontalLayout_2);
 
-        verticalSpacer_10 = new QSpacerItem(20, 15, QSizePolicy::Minimum, QSizePolicy::Fixed);
+        verticalSpacer_10 = new QSpacerItem(15, 15, QSizePolicy::Minimum, QSizePolicy::Fixed);
 
         verticalLayout_6->addItem(verticalSpacer_10);
 
@@ -441,7 +465,7 @@ public:
 
         verticalLayout_6->addLayout(horizontalLayout);
 
-        verticalSpacer_8 = new QSpacerItem(20, 15, QSizePolicy::Minimum, QSizePolicy::Fixed);
+        verticalSpacer_8 = new QSpacerItem(15, 15, QSizePolicy::Minimum, QSizePolicy::Fixed);
 
         verticalLayout_6->addItem(verticalSpacer_8);
 
@@ -591,8 +615,6 @@ public:
         layoutWidget_2->raise();
         label_flaw->raise();
         layoutWidget->raise();
-        label_3->raise();
-        label_defectIdx->raise();
 
         retranslateUi(PCBRecheckClass);
 
@@ -609,8 +631,10 @@ public:
         pushButton_exit2->setText(QApplication::translate("PCBRecheckClass", "\351\200\200\345\207\272", nullptr));
         label_flaw->setText(QString());
         label_3->setText(QApplication::translate("PCBRecheckClass", "\347\274\272\351\231\267\347\274\226\345\217\267", nullptr));
-        label_defectIdx->setText(QString());
-        label_defectNum->setText(QApplication::translate("PCBRecheckClass", "\357\274\210\345\205\261\350\256\241\357\274\232     \357\274\211", nullptr));
+        label_defectIndex->setText(QString());
+        label_defectNum_left->setText(QApplication::translate("PCBRecheckClass", "\357\274\210\345\205\261\350\256\241\357\274\232", nullptr));
+        label_defectNum->setText(QString());
+        label_defectNum_right->setText(QApplication::translate("PCBRecheckClass", "\357\274\211", nullptr));
         label_4->setText(QApplication::translate("PCBRecheckClass", "\347\274\272\351\231\267\347\261\273\345\236\213", nullptr));
         label_indicator1->setText(QApplication::translate("PCBRecheckClass", "L1", nullptr));
         label_indicator1_2->setText(QApplication::translate("PCBRecheckClass", "A", nullptr));

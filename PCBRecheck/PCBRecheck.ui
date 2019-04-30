@@ -79,7 +79,7 @@
    <widget class="QLabel" name="label_5">
     <property name="geometry">
      <rect>
-      <x>680</x>
+      <x>670</x>
       <y>0</y>
       <width>161</width>
       <height>41</height>
@@ -115,7 +115,7 @@
    <widget class="QLabel" name="label_logo">
     <property name="geometry">
      <rect>
-      <x>639</x>
+      <x>629</x>
       <y>0</y>
       <width>31</width>
       <height>35</height>
@@ -151,9 +151,9 @@
     <property name="geometry">
      <rect>
       <x>810</x>
-      <y>650</y>
+      <y>630</y>
       <width>77</width>
-      <height>191</height>
+      <height>171</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
@@ -246,7 +246,7 @@
      <rect>
       <x>919</x>
       <y>69</y>
-      <width>471</width>
+      <width>461</width>
       <height>461</height>
      </rect>
     </property>
@@ -334,14 +334,14 @@
          </property>
          <property name="sizeHint" stdset="0">
           <size>
-           <width>20</width>
+           <width>18</width>
            <height>20</height>
           </size>
          </property>
         </spacer>
        </item>
        <item>
-        <widget class="QLabel" name="label_defectIdx">
+        <widget class="QLabel" name="label_defectIndex">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
            <horstretch>0</horstretch>
@@ -392,11 +392,44 @@
          </property>
          <property name="sizeHint" stdset="0">
           <size>
-           <width>5</width>
+           <width>3</width>
            <height>20</height>
           </size>
          </property>
         </spacer>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_defectNum_left">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>65</width>
+           <height>21</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>65</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>16</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>（共计：</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
        </item>
        <item>
         <widget class="QLabel" name="label_defectNum">
@@ -408,13 +441,13 @@
          </property>
          <property name="minimumSize">
           <size>
-           <width>137</width>
+           <width>65</width>
            <height>21</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>137</width>
+           <width>65</width>
            <height>16777215</height>
           </size>
          </property>
@@ -424,7 +457,40 @@
           </font>
          </property>
          <property name="text">
-          <string>（共计：     ）</string>
+          <string>     </string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_defectNum_right">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>13</width>
+           <height>21</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>10</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>16</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>）</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
@@ -459,7 +525,7 @@
        </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>20</width>
+         <width>15</width>
          <height>15</height>
         </size>
        </property>
@@ -905,7 +971,7 @@
        </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>20</width>
+         <width>15</width>
          <height>15</height>
         </size>
        </property>
@@ -1313,11 +1379,6 @@
    <zorder>layoutWidget_2</zorder>
    <zorder>label_flaw</zorder>
    <zorder>layoutWidget</zorder>
-   <zorder>label_3</zorder>
-   <zorder>label_defectIdx</zorder>
-   <zorder>horizontalSpacer_34</zorder>
-   <zorder>horizontalSpacer_35</zorder>
-   <zorder>horizontalSpacer_36</zorder>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
