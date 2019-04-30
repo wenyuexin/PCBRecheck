@@ -15,7 +15,7 @@ private:
 	Ui::ExitQueryUI ui;
 
 public:
-	ExitQueryUI(QWidget *parent = Q_NULLPTR);
+	ExitQueryUI(QWidget *parent = Q_NULLPTR, QRect &screenRect = QRect());
 	~ExitQueryUI();
 
 Q_SIGNALS:

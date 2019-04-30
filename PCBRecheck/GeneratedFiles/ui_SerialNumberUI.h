@@ -53,6 +53,7 @@ public:
         font1.setPointSize(16);
         lineEdit_serialNum->setFont(font1);
         lineEdit_serialNum->setStyleSheet(QStringLiteral("background-color: rgb(255, 255, 255);"));
+        lineEdit_serialNum->setAlignment(Qt::AlignCenter);
         label_2 = new QLabel(SerialNumberUI);
         label_2->setObjectName(QStringLiteral("label_2"));
         label_2->setGeometry(QRect(20, 140, 361, 31));
