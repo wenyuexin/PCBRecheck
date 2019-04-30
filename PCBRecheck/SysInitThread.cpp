@@ -20,9 +20,7 @@ void SysInitThread::run()
 	if (!initUserConfig()) return;
 
 	//读取output文件夹下的目录层次
-	if (initOutFolderHierarchy() == -1) {
-		emit outFolderHierarchyError_initThread(); return;
-	}
+	if (!initOutputFolderHierarchy()) return;
 
 	emit sysInitFinished_initThread();
 }
@@ -55,93 +53,91 @@ bool SysInitThread::initUserConfig()
 
 /************************* 路径信息初始化 **************************/
 
-int SysInitThread::initOutFolderHierarchy()
+bool SysInitThread::initOutputFolderHierarchy()
 {
 	//获取output文件夹下的文件夹层次
-	getOutputFolderInfo(userConfig->OutputDirPath);
-
-	//下面是对界面的一些初始化设置 - 暂无
-	if ((*OutputFolderHierarchy).size() == 0) return -1;
-
-	return 0;
+	if (!getOutputFolderInfo(userConfig->OutputDirPath)) {
+		emit outFolderHierarchyError_initThread(); return false;
+	}
+	return true;
 }
 
 
 //获取output文件夹下的文件信息
-//内部包含三个层次：样本类型、批次号、样本编号
-void SysInitThread::getOutputFolderInfo(QString dirpath)
+//内部包含三个层次：型号、批次号、样本编号
+bool SysInitThread::getOutputFolderInfo(QString dirpath)
 {
 	QDir outputDir(dirpath);
 	outputDir.setSorting(QDir::Name | QDir::Time | QDir::Reversed);
 	outputDir.setFilter(QDir::Dirs | QDir::NoDotAndDotDot);
-	QFileInfoList typeFolderList = outputDir.entryInfoList();
-	if (typeFolderList.isEmpty()) return;
+	QFileInfoList modelFolderList = outputDir.entryInfoList();
+	if (modelFolderList.isEmpty()) return true;
 
-	for (int i = 0; i < typeFolderList.size(); i++) {
-		QString typeFolder = typeFolderList.at(i).absoluteFilePath();
-		int typeNum = typeFolderList.at(i).baseName().toInt();
-		getTypeFolderInfo(typeNum, typeFolder);
+	OutputFolderHierarchy->clear();
+	for (int i = 0; i < modelFolderList.size(); i++) {
+		QString modelFolderPath = modelFolderList.at(i).absoluteFilePath();
+		int modelIndex = modelFolderList.at(i).baseName().toInt();
+		getModelFolderInfo(modelIndex, modelFolderPath);
 	}
+	return true;
 }
 
 
-//获取某一样本类型文件夹下的文件信息
-void SysInitThread::getTypeFolderInfo(int typeNum, QString typeFolder)
+//获取某型号文件夹下的文件信息
+void SysInitThread::getModelFolderInfo(int modelIndex, QString &modelFolderPath)
 {
-	(*OutputFolderHierarchy)[typeNum].clear();
-	QDir typeDir(typeFolder);
+	QDir typeDir(modelFolderPath);
 	typeDir.setSorting(QDir::Name | QDir::Time | QDir::Reversed);
 	typeDir.setFilter(QDir::Dirs | QDir::NoDotAndDotDot);
 	QFileInfoList batchFolderList = typeDir.entryInfoList();
 	if (batchFolderList.isEmpty()) return;
 
+	(*OutputFolderHierarchy)[modelIndex].clear(); //清空
 	for (int i = 0; i < batchFolderList.size(); i++) {
-		QString batchFolder = batchFolderList.at(i).absoluteFilePath();
-		int batchNum = batchFolderList.at(i).baseName().toInt(); //批次号
-		if ((*OutputFolderHierarchy)[typeNum].contains(batchNum)) continue;
-
-		QDir batchDir(batchFolder);
-		batchDir.setSorting(QDir::Time);//  QDir::Name | QDir::Time | QDir::Reversed
-		batchDir.setFilter(QDir::Dirs | QDir::NoDotAndDotDot);
-		QFileInfoList sampleFolderList = batchDir.entryInfoList();
-		if (sampleFolderList.size() == 0) { //批次号文件夹中无样本文件夹，删除该文件夹
-			batchDir.removeRecursively();
-			continue;
-		}
-
-		QList<int> list_tmp;//中间变量，用于将文件按照数字大小排序
-		for (int j = 0; j < sampleFolderList.size(); j++) {
-			int sampleNum = (QFileInfo(sampleFolderList.at(j)).fileName()).toInt();//批次内的样本编号
-			QDir sampleDir(batchFolder + "/" + QString::number(sampleNum));
-
-			//样本文件夹有两个文件夹，说明该样本正在检测中，不列入DirData中，不显示在界面上
-			//if (sampleDir.entryInfoList().size() == 4) continue;
-
-			//删除空的样本文件夹
-			sampleDir.cd(batchFolder + "/" + QString::number(sampleNum));
-			if (sampleDir.entryInfoList().size() <= 2) { //当outputImage为空时，size大小为2，不是0
-				sampleDir.cd(batchFolder + "/" + QString::number(sampleNum));
-				sampleDir.removeRecursively();
-				continue;
-			}
-			//将非空的样本文件夹加入DirData的list中
-			list_tmp.push_back(sampleNum);
-		}
-
-		//上面删除了样本文件夹后，可能批次文件夹空了，需要删除空的批次文件夹
-		if (batchDir.entryInfoList().size() == 0) {
-			batchDir.removeRecursively();
-			continue;
-		}
-
-		//排序并将信息添加到DirData中
-		if (list_tmp.size() != 0) {
-			qSort(list_tmp);
-			(*OutputFolderHierarchy)[typeNum].insert(batchNum, list_tmp);
-		}
+		QString batchFolderPath = batchFolderList.at(i).absoluteFilePath();
+		int batchIndex = batchFolderList.at(i).baseName().toInt(); //批次号
+		getBatchFolderInfo(modelIndex, batchIndex, batchFolderPath);
 	}
 }
 
+//获取某个批次号文件夹下不同样本编号的检测结果信息
+void SysInitThread::getBatchFolderInfo(int modelIndex, int batchIndex, QString &batchFolderPath)
+{
+	QDir batchDir(batchFolderPath);
+	batchDir.setSorting(QDir::Name);
+	batchDir.setFilter(QDir::Dirs | QDir::NoDotAndDotDot);
+	QFileInfoList sampleFolderList = batchDir.entryInfoList();
+	//批次号文件夹中无样本文件夹，则删除该文件夹
+	if (sampleFolderList.size() == 0) {
+		batchDir.removeRecursively(); return;
+	}
+
+	QList<int> tmpList;//中间变量，用于将文件按照数字大小排序
+	for (int j = 0; j < sampleFolderList.size(); j++) {
+		int sampleIndex = (QFileInfo(sampleFolderList.at(j)).fileName()).toInt();//批次内的样本编号
+		QDir sampleDir(batchFolderPath + "/" + QString::number(sampleIndex));
+
+		//删除空的样本文件夹
+		if (sampleDir.entryInfoList().size() <= 2) { //文件夹为空，size大小为2，不是0
+			sampleDir.removeRecursively(); continue;
+		}
+		//将非空的样本文件夹加入DirData的list中
+		tmpList.push_back(sampleIndex);
+	}
+
+	//上面删除了样本文件夹后，可能批次文件夹空了，需要删除空的批次文件夹
+	if (batchDir.entryInfoList().size() == 0) {
+		batchDir.removeRecursively(); 
+		(*OutputFolderHierarchy)[modelIndex].remove(batchIndex);
+		return;
+	}
+
+	//排序并将信息添加到DirData中
+	if (tmpList.size() != 0) {
+		qSort(tmpList);
+		(*OutputFolderHierarchy)[modelIndex].insert(batchIndex, tmpList);
+	}
+}
 
 //数字列表转字符串列表
 void SysInitThread::NumList2StrList(const QList<int>& input, QStringList& output)
@@ -151,4 +147,3 @@ void SysInitThread::NumList2StrList(const QList<int>& input, QStringList& output
 		output.push_back(QString::number(*iter, 10));
 	}
 }
-
