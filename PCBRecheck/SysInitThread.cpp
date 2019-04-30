@@ -13,6 +13,7 @@ SysInitThread::~SysInitThread()
 	qDebug() << "~SysInitThread";
 }
 
+//执行线程
 void SysInitThread::run()
 {
 	//系统初始化操作，读取配置文件
@@ -27,11 +28,13 @@ void SysInitThread::run()
 }
 
 
-/************************* 检修系统初始化 **************************/
+/****************** 检修系统初始化 *******************/
 
 //初始化用户参数
 bool SysInitThread::initUserConfig()
 {
+	//emit sysInitStatus_initThread(pcb::chinese("正在获取系统参数   "));
+
 	if (!Configurator::loadConfigFile(".user.config", userConfig)) {
 		emit userConfigError_initThread(); return false;
 	}
@@ -48,6 +51,7 @@ bool SysInitThread::initUserConfig()
 	pcb::delay(800);
 	return true;
 }
+
 
 /************************* 路径信息初始化 **************************/
 

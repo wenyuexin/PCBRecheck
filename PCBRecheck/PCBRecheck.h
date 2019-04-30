@@ -20,11 +20,7 @@
 #include <time.h> 
 #include <windows.h>
 
-//检修界面
-namespace Ui {
-	class PCBRecheck;
-}
-
+//检修主界面
 class PCBRecheck : public QMainWindow
 {
 	Q_OBJECT
@@ -40,7 +36,7 @@ private:
 	QSize originalFullImageSize; //PCB大图的原始尺寸
 	QSize fullImageSize; //PCB大图的显示尺寸
 	qreal scaledFactor; //PCB大图的尺寸变换因子
-	QGraphicsScene fullPCBScene; //显示PCB大图的场景
+	QGraphicsScene fullImageScene; //显示PCB大图的场景
 	FlickeringArrow flickeringArrow; //PCB大图上闪烁的箭头
 	QTimer *timer; //定时器
 	QPixmap lightOnIcon; //亮灯图标 red
@@ -50,17 +46,12 @@ private:
 	pcb::UserConfig userConfig; //检修系统配置信息
 	pcb::RuntimeParams runtimeParams; //运行参数
 
-	//QString serialNum; //序列号
-	//QString sampleTypeNum; //型号
-	//QString sampleBatchNum; //批次号
-	//QString sampleNum; //样本编号
-	//QString *numPtrArray[4] = { &serialNum, &sampleTypeNum, &sampleBatchNum, &sampleNum };
-	int currentFlawIndex; //当前正在显示的缺陷图
-	QVector<QString> flawImgPathVec; //当前样本对应的所有陷图的路径
-	QVector<QStringList> flawImgInfoVec; //缺陷图的基本信息（坐标）
+	int defectIndex; //当前正在显示的缺陷图
+	QVector<QString> flawImagePathVec; //当前样本对应的所有陷图的路径
+	QVector<QStringList> flawImageInfoVec; //缺陷图的基本信息（坐标）
 	uint16_t flawIndicatorStatus; //指示灯亮灭状态
 
-	Ui::FolderHierarchy OutFolderHierarchy; //输出目录下的文件夹层次
+	pcb::FolderHierarchy OutFolderHierarchy; //输出目录下的文件夹层次
 	int defectNum = 0;
 
 public:
@@ -73,8 +64,7 @@ private:
 	void showNextFlawImage(); //显示下一张缺陷图
 	
 	void refreshRecheckUI(); //更新检测界面
-	void showFullPcbImage(); //显示PCB整图
-	void showFullPcbImage2(); //显示PCB整图
+	void showFullImage(); //显示PCB整图
 	void setFlickeringArrowPos(); //更新箭头的位置
 	void showSerialNumberUI();
 	void showExitQueryUI();
@@ -92,8 +82,10 @@ private Q_SLOTS:
 	void on_pushButton_minus2_clicked(); //点击减号按键
 	void on_pushButton_exit2_clicked(); //点击退出按键
 	void keyPressEvent(QKeyEvent *event); //敲击键盘事件
-	void do_showRecheckUI_numUI(); //pcb编号设置界面返回主界面
+
+	void do_showRecheckMainUI_numUI(); //pcb编号设置界面返回主界面
 	void do_exitRecheckSystem_numUI(); //退出系统
+
 	void do_showSerialNumberUI_exitUI();
 	void do_showRecheckUI_exitUI();
 	void on_timeOut();

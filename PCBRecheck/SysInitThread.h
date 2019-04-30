@@ -7,10 +7,6 @@
 #include <QDir>
 #include <QMessageBox>
 
-#ifndef FOLDER_HIERARCHY_TPYE
-#define FOLDER_HIERARCHY_TPYE
-typedef QMap<int, QMap<int, QList<int>>> FolderHierarchy;
-#endif
 
 class SysInitThread :
 	public QThread
@@ -19,14 +15,14 @@ class SysInitThread :
 
 private:
 	QWidget *RecheckMainWidget;
-	Ui::FolderHierarchy *OutputFolderHierarchy; //输出目录下的文件夹层次
+	pcb::FolderHierarchy *OutputFolderHierarchy; //输出目录下的文件夹层次
 	pcb::UserConfig *userConfig; //检修系统的配置信息
 	
 public:
 	SysInitThread();
 	~SysInitThread();
 
-	void setOutFolderHierarchy(Ui::FolderHierarchy *ptr) { OutputFolderHierarchy = ptr; }
+	void setOutFolderHierarchy(pcb::FolderHierarchy *ptr) { OutputFolderHierarchy = ptr; }
 	void setRecheckConfig(pcb::UserConfig *ptr) { userConfig = ptr; }
 
 protected:

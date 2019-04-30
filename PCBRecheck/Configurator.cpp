@@ -10,8 +10,8 @@ using pcb::Configurator;
 
 UserConfig::UserConfig()
 {
-	TemplDirPath = "";//模板文件的存储路径
-	SampleDirPath = "";//样本文件存储路径
+	//TemplDirPath = "";//模板文件的存储路径
+	//SampleDirPath = "";//样本文件存储路径
 	OutputDirPath = "";//检测结果存储路径
 	ImageFormat = ""; //图像后缀
 }
@@ -28,8 +28,8 @@ void UserConfig::loadDefaultValue()
 	dir.cdUp(); //转到上一级目录
 	QString upperDirPath = dir.absolutePath(); //上一级目录的绝对路径
 
-	this->TemplDirPath = upperDirPath + "/template";//模板路径
-	this->SampleDirPath = upperDirPath + "/sample";//样本路径
+	//this->TemplDirPath = upperDirPath + "/template";//模板路径
+	//this->SampleDirPath = upperDirPath + "/sample";//样本路径
 	this->OutputDirPath = upperDirPath + "/output";//结果路径
 
 	this->ImageFormat = ".bmp"; //图像后缀
@@ -42,14 +42,14 @@ UserConfig::ErrorCode UserConfig::checkValidity(ConfigIndex index)
 	switch (index)
 	{
 	case pcb::UserConfig::Index_All:
-	case pcb::UserConfig::Index_TemplDirPath: //模板路径
-		if (TemplDirPath == "" || !QFileInfo(TemplDirPath).isDir())
-			code = Invalid_TemplDirPath;
-		if (code != Uncheck || index != Index_All) break;
-	case pcb::UserConfig::Index_SampleDirPath: //样本路径
-		if (SampleDirPath == "" || !QFileInfo(SampleDirPath).isDir())
-			code = Invalid_SampleDirPath;
-		if (code != Uncheck || index != Index_All) break;
+	//case pcb::UserConfig::Index_TemplDirPath: //模板路径
+	//	if (TemplDirPath == "" || !QFileInfo(TemplDirPath).isDir())
+	//		code = Invalid_TemplDirPath;
+	//	if (code != Uncheck || index != Index_All) break;
+	//case pcb::UserConfig::Index_SampleDirPath: //样本路径
+	//	if (SampleDirPath == "" || !QFileInfo(SampleDirPath).isDir())
+	//		code = Invalid_SampleDirPath;
+	//	if (code != Uncheck || index != Index_All) break;
 	case pcb::UserConfig::Index_OutputDirPath: //输出路径
 		if (OutputDirPath == "" || !QFileInfo(OutputDirPath).isDir())
 			code = Invalid_OutputDirPath;
@@ -95,10 +95,10 @@ void UserConfig::showMessageBox(QWidget *parent, ErrorCode code)
 	{
 	case pcb::UserConfig::Uncheck:
 		valueName = pcb::chinese("参数未验证"); break;
-	case pcb::UserConfig::Invalid_SampleDirPath:
-		valueName = pcb::chinese("样本路径"); break;
-	case pcb::UserConfig::Invalid_TemplDirPath:
-		valueName = pcb::chinese("模板路径"); break;
+	//case pcb::UserConfig::Invalid_TemplDirPath:
+	//	valueName = pcb::chinese("模板路径"); break;
+	//case pcb::UserConfig::Invalid_SampleDirPath:
+	//	valueName = pcb::chinese("样本路径"); break;
 	case pcb::UserConfig::Invalid_OutputDirPath:
 		valueName = pcb::chinese("输出路径"); break;
 	case pcb::UserConfig::Invalid_ImageFormat:
@@ -162,8 +162,8 @@ void Configurator::init(QString filePath)
 		QDir dir(QDir::currentPath());
 		dir.cdUp(); //转到上一级目录
 		QString appUpperDirPath = dir.absolutePath(); //上一级目录的绝对路径
-		pathConfig.insert("TemplDirPath", appUpperDirPath + "/template");
-		pathConfig.insert("SampleDirPath", appUpperDirPath + "/sample");
+		//pathConfig.insert("TemplDirPath", appUpperDirPath + "/template");
+		//pathConfig.insert("SampleDirPath", appUpperDirPath + "/sample");
 		pathConfig.insert("OutputDirPath", appUpperDirPath + "/output");
 		pathConfig.insert("ImageFormat", ".bmp");
 
@@ -239,8 +239,8 @@ bool Configurator::loadConfigFile(const QString &fileName, UserConfig *config)
 	}
 	else { //文件存在，并且可以正常读写
 		Configurator configurator(&configFile);
-		configurator.jsonReadValue("TemplDirPath", config->TemplDirPath);
-		configurator.jsonReadValue("SampleDirPath", config->SampleDirPath);
+		//configurator.jsonReadValue("TemplDirPath", config->TemplDirPath);
+		//configurator.jsonReadValue("SampleDirPath", config->SampleDirPath);
 		configurator.jsonReadValue("OutputDirPath", config->OutputDirPath);
 		configurator.jsonReadValue("ImageFormat", config->ImageFormat);
 		configFile.close();
@@ -263,8 +263,8 @@ bool Configurator::saveConfigFile(const QString &fileName, UserConfig *config)
 	}
 	else { //文件存在，并且可以正常读写
 		Configurator configurator(&configFile);
-		configurator.jsonSetValue("TemplDirPath", config->TemplDirPath);
-		configurator.jsonSetValue("SampleDirPath", config->SampleDirPath);
+		//configurator.jsonSetValue("TemplDirPath", config->TemplDirPath);
+		//configurator.jsonSetValue("SampleDirPath", config->SampleDirPath);
 		configurator.jsonSetValue("OutputDirPath", config->OutputDirPath);
 		configurator.jsonSetValue("ImageFormat", config->ImageFormat);
 		configFile.close();

@@ -16,6 +16,12 @@ namespace pcb
 #endif //RECHECK_FUNCTIONS
 
 
+#ifndef FOLDER_HIERARCHY_TPYE
+#define FOLDER_HIERARCHY_TPYE
+	typedef QMap<int, QMap<int, QList<int>>> FolderHierarchy;
+#endif	
+
+
 #ifndef RECHECK_CLASS_RUNTIME_PARAMS
 #define RECHECK_CLASS_RUNTIME_PARAMS
 	//程序运行期间使用的临时变量或参数
