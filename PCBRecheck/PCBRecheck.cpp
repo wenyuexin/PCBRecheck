@@ -63,7 +63,7 @@ PCBRecheck::~PCBRecheck()
 void PCBRecheck::initRecheckMainUI()
 {
 	//加载logo
-	IconFolder = QDir::currentPath() + "/Icons";
+	IconFolder = QDir::currentPath() + "/icons";
 	QPixmap image(IconFolder + "/logo.png");
 	ui.label_logo->setPixmap(image.scaled(ui.label_logo->size(), Qt::KeepAspectRatio));
 	qDebug() << IconFolder;
@@ -75,10 +75,10 @@ void PCBRecheck::initRecheckMainUI()
 	lightOffIcon = greyIcon.scaled(ui.label_indicator1->size(), Qt::KeepAspectRatio);
 
 	//设置当前正在显示的缺陷小图及其缺陷类型指示灯
-	ui.label_indicator1->setPixmap(lightOffIcon); //A
-	ui.label_indicator2->setPixmap(lightOffIcon); //B
-	ui.label_indicator3->setPixmap(lightOffIcon); //C
-	ui.label_indicator4->setPixmap(lightOffIcon); //D
+	ui.label_indicator1->setPixmap(lightOffIcon); //断路
+	ui.label_indicator2->setPixmap(lightOffIcon); //缺失
+	ui.label_indicator3->setPixmap(lightOffIcon); //短路
+	ui.label_indicator4->setPixmap(lightOffIcon); //凸起
 
 	//文本框等的背景色
 	QPalette palette;
@@ -136,13 +136,22 @@ void PCBRecheck::on_sysInitFinished_initThread()
 
 /***************** 编号设置界面 ******************/
 
+//显示编号设置界面
+void PCBRecheck::showSerialNumberUI()
+{
+	ui.pushButton_plus2->setEnabled(false);
+	ui.pushButton_minus2->setEnabled(false);
+	ui.pushButton_exit->setEnabled(false);
+	this->serialNumberUI->show(); //弹出退出询问框
+}
+
 //由序号设置界面返回，并显示检修主界面
 void PCBRecheck::do_showRecheckMainUI_numUI()
 {
 	serialNumberUI->hide(); //隐藏PCB编号设置界面
 	ui.pushButton_plus2->setEnabled(true);
 	ui.pushButton_minus2->setEnabled(true);
-	ui.pushButton_exit2->setEnabled(true);
+	ui.pushButton_exit->setEnabled(true);
 	this->refreshRecheckMainUI(); //更新界面上显示的信息
 }
 
@@ -154,6 +163,15 @@ void PCBRecheck::do_exitRecheckSystem_numUI()
 
 
 /****************** 退出询问界面 *****************/
+
+//显示退出询问界面
+void PCBRecheck::showExitQueryUI()
+{
+	ui.pushButton_plus2->setEnabled(false);
+	ui.pushButton_minus2->setEnabled(false);
+	ui.pushButton_exit->setEnabled(false);
+	this->exitQueryUI->show(); //弹出退出询问框
+}
 
 //隐藏退出询问界面，并显示编号设置界面
 void PCBRecheck::do_showSerialNumberUI_exitUI()
@@ -175,7 +193,7 @@ void PCBRecheck::do_showRecheckMainUI_exitUI()
 	exitQueryUI->hide();
 	ui.pushButton_plus2->setEnabled(true);
 	ui.pushButton_minus2->setEnabled(true);
-	ui.pushButton_exit2->setEnabled(true);
+	ui.pushButton_exit->setEnabled(true);
 }
 
 
@@ -214,19 +232,13 @@ void PCBRecheck::refreshRecheckMainUI()
 
 	//加载闪烁的箭头
 	defectIndex = 0;
-	initFlickeringArrow();
+	this->initFlickeringArrow();
 	
 	//设置场景和显示视图
 	ui.graphicsView_full->setScene(&fullImageScene); //设置场景
 	ui.graphicsView_full->show(); //显示图像
 
 	//加载并显示第1个缺陷小图
-	QFileInfo flawImgInfo(flawImageInfoVec[0].filePath);
-	if (!flawImgInfo.isFile()) {
-		recheckStatus = LoadFlawImageFailed;
-		this->showMessageBox(MessageBoxType::Warning, recheckStatus);
-		return;
-	}
 	this->showFlawImage(); //显示缺陷图
 }
 
@@ -259,8 +271,10 @@ bool PCBRecheck::loadFullImage()
 				break;
 			}
 			else {
-				qDebug() << "PCBRecheck::showFullImage() - " <<
-					pcb::chinese("PCB整图的文件名中没有包含足够的信息！");
+				recheckStatus = InvalidFullImageName;
+				this->showMessageBox(MessageBoxType::Warning, recheckStatus);
+				serialNumberUI->show(); //显示PCB序号询问界面
+				return false;
 			}
 		}
 	}
@@ -333,6 +347,7 @@ void PCBRecheck::getFlawImageInfo(QString dirpath)
 //加载初始的闪烁箭头
 void PCBRecheck::initFlickeringArrow()
 {
+	if (defectNum <= 0) return;
 	timer->start(500); //启动定时器
 	setFlickeringArrowPos(); //更新闪烁箭头的位置
 	flickeringArrow.setFullImageSize(&fullImageItemSize);
@@ -362,12 +377,10 @@ void PCBRecheck::keyPressEvent(QKeyEvent *event)
 		qDebug() << "plus";
 		showNextFlawImage();
 		break;
-
 	case Qt::Key_Minus: //切换并显示上一个缺陷
 		qDebug() << "minus";
 		showLastFlawImage();
 		break;
-
 	default:
 		break;
 	}
@@ -387,8 +400,6 @@ void PCBRecheck::on_pushButton_minus2_clicked()
 	showLastFlawImage();
 }
 
-
-/**************** 功能实现：切换缺陷小图 *****************/
 
 //切换并显示上一个缺陷图
 void PCBRecheck::showLastFlawImage()
@@ -423,16 +434,24 @@ void PCBRecheck::showNextFlawImage()
 //将缺陷图加载并显示到对应的lebal控件中
 void PCBRecheck::showFlawImage()
 {
-	QPixmap flawImage(flawImageInfoVec[defectIndex].filePath); //缺陷图
+	if (defectNum <= 0) return;
+	QFileInfo flawImgInfo(flawImageInfoVec[defectIndex].filePath);
+	if (!flawImgInfo.isFile()) {
+		recheckStatus = LoadFlawImageFailed;
+		this->showMessageBox(MessageBoxType::Warning, recheckStatus);
+		return;
+	}
+
+	QPixmap flawImage(flawImageInfoVec[defectIndex].filePath); //读缺陷图
 	QPixmap scaledFlawImage = flawImage.scaled(ui.label_flaw->size(), Qt::KeepAspectRatio);
 	ui.label_flaw->setPixmap(scaledFlawImage); //显示图像
 	ui.label_xLoc->setText(flawImageInfoVec[defectIndex].xPos); //更新缺陷的x坐标
 	ui.label_yLoc->setText(flawImageInfoVec[defectIndex].yPos); //更新缺陷的y坐标
 	ui.label_defectIndex->setText(QString::number(defectIndex + 1)); //显示缺陷编号
-	switchFlawIndicator(); //更新缺陷类型图标(修改指示灯亮灭状态)
+	this->switchFlawIndicator(); //更新缺陷类型图标(修改指示灯亮灭状态)
 
 	//更新PCB大图上的小箭头的位置
-	setFlickeringArrowPos();
+	this->setFlickeringArrowPos();
 }
 
 //更新缺陷类型的指示图标
@@ -446,37 +465,23 @@ void PCBRecheck::switchFlawIndicator()
 }
 
 
-/**************** 事件响应：点击退出按键 *****************/
+/**************** 退出程序 *****************/
 
-void PCBRecheck::on_pushButton_exit2_clicked()
+//点击退出按键
+void PCBRecheck::on_pushButton_exit_clicked()
 {
 	exitRecheckSystem();
 }
 
-
-/******************** 程序控制 *********************/
-
-void PCBRecheck::showSerialNumberUI()
-{
-	ui.pushButton_plus2->setEnabled(false);
-	ui.pushButton_minus2->setEnabled(false);
-	ui.pushButton_exit2->setEnabled(false);
-	this->serialNumberUI->show(); //弹出退出询问框
-}
-
-void PCBRecheck::showExitQueryUI()
-{
-	ui.pushButton_plus2->setEnabled(false);
-	ui.pushButton_minus2->setEnabled(false);
-	ui.pushButton_exit2->setEnabled(false);
-	this->exitQueryUI->show(); //弹出退出询问框
-}
-
+//执行退出
 void PCBRecheck::exitRecheckSystem()
 {
 	this->close();
 	qApp->exit(0);
 }
+
+
+/******************** 程序控制 *********************/
 
 //弹窗报错
 void PCBRecheck::showMessageBox(MessageBoxType type, RecheckStatus status)
@@ -488,16 +493,24 @@ void PCBRecheck::showMessageBox(MessageBoxType type, RecheckStatus status)
 	switch (status)
 	{
 	case PCBRecheck::Uncheck:
-		message = pcb::chinese("系统状态未知!  "); break;
+		message = pcb::chinese("系统状态未知!  \n"); 
+		message += "Recheck: ErrorCode: " + QString::number(tempStatus); break;
 	case PCBRecheck::CurrentBatchRechecked:
-		message = pcb::chinese("该批次的所有样本已经复查完成!  "); break;
+		message = pcb::chinese("该批次的所有样本已经复查完成!  \n"); 
+		message += "Recheck: ErrorCode: " + QString::number(tempStatus); break;
+	case PCBRecheck::InvalidFullImageName:
+		message = pcb::chinese("PCB整图文件的文件名无效!  \n"); 
+		message += "Recheck: ErrorCode: " + QString::number(tempStatus); break;
 	case PCBRecheck::LoadFullImageFailed:
-		message = pcb::chinese("无法打开PCB整图!  "); break;
+		message = pcb::chinese("无法打开PCB整图!  \n"); 
+		message += "Recheck: ErrorCode: " + QString::number(tempStatus); break;
 	case PCBRecheck::LoadFlawImageFailed:
-		message = pcb::chinese("无法打开相应的缺陷图!  "); break;
+		message = pcb::chinese("无法打开相应的缺陷图!  \n"); 
+		message += "Recheck: ErrorCode: " + QString::number(tempStatus); break;
 	case PCBRecheck::OpenFlawImageFolderFailed:
-		message = pcb::chinese("路径定位失败，无法获取相应的检测结果!\n"); 
-		message += QString("path: ./output" + runtimeParams.getRelativeFolderPath()); break;
+		message = pcb::chinese("路径定位失败，无法获取相应的检测结果! \n"); 
+		message += QString("path: ./output" + runtimeParams.getRelativeFolderPath()) + "\n"; 
+		message += "Recheck: ErrorCode: " + QString::number(tempStatus); break;
 	case PCBRecheck::Default:
 		break;
 	}
