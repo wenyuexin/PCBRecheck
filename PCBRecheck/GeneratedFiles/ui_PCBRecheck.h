@@ -35,7 +35,7 @@ public:
     QVBoxLayout *verticalLayout;
     QPushButton *pushButton_minus2;
     QPushButton *pushButton_plus2;
-    QPushButton *pushButton_exit2;
+    QPushButton *pushButton_exit;
     QLabel *label_flaw;
     QWidget *layoutWidget;
     QVBoxLayout *verticalLayout_6;
@@ -186,16 +186,16 @@ public:
 
         verticalLayout->addWidget(pushButton_plus2);
 
-        pushButton_exit2 = new QPushButton(layoutWidget_2);
-        pushButton_exit2->setObjectName(QStringLiteral("pushButton_exit2"));
-        sizePolicy.setHeightForWidth(pushButton_exit2->sizePolicy().hasHeightForWidth());
-        pushButton_exit2->setSizePolicy(sizePolicy);
-        pushButton_exit2->setMinimumSize(QSize(0, 35));
+        pushButton_exit = new QPushButton(layoutWidget_2);
+        pushButton_exit->setObjectName(QStringLiteral("pushButton_exit"));
+        sizePolicy.setHeightForWidth(pushButton_exit->sizePolicy().hasHeightForWidth());
+        pushButton_exit->setSizePolicy(sizePolicy);
+        pushButton_exit->setMinimumSize(QSize(0, 35));
         QFont font4;
         font4.setPointSize(14);
-        pushButton_exit2->setFont(font4);
+        pushButton_exit->setFont(font4);
 
-        verticalLayout->addWidget(pushButton_exit2);
+        verticalLayout->addWidget(pushButton_exit);
 
         label_flaw = new QLabel(centralWidget);
         label_flaw->setObjectName(QStringLiteral("label_flaw"));
@@ -226,7 +226,7 @@ public:
         label_3->setSizePolicy(sizePolicy);
         label_3->setMinimumSize(QSize(84, 21));
         QFont font5;
-        font5.setPointSize(16);
+        font5.setPointSize(17);
         label_3->setFont(font5);
         label_3->setAlignment(Qt::AlignCenter);
 
@@ -245,7 +245,9 @@ public:
         label_defectIndex->setSizePolicy(sizePolicy3);
         label_defectIndex->setMinimumSize(QSize(95, 35));
         label_defectIndex->setMaximumSize(QSize(95, 35));
-        label_defectIndex->setFont(font5);
+        QFont font6;
+        font6.setPointSize(16);
+        label_defectIndex->setFont(font6);
         label_defectIndex->setStyleSheet(QStringLiteral("background-color: rgb(250, 250, 250);"));
         label_defectIndex->setFrameShape(QFrame::Box);
         label_defectIndex->setFrameShadow(QFrame::Plain);
@@ -263,7 +265,7 @@ public:
         label_defectNum_left->setSizePolicy(sizePolicy);
         label_defectNum_left->setMinimumSize(QSize(65, 21));
         label_defectNum_left->setMaximumSize(QSize(65, 16777215));
-        label_defectNum_left->setFont(font5);
+        label_defectNum_left->setFont(font6);
         label_defectNum_left->setAlignment(Qt::AlignCenter);
 
         horizontalLayout_2->addWidget(label_defectNum_left);
@@ -274,7 +276,7 @@ public:
         label_defectNum->setSizePolicy(sizePolicy);
         label_defectNum->setMinimumSize(QSize(65, 21));
         label_defectNum->setMaximumSize(QSize(65, 16777215));
-        label_defectNum->setFont(font5);
+        label_defectNum->setFont(font6);
         label_defectNum->setAlignment(Qt::AlignCenter);
 
         horizontalLayout_2->addWidget(label_defectNum);
@@ -285,7 +287,7 @@ public:
         label_defectNum_right->setSizePolicy(sizePolicy);
         label_defectNum_right->setMinimumSize(QSize(13, 21));
         label_defectNum_right->setMaximumSize(QSize(10, 16777215));
-        label_defectNum_right->setFont(font5);
+        label_defectNum_right->setFont(font6);
         label_defectNum_right->setAlignment(Qt::AlignCenter);
 
         horizontalLayout_2->addWidget(label_defectNum_right);
@@ -316,7 +318,7 @@ public:
 
         horizontalLayout->addWidget(label_4);
 
-        horizontalSpacer_23 = new QSpacerItem(25, 20, QSizePolicy::Fixed, QSizePolicy::Minimum);
+        horizontalSpacer_23 = new QSpacerItem(22, 20, QSizePolicy::Fixed, QSizePolicy::Minimum);
 
         horizontalLayout->addItem(horizontalSpacer_23);
 
@@ -327,11 +329,11 @@ public:
         label_indicator1->setObjectName(QStringLiteral("label_indicator1"));
         sizePolicy.setHeightForWidth(label_indicator1->sizePolicy().hasHeightForWidth());
         label_indicator1->setSizePolicy(sizePolicy);
-        label_indicator1->setMinimumSize(QSize(40, 40));
+        label_indicator1->setMinimumSize(QSize(50, 40));
         label_indicator1->setMaximumSize(QSize(40, 40));
-        QFont font6;
-        font6.setPointSize(18);
-        label_indicator1->setFont(font6);
+        QFont font7;
+        font7.setPointSize(18);
+        label_indicator1->setFont(font7);
         label_indicator1->setFrameShape(QFrame::NoFrame);
         label_indicator1->setAlignment(Qt::AlignCenter);
 
@@ -341,22 +343,18 @@ public:
         label_indicator1_2->setObjectName(QStringLiteral("label_indicator1_2"));
         sizePolicy.setHeightForWidth(label_indicator1_2->sizePolicy().hasHeightForWidth());
         label_indicator1_2->setSizePolicy(sizePolicy);
-        label_indicator1_2->setMinimumSize(QSize(40, 35));
+        label_indicator1_2->setMinimumSize(QSize(50, 35));
         label_indicator1_2->setMaximumSize(QSize(40, 35));
-        QFont font7;
-        font7.setPointSize(18);
-        font7.setBold(false);
-        font7.setWeight(50);
-        label_indicator1_2->setFont(font7);
+        label_indicator1_2->setFont(font3);
         label_indicator1_2->setFrameShape(QFrame::NoFrame);
-        label_indicator1_2->setAlignment(Qt::AlignHCenter|Qt::AlignTop);
+        label_indicator1_2->setAlignment(Qt::AlignCenter);
 
         verticalLayout_2->addWidget(label_indicator1_2);
 
 
         horizontalLayout->addLayout(verticalLayout_2);
 
-        horizontalSpacer_24 = new QSpacerItem(15, 20, QSizePolicy::Fixed, QSizePolicy::Minimum);
+        horizontalSpacer_24 = new QSpacerItem(12, 20, QSizePolicy::Maximum, QSizePolicy::Minimum);
 
         horizontalLayout->addItem(horizontalSpacer_24);
 
@@ -367,9 +365,9 @@ public:
         label_indicator2->setObjectName(QStringLiteral("label_indicator2"));
         sizePolicy.setHeightForWidth(label_indicator2->sizePolicy().hasHeightForWidth());
         label_indicator2->setSizePolicy(sizePolicy);
-        label_indicator2->setMinimumSize(QSize(40, 40));
+        label_indicator2->setMinimumSize(QSize(50, 40));
         label_indicator2->setMaximumSize(QSize(40, 40));
-        label_indicator2->setFont(font6);
+        label_indicator2->setFont(font7);
         label_indicator2->setFrameShape(QFrame::NoFrame);
         label_indicator2->setAlignment(Qt::AlignCenter);
 
@@ -379,11 +377,11 @@ public:
         label_indicator1_3->setObjectName(QStringLiteral("label_indicator1_3"));
         sizePolicy.setHeightForWidth(label_indicator1_3->sizePolicy().hasHeightForWidth());
         label_indicator1_3->setSizePolicy(sizePolicy);
-        label_indicator1_3->setMinimumSize(QSize(40, 35));
+        label_indicator1_3->setMinimumSize(QSize(50, 35));
         label_indicator1_3->setMaximumSize(QSize(40, 35));
-        label_indicator1_3->setFont(font7);
+        label_indicator1_3->setFont(font3);
         label_indicator1_3->setFrameShape(QFrame::NoFrame);
-        label_indicator1_3->setAlignment(Qt::AlignHCenter|Qt::AlignTop);
+        label_indicator1_3->setAlignment(Qt::AlignCenter);
 
         verticalLayout_3->addWidget(label_indicator1_3);
 
@@ -401,9 +399,9 @@ public:
         label_indicator3->setObjectName(QStringLiteral("label_indicator3"));
         sizePolicy.setHeightForWidth(label_indicator3->sizePolicy().hasHeightForWidth());
         label_indicator3->setSizePolicy(sizePolicy);
-        label_indicator3->setMinimumSize(QSize(40, 40));
+        label_indicator3->setMinimumSize(QSize(50, 40));
         label_indicator3->setMaximumSize(QSize(50, 50));
-        label_indicator3->setFont(font6);
+        label_indicator3->setFont(font7);
         label_indicator3->setFrameShape(QFrame::NoFrame);
         label_indicator3->setAlignment(Qt::AlignCenter);
 
@@ -413,11 +411,11 @@ public:
         label_indicator1_4->setObjectName(QStringLiteral("label_indicator1_4"));
         sizePolicy.setHeightForWidth(label_indicator1_4->sizePolicy().hasHeightForWidth());
         label_indicator1_4->setSizePolicy(sizePolicy);
-        label_indicator1_4->setMinimumSize(QSize(40, 35));
+        label_indicator1_4->setMinimumSize(QSize(50, 35));
         label_indicator1_4->setMaximumSize(QSize(40, 35));
-        label_indicator1_4->setFont(font7);
+        label_indicator1_4->setFont(font3);
         label_indicator1_4->setFrameShape(QFrame::NoFrame);
-        label_indicator1_4->setAlignment(Qt::AlignHCenter|Qt::AlignTop);
+        label_indicator1_4->setAlignment(Qt::AlignCenter);
 
         verticalLayout_4->addWidget(label_indicator1_4);
 
@@ -435,9 +433,9 @@ public:
         label_indicator4->setObjectName(QStringLiteral("label_indicator4"));
         sizePolicy.setHeightForWidth(label_indicator4->sizePolicy().hasHeightForWidth());
         label_indicator4->setSizePolicy(sizePolicy);
-        label_indicator4->setMinimumSize(QSize(40, 40));
+        label_indicator4->setMinimumSize(QSize(50, 40));
         label_indicator4->setMaximumSize(QSize(40, 40));
-        label_indicator4->setFont(font6);
+        label_indicator4->setFont(font7);
         label_indicator4->setFrameShape(QFrame::NoFrame);
         label_indicator4->setAlignment(Qt::AlignCenter);
 
@@ -447,18 +445,18 @@ public:
         label_indicator1_5->setObjectName(QStringLiteral("label_indicator1_5"));
         sizePolicy.setHeightForWidth(label_indicator1_5->sizePolicy().hasHeightForWidth());
         label_indicator1_5->setSizePolicy(sizePolicy);
-        label_indicator1_5->setMinimumSize(QSize(40, 35));
+        label_indicator1_5->setMinimumSize(QSize(50, 35));
         label_indicator1_5->setMaximumSize(QSize(40, 35));
-        label_indicator1_5->setFont(font7);
+        label_indicator1_5->setFont(font3);
         label_indicator1_5->setFrameShape(QFrame::NoFrame);
-        label_indicator1_5->setAlignment(Qt::AlignHCenter|Qt::AlignTop);
+        label_indicator1_5->setAlignment(Qt::AlignCenter);
 
         verticalLayout_5->addWidget(label_indicator1_5);
 
 
         horizontalLayout->addLayout(verticalLayout_5);
 
-        horizontalSpacer_27 = new QSpacerItem(40, 20, QSizePolicy::MinimumExpanding, QSizePolicy::Minimum);
+        horizontalSpacer_27 = new QSpacerItem(30, 20, QSizePolicy::MinimumExpanding, QSizePolicy::Minimum);
 
         horizontalLayout->addItem(horizontalSpacer_27);
 
@@ -511,7 +509,7 @@ public:
         label_xLoc->setSizePolicy(sizePolicy3);
         label_xLoc->setMinimumSize(QSize(85, 35));
         label_xLoc->setMaximumSize(QSize(85, 35));
-        label_xLoc->setFont(font5);
+        label_xLoc->setFont(font6);
         label_xLoc->setStyleSheet(QStringLiteral("background-color: rgb(250, 250, 250);"));
         label_xLoc->setFrameShape(QFrame::Box);
         label_xLoc->setFrameShadow(QFrame::Plain);
@@ -542,7 +540,7 @@ public:
         label_yLoc->setSizePolicy(sizePolicy);
         label_yLoc->setMinimumSize(QSize(85, 35));
         label_yLoc->setMaximumSize(QSize(85, 35));
-        label_yLoc->setFont(font5);
+        label_yLoc->setFont(font6);
         label_yLoc->setStyleSheet(QStringLiteral("background-color: rgb(250, 250, 250);"));
         label_yLoc->setFrameShape(QFrame::Box);
         label_yLoc->setAlignment(Qt::AlignCenter);
@@ -588,7 +586,7 @@ public:
         label_serialNum->setSizePolicy(sizePolicy);
         label_serialNum->setMinimumSize(QSize(220, 35));
         label_serialNum->setMaximumSize(QSize(220, 35));
-        label_serialNum->setFont(font5);
+        label_serialNum->setFont(font6);
         label_serialNum->setStyleSheet(QStringLiteral("background-color: rgb(250, 250, 250);"));
         label_serialNum->setFrameShape(QFrame::Box);
         label_serialNum->setAlignment(Qt::AlignCenter);
@@ -628,7 +626,7 @@ public:
         label_logo->setText(QApplication::translate("PCBRecheckClass", "logo", nullptr));
         pushButton_minus2->setText(QApplication::translate("PCBRecheckClass", "-", nullptr));
         pushButton_plus2->setText(QApplication::translate("PCBRecheckClass", "+", nullptr));
-        pushButton_exit2->setText(QApplication::translate("PCBRecheckClass", "\351\200\200\345\207\272", nullptr));
+        pushButton_exit->setText(QApplication::translate("PCBRecheckClass", "\351\200\200\345\207\272", nullptr));
         label_flaw->setText(QString());
         label_3->setText(QApplication::translate("PCBRecheckClass", "\347\274\272\351\231\267\347\274\226\345\217\267", nullptr));
         label_defectIndex->setText(QString());
@@ -637,13 +635,13 @@ public:
         label_defectNum_right->setText(QApplication::translate("PCBRecheckClass", "\357\274\211", nullptr));
         label_4->setText(QApplication::translate("PCBRecheckClass", "\347\274\272\351\231\267\347\261\273\345\236\213", nullptr));
         label_indicator1->setText(QApplication::translate("PCBRecheckClass", "L1", nullptr));
-        label_indicator1_2->setText(QApplication::translate("PCBRecheckClass", "A", nullptr));
+        label_indicator1_2->setText(QApplication::translate("PCBRecheckClass", "\346\226\255\350\267\257", nullptr));
         label_indicator2->setText(QApplication::translate("PCBRecheckClass", "L2", nullptr));
-        label_indicator1_3->setText(QApplication::translate("PCBRecheckClass", "B", nullptr));
+        label_indicator1_3->setText(QApplication::translate("PCBRecheckClass", "\347\274\272\345\244\261", nullptr));
         label_indicator3->setText(QApplication::translate("PCBRecheckClass", "L3", nullptr));
-        label_indicator1_4->setText(QApplication::translate("PCBRecheckClass", "C", nullptr));
+        label_indicator1_4->setText(QApplication::translate("PCBRecheckClass", "\347\237\255\350\267\257", nullptr));
         label_indicator4->setText(QApplication::translate("PCBRecheckClass", "L4", nullptr));
-        label_indicator1_5->setText(QApplication::translate("PCBRecheckClass", "D", nullptr));
+        label_indicator1_5->setText(QApplication::translate("PCBRecheckClass", "\345\207\270\350\265\267", nullptr));
         label_7->setText(QApplication::translate("PCBRecheckClass", "\347\274\272\351\231\267\344\275\215\347\275\256", nullptr));
         label->setText(QApplication::translate("PCBRecheckClass", "X", nullptr));
         label_xLoc->setText(QString());

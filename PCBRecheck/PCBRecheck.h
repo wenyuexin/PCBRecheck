@@ -30,6 +30,7 @@ public:
 		NoError,
 		Uncheck,
 		CurrentBatchRechecked,
+		InvalidFullImageName,
 		LoadFullImageFailed,
 		LoadFlawImageFailed,
 		OpenFlawImageFolderFailed,
@@ -95,10 +96,10 @@ private Q_SLOTS:
 	void on_userConfigError_initThread(); //初始化错误
 	void on_outFolderHierarchyError_initThread(); //初始化错误
 
+	void keyPressEvent(QKeyEvent *event); //敲击键盘事件
 	void on_pushButton_plus2_clicked(); //点击加号按键
 	void on_pushButton_minus2_clicked(); //点击减号按键
-	void on_pushButton_exit2_clicked(); //点击退出按键
-	void keyPressEvent(QKeyEvent *event); //敲击键盘事件
+	void on_pushButton_exit_clicked(); //点击退出按键
 
 	void do_showRecheckMainUI_numUI(); //pcb编号设置界面返回主界面
 	void do_exitRecheckSystem_numUI(); //退出系统
