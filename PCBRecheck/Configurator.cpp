@@ -109,7 +109,7 @@ void UserConfig::showMessageBox(QWidget *parent, ErrorCode code)
 
 	QMessageBox::warning(parent, pcb::chinese("警告"),
 		pcb::chinese("用户参数无效，请在参数设置界面重新设置！  \n") +
-		pcb::chinese("错误信息：") + valueName + "   \n" +
+		pcb::chinese("错误来源：") + valueName + "   \n" +
 		"Config: User: ErrorCode: " + QString::number(tempCode),
 		pcb::chinese("确定"));
 	return;
