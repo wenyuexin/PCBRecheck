@@ -29,11 +29,13 @@ public:
 	enum RecheckStatus {
 		NoError,
 		Uncheck,
-		CurrentBatchRechecked,
-		InvalidFullImageName,
-		LoadFullImageFailed,
-		LoadFlawImageFailed,
-		OpenFlawImageFolderFailed,
+		CurrentBatchRechecked, //当前批次已复查完成
+		InvalidFullImageName, //整图的文件名无效
+		FullImageNotFound, //没有找到整图
+		LoadFullImageFailed, //整图加载失败
+		FlawImageNotFound, //没有找到缺陷图
+		LoadFlawImageFailed, //缺陷图加载失败
+		OpenFlawImageFolderFailed, //无法打开缺陷图所在的文件夹
 		Default
 	};
 
@@ -90,6 +92,8 @@ private:
 
 	void exitRecheckSystem();
 	void showMessageBox(pcb::MessageBoxType type, RecheckStatus status = Default);
+
+	void logging(QString msg);
 
 private Q_SLOTS:
 	void on_sysInitFinished_initThread(); //初始化线程返回主界面
