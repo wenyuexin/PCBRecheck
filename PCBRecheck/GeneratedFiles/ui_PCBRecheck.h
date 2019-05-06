@@ -112,7 +112,7 @@ public:
         graphicsView_full = new QGraphicsView(centralWidget);
         graphicsView_full->setObjectName(QStringLiteral("graphicsView_full"));
         graphicsView_full->setEnabled(true);
-        graphicsView_full->setGeometry(QRect(-1, 40, 801, 861));
+        graphicsView_full->setGeometry(QRect(-1, 40, 831, 861));
         QSizePolicy sizePolicy1(QSizePolicy::Preferred, QSizePolicy::Preferred);
         sizePolicy1.setHorizontalStretch(0);
         sizePolicy1.setVerticalStretch(0);
@@ -153,7 +153,7 @@ public:
         label_logo->setStyleSheet(QStringLiteral("border-image: url(:/Icons/logo.png);"));
         layoutWidget_2 = new QWidget(centralWidget);
         layoutWidget_2->setObjectName(QStringLiteral("layoutWidget_2"));
-        layoutWidget_2->setGeometry(QRect(810, 630, 77, 171));
+        layoutWidget_2->setGeometry(QRect(840, 630, 77, 171));
         verticalLayout = new QVBoxLayout(layoutWidget_2);
         verticalLayout->setSpacing(6);
         verticalLayout->setContentsMargins(11, 11, 11, 11);
@@ -199,7 +199,7 @@ public:
 
         label_flaw = new QLabel(centralWidget);
         label_flaw->setObjectName(QStringLiteral("label_flaw"));
-        label_flaw->setGeometry(QRect(919, 69, 461, 461));
+        label_flaw->setGeometry(QRect(940, 69, 461, 461));
         sizePolicy.setHeightForWidth(label_flaw->sizePolicy().hasHeightForWidth());
         label_flaw->setSizePolicy(sizePolicy);
         label_flaw->setStyleSheet(QStringLiteral("background-color: rgb(250, 250, 250);"));
@@ -207,7 +207,7 @@ public:
         label_flaw->setFrameShadow(QFrame::Sunken);
         layoutWidget = new QWidget(centralWidget);
         layoutWidget->setObjectName(QStringLiteral("layoutWidget"));
-        layoutWidget->setGeometry(QRect(920, 570, 471, 279));
+        layoutWidget->setGeometry(QRect(941, 570, 471, 279));
         verticalLayout_6 = new QVBoxLayout(layoutWidget);
         verticalLayout_6->setSpacing(6);
         verticalLayout_6->setContentsMargins(11, 11, 11, 11);
@@ -622,7 +622,7 @@ public:
     void retranslateUi(QMainWindow *PCBRecheckClass)
     {
         PCBRecheckClass->setWindowTitle(QApplication::translate("PCBRecheckClass", "PCBRecheck", nullptr));
-        label_5->setText(QApplication::translate("PCBRecheckClass", "PCB\346\243\200\344\277\256\347\263\273\347\273\237", nullptr));
+        label_5->setText(QApplication::translate("PCBRecheckClass", "PCB\345\244\215\346\237\245\347\263\273\347\273\237", nullptr));
         label_logo->setText(QApplication::translate("PCBRecheckClass", "logo", nullptr));
         pushButton_minus2->setText(QApplication::translate("PCBRecheckClass", "-", nullptr));
         pushButton_plus2->setText(QApplication::translate("PCBRecheckClass", "+", nullptr));

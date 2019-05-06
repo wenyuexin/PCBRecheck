@@ -209,6 +209,8 @@ void PCBRecheck::on_timeOut()
 //更新界面上显示的信息
 void PCBRecheck::refreshRecheckMainUI()
 {
+	logging(runtimeParams.serialNum);
+
 	//更新界面中的PCB编号
 	ui.label_serialNum->setText(runtimeParams.serialNum);
 
@@ -252,7 +254,7 @@ bool PCBRecheck::loadFullImage()
 
 	QDir dir(flawImageDirPath + "/fullImage/");
 	dir.setFilter(QDir::Files | QDir::NoDotAndDotDot);
-	QStringList filters("*" + userConfig.ImageFormat); //将ImgFormat格式的图片过滤出来 
+	QStringList filters("*" + userConfig.ImageFormat); //将特定格式的图片过滤出来 
 	dir.setNameFilters(filters);
 	QFileInfoList folder_list = dir.entryInfoList(); //获取文件列表
 
@@ -271,6 +273,8 @@ bool PCBRecheck::loadFullImage()
 				break;
 			}
 			else {
+				logging("InvalidFullImageName: pcbInfoList size(): " 
+					+ QString::number(pcbInfoList.size()));
 				recheckStatus = InvalidFullImageName;
 				this->showMessageBox(MessageBoxType::Warning, recheckStatus);
 				serialNumberUI->show(); //显示PCB序号询问界面
@@ -279,13 +283,30 @@ bool PCBRecheck::loadFullImage()
 		}
 	}
 
+	//判断是否找到fullImage为前缀的ImageFormat格式的图
+	if (fullImagePath == "") {
+		logging("FullImageNotFound");
+		recheckStatus = FullImageNotFound;
+		this->showMessageBox(MessageBoxType::Warning, recheckStatus);
+		serialNumberUI->show(); //显示PCB序号询问界面
+		return false;
+	}
+
 	//加载大图
-	if (!fullImage.load(fullImagePath)) {
+	QImage fullImg; //读图
+	if (!fullImg.load(fullImagePath)) {
+		logging("LoadFullImageFailed: fullImagePath: " + fullImagePath);
 		recheckStatus = LoadFullImageFailed;
 		this->showMessageBox(MessageBoxType::Warning, recheckStatus);
 		serialNumberUI->show(); //显示PCB序号询问界面
 		return false;
 	}
+
+	scaledFactor = min(qreal(ui.graphicsView_full->height() - 2) / fullImg.size().height(),
+		qreal(ui.graphicsView_full->width() - 2) / fullImg.size().width());//整图的尺寸变换因子
+	fullImg = fullImg.scaled(fullImg.size()*scaledFactor, Qt::KeepAspectRatio); //缩放
+	fullImage = QPixmap::fromImage(fullImg); //转换
+	fullImageItemSize = fullImage.size(); //PCB大图的实际显示尺寸
 	return true;
 }
 
@@ -305,10 +326,6 @@ void PCBRecheck::showFullImage()
 	}
 
 	//将PCB大图加载到场景中
-	scaledFactor = min(qreal(ui.graphicsView_full->height() - 2) / fullImage.size().height(),
-		qreal(ui.graphicsView_full->width() - 2) / fullImage.size().width()); //PCB大图的尺寸变换因子
-	fullImage = fullImage.scaled(fullImage.size()*scaledFactor, Qt::KeepAspectRatio); //图像缩放
-	fullImageItemSize = fullImage.size(); //PCB大图的实际显示尺寸
 	fullImageScene.addPixmap(fullImage); //将图像加载进场景中
 	QRect sceneRect = QRect(QPoint(0, 0), fullImageItemSize); //场景范围
 	fullImageScene.setSceneRect(sceneRect); //设置场景范围
@@ -375,11 +392,15 @@ void PCBRecheck::keyPressEvent(QKeyEvent *event)
 	{	
 	case Qt::Key_Plus: //切换并显示下一个缺陷
 		qDebug() << "plus";
-		showNextFlawImage();
+		showNextFlawImage(); 
 		break;
 	case Qt::Key_Minus: //切换并显示上一个缺陷
 		qDebug() << "minus";
-		showLastFlawImage();
+		showLastFlawImage(); 
+		break;
+	case Qt::Key_Asterisk: //直接显示退出询问界面
+		qDebug() << "star";
+		showExitQueryUI();
 		break;
 	default:
 		break;
@@ -437,14 +458,18 @@ void PCBRecheck::showFlawImage()
 	if (defectNum <= 0) return;
 	QFileInfo flawImgInfo(flawImageInfoVec[defectIndex].filePath);
 	if (!flawImgInfo.isFile()) {
-		recheckStatus = LoadFlawImageFailed;
+		recheckStatus = FlawImageNotFound;
 		this->showMessageBox(MessageBoxType::Warning, recheckStatus);
 		return;
 	}
 
-	QPixmap flawImage(flawImageInfoVec[defectIndex].filePath); //读缺陷图
-	QPixmap scaledFlawImage = flawImage.scaled(ui.label_flaw->size(), Qt::KeepAspectRatio);
-	ui.label_flaw->setPixmap(scaledFlawImage); //显示图像
+	QImage flawImg(flawImageInfoVec[defectIndex].filePath); //读图
+	flawImg = flawImg.scaled(ui.label_flaw->size(), Qt::KeepAspectRatio); //缩放
+	QPixmap flawImage(QPixmap::fromImage(flawImg)); //转换
+	ui.label_flaw->clear(); //清空
+	ui.label_flaw->setPixmap(flawImage); //显示图像
+
+	//更新其他缺陷信息
 	ui.label_xLoc->setText(flawImageInfoVec[defectIndex].xPos); //更新缺陷的x坐标
 	ui.label_yLoc->setText(flawImageInfoVec[defectIndex].yPos); //更新缺陷的y坐标
 	ui.label_defectIndex->setText(QString::number(defectIndex + 1)); //显示缺陷编号
@@ -481,7 +506,7 @@ void PCBRecheck::exitRecheckSystem()
 }
 
 
-/******************** 程序控制 *********************/
+/******************** 其他 *********************/
 
 //弹窗报错
 void PCBRecheck::showMessageBox(MessageBoxType type, RecheckStatus status)
@@ -501,8 +526,14 @@ void PCBRecheck::showMessageBox(MessageBoxType type, RecheckStatus status)
 	case PCBRecheck::InvalidFullImageName:
 		message = pcb::chinese("PCB整图文件的文件名无效!  \n"); 
 		message += "Recheck: ErrorCode: " + QString::number(tempStatus); break;
+	case PCBRecheck::FullImageNotFound:
+		message = pcb::chinese("没有找到PCB整图!  \n");
+		message += "Recheck: ErrorCode: " + QString::number(tempStatus); break;
 	case PCBRecheck::LoadFullImageFailed:
 		message = pcb::chinese("无法打开PCB整图!  \n"); 
+		message += "Recheck: ErrorCode: " + QString::number(tempStatus); break;
+	case PCBRecheck::FlawImageNotFound:
+		message = pcb::chinese("没有找到PCB缺陷图!  \n");
 		message += "Recheck: ErrorCode: " + QString::number(tempStatus); break;
 	case PCBRecheck::LoadFlawImageFailed:
 		message = pcb::chinese("无法打开相应的缺陷图!  \n"); 
@@ -539,4 +570,22 @@ void PCBRecheck::showMessageBox(MessageBoxType type, RecheckStatus status)
 		break;
 	}
 	pcb::delay(10);//延时
+}
+
+//添加日志
+void PCBRecheck::logging(QString msg)
+{
+	QString fileName = "./log.txt";
+	QFile file(fileName);
+	file.open(QIODevice::Append);
+	file.close();
+	if (file.open(QIODevice::ReadWrite | QIODevice::Text))
+	{
+		QTextStream stream(&file);
+		stream.seek(file.size());
+
+		QString time = QDateTime::currentDateTime().toString("hh:mm:ss");
+		stream << time << " " << msg << "\n";
+		file.close();
+	}
 }
