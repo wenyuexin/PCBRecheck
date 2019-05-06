@@ -262,4 +262,9 @@ __pycache__/
 
 
 # Personal documents that need to be ignored
-*.config
+PCBRecheck.sln
+PCBRecheck.vcxproj
+PCBRecheck.vcxproj.filters
+PCBRecheck.vcxproj.user
+*.user.config
+log.txt

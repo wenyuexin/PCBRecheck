@@ -11,6 +11,7 @@ class FlickeringArrow :
 	public QObject, public QGraphicsItem
 {
 	Q_OBJECT
+	Q_INTERFACES(QGraphicsItem)
 
 private:
 	QColor brushColor;
