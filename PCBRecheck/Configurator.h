@@ -30,6 +30,8 @@ namespace pcb
 		//QString SampleDirPath;//样本文件存储路径
 		QString OutputDirPath;//检测结果存储路径
 		QString ImageFormat; //图像后缀
+		int roiSize_W; //ROI区域的宽度(pix)
+		int roiSize_H; //ROI区域的高度(pix)
 
 		//参数索引
 		enum ConfigIndex {
@@ -38,7 +40,9 @@ namespace pcb
 			//Index_SampleDirPath,
 			//Index_TemplDirPath,
 			Index_OutputDirPath,
-			Index_ImageFormat
+			Index_ImageFormat,
+			Index_roiSize_W,
+			Index_roiSize_H
 		};
 
 		//错误代码
@@ -51,7 +55,9 @@ namespace pcb
 			//Invalid_SampleDirPath = 0x103,
 			Invalid_OutputDirPath = 0x104,
 			Invalid_ImageFormat = 0x105,
-			Default = 0x2FF
+			Invalid_roiSize_W = 0x106,
+			Invalid_roiSize_H = 0x107,
+			Default = 0x1FF
 		};
 
 	private:
@@ -86,8 +92,13 @@ namespace pcb
 
 		static void init(QString filePath);
 		static void createConfigFile(QString filePath);
-		void jsonSetValue(const QString &key, QString &value);
-		void jsonReadValue(const QString &key, QString &value);
+
+		bool jsonSetValue(const QString &key, QString &value);
+		bool jsonSetValue(const QString &key, int &value);
+		bool jsonSetValue(const QString &key, double &value);
+		bool jsonReadValue(const QString &key, QString &value);
+		bool jsonReadValue(const QString &key, int &value);
+		bool jsonReadValue(const QString &key, double &value);
 
 		static bool loadConfigFile(const QString &fileName, pcb::UserConfig *config);
 		static bool saveConfigFile(const QString &fileName, pcb::UserConfig *config);
