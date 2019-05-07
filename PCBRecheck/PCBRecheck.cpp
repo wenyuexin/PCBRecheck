@@ -32,7 +32,9 @@ PCBRecheck::PCBRecheck(QWidget *parent)
 
 	//编号设置界面
 	serialNumberUI = new SerialNumberUI(Q_NULLPTR, screenRect);
+	serialNumberUI->setUserConfig(&userConfig);
 	serialNumberUI->setRuntimeParams(&runtimeParams);
+	serialNumberUI->init();
 	connect(serialNumberUI, SIGNAL(showRecheckMainUI_numUI()), this, SLOT(do_showRecheckMainUI_numUI()));
 	connect(serialNumberUI, SIGNAL(exitRecheckSystem_numUI()), this, SLOT(do_exitRecheckSystem_numUI()));
 	
@@ -103,6 +105,7 @@ void PCBRecheck::initRecheckMainUI()
 	ui.graphicsView_full->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff); //禁用垂直滚动条
 }
 
+
 /******************* 初始化线程 *******************/
 
 //当用户参数无效
@@ -142,13 +145,15 @@ void PCBRecheck::showSerialNumberUI()
 	ui.pushButton_plus2->setEnabled(false);
 	ui.pushButton_minus2->setEnabled(false);
 	ui.pushButton_exit->setEnabled(false);
-	this->serialNumberUI->show(); //弹出退出询问框
+	serialNumberUI->setActivated(true);
+	serialNumberUI->show(); //弹出退出询问框
 }
 
 //由序号设置界面返回，并显示检修主界面
 void PCBRecheck::do_showRecheckMainUI_numUI()
 {
 	serialNumberUI->hide(); //隐藏PCB编号设置界面
+	serialNumberUI->setActivated(false);
 	ui.pushButton_plus2->setEnabled(true);
 	ui.pushButton_minus2->setEnabled(true);
 	ui.pushButton_exit->setEnabled(true);
@@ -170,7 +175,7 @@ void PCBRecheck::showExitQueryUI()
 	ui.pushButton_plus2->setEnabled(false);
 	ui.pushButton_minus2->setEnabled(false);
 	ui.pushButton_exit->setEnabled(false);
-	this->exitQueryUI->show(); //弹出退出询问框
+	exitQueryUI->show(); //弹出退出询问框
 }
 
 //隐藏退出询问界面，并显示编号设置界面
@@ -302,7 +307,7 @@ bool PCBRecheck::loadFullImage()
 		return false;
 	}
 
-	scaledFactor = min(qreal(ui.graphicsView_full->height() - 2) / fullImg.size().height(),
+	scaledFactor = qMin(qreal(ui.graphicsView_full->height() - 2) / fullImg.size().height(),
 		qreal(ui.graphicsView_full->width() - 2) / fullImg.size().width());//整图的尺寸变换因子
 	fullImg = fullImg.scaled(fullImg.size()*scaledFactor, Qt::KeepAspectRatio); //缩放
 	fullImage = QPixmap::fromImage(fullImg); //转换
