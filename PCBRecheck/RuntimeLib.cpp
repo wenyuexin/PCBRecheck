@@ -11,8 +11,10 @@ RuntimeParams::RuntimeParams()
 	sampleBatchNum = ""; //批次号
 	sampleNum = ""; //样本编号
 	
-	AppDirPath = ""; //程序所在目录
-	BufferDirPath = ""; //缓存目录
+	AppDirPath = QDir::currentPath(); //程序所在目录
+	BufferDirPath = AppDirPath + "/buffer"; //缓存目录
+	QDir bufferDir(BufferDirPath);
+	if (!bufferDir.exists()) bufferDir.mkdir(BufferDirPath);
 }
 
 RuntimeParams::~RuntimeParams()
@@ -29,7 +31,7 @@ void RuntimeParams::loadDefaultValue()
 	sampleNum = ""; //样本编号
 
 	AppDirPath = QDir::currentPath(); //程序所在目录
-	BufferDirPath = AppDirPath + "/buffer/"; //缓存目录
+	BufferDirPath = AppDirPath + "/buffer"; //缓存目录
 	QDir bufferDir(BufferDirPath);
 	if (!bufferDir.exists()) bufferDir.mkdir(BufferDirPath);
 }

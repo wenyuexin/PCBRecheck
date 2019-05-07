@@ -14,6 +14,8 @@ UserConfig::UserConfig()
 	//SampleDirPath = "";//样本文件存储路径
 	OutputDirPath = "";//检测结果存储路径
 	ImageFormat = ""; //图像后缀
+	roiSize_W = 0; //ROI区域的宽度(pix)
+	roiSize_H = 0; //ROI区域的高度(pix)
 }
 
 UserConfig::~UserConfig()
@@ -31,8 +33,10 @@ void UserConfig::loadDefaultValue()
 	//this->TemplDirPath = upperDirPath + "/template";//模板路径
 	//this->SampleDirPath = upperDirPath + "/sample";//样本路径
 	this->OutputDirPath = upperDirPath + "/output";//结果路径
-
 	this->ImageFormat = ".bmp"; //图像后缀
+
+	roiSize_W = 300; //ROI区域的宽度(pix)
+	roiSize_H = 120; //ROI区域的高度(pix)
 }
 
 //检查参数有效性
@@ -54,7 +58,15 @@ UserConfig::ErrorCode UserConfig::checkValidity(ConfigIndex index)
 		if (OutputDirPath == "" || !QFileInfo(OutputDirPath).isDir())
 			code = Invalid_OutputDirPath;
 		if (code != Uncheck || index != Index_All) break;
-	case pcb::UserConfig::Index_ImageFormat:
+	case pcb::UserConfig::Index_ImageFormat: //图像格式
+		if (code != Uncheck || index != Index_All) break;
+	case pcb::UserConfig::Index_roiSize_W: //ROI区域的宽度
+		if (roiSize_W <= 0) 
+			code = Invalid_roiSize_W; 
+		if (code != Uncheck || index != Index_All) break;
+	case pcb::UserConfig::Index_roiSize_H: //ROI区域的高度
+		if (roiSize_H <= 0) 
+			code = Invalid_roiSize_H; 
 		if (code != Uncheck || index != Index_All) break;
 	}
 
@@ -103,6 +115,9 @@ void UserConfig::showMessageBox(QWidget *parent, ErrorCode code)
 		valueName = pcb::chinese("输出路径"); break;
 	case pcb::UserConfig::Invalid_ImageFormat:
 		valueName = pcb::chinese("图像格式"); break;
+	case pcb::UserConfig::Invalid_roiSize_W:
+	case pcb::UserConfig::Invalid_roiSize_H:
+		valueName = pcb::chinese("产品序号的字符区域大小"); break;
 	case pcb::UserConfig::Default:
 		valueName = pcb::chinese("-"); break;
 	}
@@ -149,34 +164,34 @@ void Configurator::createConfigFile(QString filePath)
 	}
 }
 
-//生成默认的参数配置文件
-void Configurator::init(QString filePath)
-{
-	QFileInfo config(filePath);
-	if (!config.isFile()) { //没有配置文件  则创建文件 ; 生成配置文件
-		QFile file(filePath);
-		file.open(QIODevice::WriteOnly);
-		QTextStream textStrteam(&file);
-		QVariantMap pathConfig;
-
-		QDir dir(QDir::currentPath());
-		dir.cdUp(); //转到上一级目录
-		QString appUpperDirPath = dir.absolutePath(); //上一级目录的绝对路径
-		//pathConfig.insert("TemplDirPath", appUpperDirPath + "/template");
-		//pathConfig.insert("SampleDirPath", appUpperDirPath + "/sample");
-		pathConfig.insert("OutputDirPath", appUpperDirPath + "/output");
-		pathConfig.insert("ImageFormat", ".bmp");
-
-		QJsonDocument jsonDocument = QJsonDocument::fromVariant(pathConfig);
-		textStrteam << jsonDocument.toJson();
-		file.close();
-	}
-}
+//生成默认的参数配置文件 - 没用
+//void Configurator::init(QString filePath)
+//{
+//	QFileInfo config(filePath);
+//	if (!config.isFile()) { //没有配置文件  则创建文件 ; 生成配置文件
+//		QFile file(filePath);
+//		file.open(QIODevice::WriteOnly);
+//		QTextStream textStrteam(&file);
+//		QVariantMap pathConfig;
+//
+//		QDir dir(QDir::currentPath());
+//		dir.cdUp(); //转到上一级目录
+//		QString appUpperDirPath = dir.absolutePath(); //上一级目录的绝对路径
+//		//pathConfig.insert("TemplDirPath", appUpperDirPath + "/template");
+//		//pathConfig.insert("SampleDirPath", appUpperDirPath + "/sample");
+//		pathConfig.insert("OutputDirPath", appUpperDirPath + "/output");
+//		pathConfig.insert("ImageFormat", ".bmp");
+//
+//		QJsonDocument jsonDocument = QJsonDocument::fromVariant(pathConfig);
+//		textStrteam << jsonDocument.toJson();
+//		file.close();
+//	}
+//}
 
 /********** 将单个参数的写入config文件中 ************/
 
-//设置参数
-void Configurator::jsonSetValue(const QString &key, QString &value)
+//设置参数 - QString
+bool Configurator::jsonSetValue(const QString &key, QString &value)
 {
 	QTextStream textStrteam(configFile);
 	configFile->seek(0);
@@ -192,16 +207,31 @@ void Configurator::jsonSetValue(const QString &key, QString &value)
 				QJsonDocument document = QJsonDocument::fromVariant(obj.toVariantMap());
 				configFile->resize(0);
 				textStrteam << document.toJson();
+				return true;
 			}
 		}
 		else { //文件为空
 			qDebug() << "文件空";
 		}
 	}
+	return false;
 }
 
-//读取参数
-void Configurator::jsonReadValue(const QString &key, QString &value)
+//将参数写入配置文件中 - int
+bool Configurator::jsonSetValue(const QString &key, int &value)
+{
+	return jsonSetValue(key, QString::number(value));
+}
+
+//将参数写入配置文件中 - double
+bool Configurator::jsonSetValue(const QString &key, double &value)
+{
+	return jsonSetValue(key, QString::number(value, 'f', 6));
+}
+
+
+//读取参数 - QString
+bool Configurator::jsonReadValue(const QString &key, QString &value)
 {
 	configFile->seek(0);
 	QString val = configFile->readAll();
@@ -212,6 +242,7 @@ void Configurator::jsonReadValue(const QString &key, QString &value)
 			if (confDcoument.isObject()) {
 				QJsonObject obj = confDcoument.object();
 				value = obj[key].toString();
+				return true;
 			}
 		}
 		else {
@@ -219,6 +250,27 @@ void Configurator::jsonReadValue(const QString &key, QString &value)
 			value = "";
 		}
 	}
+	return false;
+}
+
+//从配置文件中读取参数 - int
+bool Configurator::jsonReadValue(const QString &key, int &value)
+{
+	QString valueStr = "";
+	if (jsonReadValue(key, valueStr)) {
+		value = valueStr.toInt(); return true;
+	}
+	return false;
+}
+
+//从配置文件中读取参数 - double
+bool Configurator::jsonReadValue(const QString &key, double &value)
+{
+	QString valueStr = "";
+	if (jsonReadValue(key, valueStr)) {
+		value = valueStr.toDouble(); return true;
+	}
+	return false;
 }
 
 
@@ -243,6 +295,8 @@ bool Configurator::loadConfigFile(const QString &fileName, UserConfig *config)
 		//configurator.jsonReadValue("SampleDirPath", config->SampleDirPath);
 		configurator.jsonReadValue("OutputDirPath", config->OutputDirPath);
 		configurator.jsonReadValue("ImageFormat", config->ImageFormat);
+		configurator.jsonReadValue("roiSize_W", config->roiSize_W);
+		configurator.jsonReadValue("roiSize_H", config->roiSize_H);
 		configFile.close();
 	}
 	return success;
@@ -266,7 +320,8 @@ bool Configurator::saveConfigFile(const QString &fileName, UserConfig *config)
 		//configurator.jsonSetValue("TemplDirPath", config->TemplDirPath);
 		//configurator.jsonSetValue("SampleDirPath", config->SampleDirPath);
 		configurator.jsonSetValue("OutputDirPath", config->OutputDirPath);
-		configurator.jsonSetValue("ImageFormat", config->ImageFormat);
+		configurator.jsonSetValue("roiSize_W", config->roiSize_W);
+		configurator.jsonSetValue("roiSize_H", config->roiSize_H);
 		configFile.close();
 	}
 	return success;
