@@ -261,7 +261,8 @@ __pycache__/
 *.pyc
 
 
-# Personal documents that need to be ignored
+# Personal files or documents that need to be ignored
+buffer/
 PCBRecheck.sln
 PCBRecheck.vcxproj
 PCBRecheck.vcxproj.filters

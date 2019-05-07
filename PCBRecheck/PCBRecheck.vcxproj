@@ -30,6 +30,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <IncludePath>D:\MyLab\tesseract\include;D:\MyLab\tesseract\include\leptonica;D:\MyLab\tesseract\include\tesseract;D:\MyLab\opencv\build\include;D:\MyLab\opencv\build\include\opencv;D:\MyLab\opencv\build\include\opencv2;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\MyLab\tesseract\lib\x64\debug;D:\MyLab\opencv\build\x64\vc15\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
@@ -64,7 +66,7 @@
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5Widgetsd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5Widgetsd.lib;opencv_world410d.lib;libtesseract-4.lib;pvt.cppan.demo.danbloomberg.leptonica-1.74.1.lib;pvt.cppan.demo.gif-5.1.4.lib;pvt.cppan.demo.jpeg-9.2.0.lib;pvt.cppan.demo.madler.zlib-1.2.11.lib;pvt.cppan.demo.mgk25.jbig.ar-2.1.0.lib;pvt.cppan.demo.mgk25.jbig.jbig-2.1.0.lib;pvt.cppan.demo.openjpeg.openjp2-2.1.2.lib;pvt.cppan.demo.png-1.6.28.lib;pvt.cppan.demo.tiff-4.0.7.lib;pvt.cppan.demo.webp-0.6.0.lib;pvt.cppan.demo.xz_utils.lzma-5.2.2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <QtMoc>
       <OutputFile>.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</OutputFile>
@@ -113,6 +115,7 @@
     </QtRcc>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CameraControler.cpp" />
     <ClCompile Include="Configurator.cpp" />
     <ClCompile Include="ExitQueryUI.cpp" />
     <ClCompile Include="FlickeringArrow.cpp" />
@@ -134,6 +137,10 @@
     <QtRcc Include="PCBRecheck.qrc" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="CameraControler.h">
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets</IncludePath>
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets</IncludePath>
+    </QtMoc>
     <ClInclude Include="Configurator.h" />
     <ClInclude Include="RuntimeLib.h" />
     <QtMoc Include="FlickeringArrow.h">
