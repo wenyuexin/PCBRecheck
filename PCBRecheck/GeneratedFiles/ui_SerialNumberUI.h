@@ -43,7 +43,7 @@ public:
         SerialNumberUI->setStyleSheet(QStringLiteral("background-color: rgb(235, 238, 238);"));
         label = new QLabel(SerialNumberUI);
         label->setObjectName(QStringLiteral("label"));
-        label->setGeometry(QRect(40, 630, 101, 35));
+        label->setGeometry(QRect(70, 630, 101, 35));
         QFont font;
         font.setPointSize(18);
         font.setBold(true);
@@ -53,7 +53,7 @@ public:
         label->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
         lineEdit_serialNum = new QLineEdit(SerialNumberUI);
         lineEdit_serialNum->setObjectName(QStringLiteral("lineEdit_serialNum"));
-        lineEdit_serialNum->setGeometry(QRect(170, 630, 351, 37));
+        lineEdit_serialNum->setGeometry(QRect(190, 630, 311, 37));
         QFont font1;
         font1.setPointSize(17);
         lineEdit_serialNum->setFont(font1);
@@ -61,7 +61,7 @@ public:
         lineEdit_serialNum->setAlignment(Qt::AlignCenter);
         label_2 = new QLabel(SerialNumberUI);
         label_2->setObjectName(QStringLiteral("label_2"));
-        label_2->setGeometry(QRect(530, 630, 261, 35));
+        label_2->setGeometry(QRect(520, 630, 261, 35));
         QFont font2;
         font2.setPointSize(16);
         label_2->setFont(font2);
@@ -95,7 +95,7 @@ public:
         label_5->setAlignment(Qt::AlignCenter);
         label_4 = new QLabel(SerialNumberUI);
         label_4->setObjectName(QStringLiteral("label_4"));
-        label_4->setGeometry(QRect(40, 70, 111, 35));
+        label_4->setGeometry(QRect(70, 70, 111, 35));
         label_4->setFont(font);
         label_4->setStyleSheet(QStringLiteral("background-color: rgb(245, 245, 246);"));
         label_4->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);

@@ -26,10 +26,12 @@ public:
 	//状态码
 	enum StatusCode {
 		NoError,
-		Uncheck,
+		Unchecked,
 		OCR_InitFailed,
+		OCR_LoadRoiImageFailed,
 		OCR_RecognitionFailed,
 		OCR_GetUTF8TextFailed,
+		OCR_InvalidSerialNum,
 		Camera_OpenCameraFailed,
 		Camera_CaptureFailed,
 		Default
@@ -38,14 +40,15 @@ public:
 private:
 	Ui::SerialNumberUI ui;
 	QSize cameraLabelSize;
+	QRegExpValidator *NumberValidator;
 
-	QIntValidator intValidator;
 	pcb::UserConfig *userConfig; //用户参数
 	pcb::RuntimeParams *runtimeParams; //运行参数
 	pcb::FolderHierarchy *folderHierarchy; //输出目录下的文件夹层次
 	StatusCode statusCode; //产品序号界面的状态码
 
 	bool focusOnSerialNumBox;
+	bool AutomaticMode; //使用OCR模块还是手动输入
 	CameraControler *cameraControler; //相机控制器
 	QImage *frame; //相机的帧
 	QString roiImagePath; 

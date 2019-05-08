@@ -1,5 +1,7 @@
 #include "ExitQueryUI.h"
 
+
+
 ExitQueryUI::ExitQueryUI(QWidget *parent, QRect &screenRect)
 	: QWidget(parent)
 {
@@ -26,6 +28,7 @@ ExitQueryUI::ExitQueryUI(QWidget *parent, QRect &screenRect)
 
 ExitQueryUI::~ExitQueryUI()
 {
+	qDebug() << "~ExitQueryUI";
 }
 
 
@@ -36,13 +39,13 @@ void ExitQueryUI::keyPressEvent(QKeyEvent *event)
 {
 	switch (event->key()) {
 	case Qt::Key_Plus:
+		qDebug() << "Key_Plus";
 		emit showSerialNumberUI_exitUI();
 		break;
-
 	case Qt::Key_Minus:
+		qDebug() << "Key_Minus";
 		emit showRecheckUI_exitUI();
 		break;
-
 	default:
 		break;
 	}

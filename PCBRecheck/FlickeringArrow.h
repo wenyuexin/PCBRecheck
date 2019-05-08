@@ -33,5 +33,14 @@ public:
 	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 	inline void setColor(const QColor &color) { brushColor = color; }
 	inline void setFullImageSize(QSize *ptr) { fullImageSize = ptr; }
+
+	void startFlickering(int msec = 500);//开始闪烁
+	void stopFlickering();//停止闪烁
+
+Q_SIGNALS:
+	void refreshArrow_arrow();//通知主界面刷新箭头
+
+private Q_SLOTS:
+	void on_timeOut_timer();
 };
 
