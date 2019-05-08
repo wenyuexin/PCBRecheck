@@ -4,9 +4,10 @@
 #include "ui_ExitQueryUI.h"
 #include "ExitQueryUI.h"
 #include <QKeyEvent>
+#include <QDebug>
+
 
 //退出询问界面
-//
 class ExitQueryUI : public QWidget
 {
 	Q_OBJECT

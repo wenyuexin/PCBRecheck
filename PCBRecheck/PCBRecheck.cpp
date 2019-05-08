@@ -43,9 +43,8 @@ PCBRecheck::PCBRecheck(QWidget *parent)
 	connect(exitQueryUI, SIGNAL(showSerialNumberUI_exitUI()), this, SLOT(do_showSerialNumberUI_exitUI()));
 	connect(exitQueryUI, SIGNAL(showRecheckUI_exitUI()), this, SLOT(do_showRecheckMainUI_exitUI()));
 
-	//定时器
-	timer = new QTimer;
-	connect(timer, SIGNAL(timeout()), this, SLOT(on_timeOut()));
+	//刷新整图上闪烁的箭头
+	connect(&flickeringArrow, SIGNAL(refreshArrow_arrow()), this, SLOT(on_refreshArrow_arrow()));
 
 	//显示复查主界面
 	this->showFullScreen();
@@ -54,10 +53,10 @@ PCBRecheck::PCBRecheck(QWidget *parent)
 //复查界面析构函数
 PCBRecheck::~PCBRecheck()
 {
+	qDebug() << "~PCBRecheck";
 	delete sysInitThread;
 	delete serialNumberUI;
 	delete exitQueryUI;
-	delete timer;
 }
 
 /********************* 检修界面初始化 *********************/
@@ -176,6 +175,7 @@ void PCBRecheck::showExitQueryUI()
 	ui.pushButton_minus2->setEnabled(false);
 	ui.pushButton_exit->setEnabled(false);
 	exitQueryUI->show(); //弹出退出询问框
+	flickeringArrow.stopFlickering();
 }
 
 //隐藏退出询问界面，并显示编号设置界面
@@ -192,23 +192,23 @@ void PCBRecheck::do_showSerialNumberUI_exitUI()
 	showSerialNumberUI(); 
 }
 
-//退出系统
+//由退出界面返回主界面
 void PCBRecheck::do_showRecheckMainUI_exitUI()
 {
 	exitQueryUI->hide();
 	ui.pushButton_plus2->setEnabled(true);
 	ui.pushButton_minus2->setEnabled(true);
 	ui.pushButton_exit->setEnabled(true);
+	flickeringArrow.startFlickering(500);
 }
 
 
 /********* 初始显示：加载PCB大图、第1个缺陷小图等 ********/
 
 //刷新计时器与小箭头
-void PCBRecheck::on_timeOut()
+void PCBRecheck::on_refreshArrow_arrow()
 {
 	flickeringArrow.update(-100, -100, 200, 200);
-	timer->start(500);
 }
 
 //更新界面上显示的信息
@@ -370,7 +370,7 @@ void PCBRecheck::getFlawImageInfo(QString dirpath)
 void PCBRecheck::initFlickeringArrow()
 {
 	if (defectNum <= 0) return;
-	timer->start(500); //启动定时器
+	flickeringArrow.startFlickering(500); //开始闪烁
 	setFlickeringArrowPos(); //更新闪烁箭头的位置
 	flickeringArrow.setFullImageSize(&fullImageItemSize);
 	fullImageScene.addItem(&flickeringArrow); //将箭头加载进场景中
@@ -396,15 +396,16 @@ void PCBRecheck::keyPressEvent(QKeyEvent *event)
 	switch (event->key()) 
 	{	
 	case Qt::Key_Plus: //切换并显示下一个缺陷
-		qDebug() << "plus";
+		qDebug() << "Key_Plus";
 		showNextFlawImage(); 
 		break;
 	case Qt::Key_Minus: //切换并显示上一个缺陷
-		qDebug() << "minus";
+		qDebug() << "Key_Minus";
 		showLastFlawImage(); 
 		break;
 	case Qt::Key_Asterisk: //直接显示退出询问界面
-		qDebug() << "star";
+		qDebug() << "Key_Asterisk";
+		flickeringArrow.stopFlickering();
 		showExitQueryUI();
 		break;
 	default:
@@ -415,14 +416,14 @@ void PCBRecheck::keyPressEvent(QKeyEvent *event)
 //点击加号按键 - 切换并显示下一个缺陷
 void PCBRecheck::on_pushButton_plus2_clicked()
 {
-	qDebug() << "plus2";
+	qDebug() << "Button_Plus";
 	showNextFlawImage();
 }
 
 //点击减号按键 - 切换并显示上一个缺陷
 void PCBRecheck::on_pushButton_minus2_clicked()
 {
-	qDebug() << "minus2";
+	qDebug() << "Button_Minus";
 	showLastFlawImage();
 }
 
@@ -500,10 +501,17 @@ void PCBRecheck::switchFlawIndicator()
 //点击退出按键
 void PCBRecheck::on_pushButton_exit_clicked()
 {
-	exitRecheckSystem();
+	//询问是否需要退出系统
+	int choice = QMessageBox::question(this, pcb::chinese("询问"),
+		pcb::chinese("确定退出PCB缺陷检测系统？ \n"),
+		pcb::chinese("确定"), pcb::chinese("取消"));
+	//判断是否需要退出
+	if (choice == 0) {
+		exitRecheckSystem();
+	}
 }
 
-//执行退出
+//退出复查系统
 void PCBRecheck::exitRecheckSystem()
 {
 	this->close();
