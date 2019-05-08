@@ -5,7 +5,8 @@ using pcb::RuntimeParams;
 
 RuntimeParams::RuntimeParams()
 {
-	errorCode = ErrorCode::Uncheck; //错误代码
+	errorCode = Unchecked; 
+	errorCode_SerialNum = Unchecked;
 	serialNum = ""; //产品序号
 	sampleModelNum = ""; //型号
 	sampleBatchNum = ""; //批次号
@@ -19,12 +20,14 @@ RuntimeParams::RuntimeParams()
 
 RuntimeParams::~RuntimeParams()
 {
+	qDebug() << "~RuntimeParams";
 }
 
 //加载默认的运行参数
 void RuntimeParams::loadDefaultValue()
 {
-	errorCode = Uncheck;
+	errorCode = Unchecked;
+	errorCode_SerialNum = Unchecked;
 	serialNum = ""; //样本编号
 	sampleModelNum = ""; //型号
 	sampleBatchNum = ""; //批次号
@@ -55,6 +58,10 @@ RuntimeParams::ErrorCode RuntimeParams::parseSerialNum()
 	sampleNum = serialNum.mid(begin, serialNumSlice[3]); //样本编号
 	sampleNum = QString::number(sampleNum.toInt());
 
+	//有效性检查
+	if (this->checkValidity(Index_All_SerialNum) != ValidValues) {
+		return errorCode_SerialNum;
+	}
 	return ValidValues;
 }
 
@@ -67,47 +74,66 @@ QString RuntimeParams::getRelativeFolderPath()
 //检查参数有效性
 RuntimeParams::ErrorCode RuntimeParams::checkValidity(ParamsIndex index)
 {
-	ErrorCode code = ErrorCode::Uncheck;
+	ErrorCode code = ErrorCode::Unchecked;
 	switch (index)
 	{
 	case pcb::RuntimeParams::Index_All:
+	case pcb::RuntimeParams::Index_All_SerialNum:
 	case pcb::RuntimeParams::Index_serialNum: //产品序号
 		if (serialNum.size() != serialNumSlice[0] || serialNum.toDouble() == 0) {
 			code = Invalid_serialNum;
 		}
-		if (code != Uncheck || index != Index_All) break;
+		if (code != Unchecked || index != Index_All || index != Index_All_SerialNum) break;
 	case pcb::RuntimeParams::Index_sampleModelNum: //型号
 		if (sampleModelNum == "" || sampleModelNum.size() > serialNumSlice[1]) {
 			code = Invalid_sampleModelNum;
 		}
-		if (code != Uncheck || index != Index_All) break;
+		if (code != Unchecked || index != Index_All || index != Index_All_SerialNum) break;
 	case pcb::RuntimeParams::Index_sampleBatchNum: //批次号
 		if (sampleBatchNum == "" || sampleBatchNum.size() > serialNumSlice[2]) {
 			code = Invalid_sampleBatchNum;
 		}
-		if (code != Uncheck || index != Index_All) break;
+		if (code != Unchecked || index != Index_All || index != Index_All_SerialNum) break;
 	case pcb::RuntimeParams::Index_sampleNum: //样本编号
 		if (sampleNum == "" || sampleNum.size() > serialNumSlice[3]) {
 			code = Invalid_sampleNum;
 		}
-		if (code != Uncheck || index != Index_All) break;
+		if (code != Unchecked || index != Index_All) break;
 	}
 
 	//代码值等于Uncheck表示检测的参数有效
-	if (code == Uncheck) code = ValidParams;
+	if (code == Unchecked) code = ValidParams;
+
 	//更新错误代码
 	if (code != ValidParams || index == Index_All) errorCode = code;
+	if (index == Index_All_SerialNum ||
+		(code != ValidParams && index >= Index_serialNum && index <= Index_sampleNum))
+	{
+		errorCode_SerialNum = code;
+	}
 	return code;
 }
 
 //判断运行参数类是否有效
-bool RuntimeParams::isValid(bool doCheck)
+bool RuntimeParams::isValid(ParamsIndex index, bool doCheck)
 {
 	if (errorCode == ValidParams) return true;
 
-	if (doCheck && errorCode == RuntimeParams::Uncheck)
-		this->checkValidity(Index_All);
-	return (errorCode == ValidParams);
+	//所有参数
+	if (index == Index_All) {
+		if (doCheck && errorCode == Unchecked)
+			checkValidity(index);
+		return (errorCode == ValidParams);
+	}
+
+	//产品序号相关参数
+	if (index == Index_All_SerialNum) {
+		if (doCheck && errorCode_SerialNum == Unchecked)
+			checkValidity(index);
+		return (errorCode_SerialNum == ValidValues);
+	}
+
+	return false;
 }
 
 //弹窗提示
@@ -119,7 +145,7 @@ void RuntimeParams::showMessageBox(QWidget *parent, ErrorCode code)
 	QString valueName = "";
 	switch (tempCode)
 	{
-	case pcb::RuntimeParams::Uncheck:
+	case pcb::RuntimeParams::Unchecked:
 		valueName = pcb::chinese("\"参数未验证\""); break;
 	case pcb::RuntimeParams::Invalid_serialNum:
 	case pcb::RuntimeParams::Invalid_sampleModelNum:
@@ -167,4 +193,15 @@ QString pcb::selectDirPath(QWidget *parent, QString windowTitle)
 		path = fileDialog->selectedFiles()[0];
 	delete fileDialog;
 	return path;
+}
+
+//删除字符串首尾的非数字字符
+QString pcb::eraseNonDigitalCharInHeadAndTail(QString s)
+{
+	if (s == "") return "";
+	int begin = 0;
+	for (; begin < s.size() && !s.at(begin).isDigit(); begin++) {}
+	int end = s.size() - 1;
+	for (; end > begin && !s.at(end).isDigit(); end--) {}
+	return s.mid(begin, end - begin + 1);
 }

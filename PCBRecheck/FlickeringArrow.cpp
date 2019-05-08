@@ -19,15 +19,23 @@ FlickeringArrow::FlickeringArrow()
 		sizeFactor * QPointF(13.0, -2.0),
 		sizeFactor * QPointF(15.0, -basicArrowWidth / 2)
 	};
+
+	timer = new QTimer; //用于刷新闪烁的箭头
+	connect(timer, SIGNAL(timeout()), this, SLOT(on_timeOut_timer()));
 }
 
 
 FlickeringArrow::~FlickeringArrow()
 {
+	qDebug() << "~FlickeringArrow";
 	delete[] arrowShapeArray;
+	arrowShapeArray = Q_NULLPTR;
+	delete timer;
+	timer = Q_NULLPTR;
 }
 
-/**************** 类方法 *******************/
+
+/**************** 绘制箭头 *******************/
 
 QRectF FlickeringArrow::boundingRect() const
 {
@@ -35,6 +43,7 @@ QRectF FlickeringArrow::boundingRect() const
 	qreal itemSize = basicArrowLength * sizeFactor;
 	return QRectF(-itemSize-adjust, -itemSize-adjust, 2*itemSize+adjust, 2*itemSize+adjust);
 }
+
 
 void FlickeringArrow::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 	QWidget *widget)
@@ -96,4 +105,26 @@ void FlickeringArrow::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
 		painter->drawConvexPolygon(arrow_toLeft, 7);
 	}
 	Flash = !Flash;
+}
+
+
+/**************** 定时更新 *****************/
+
+//当计时器计时结束
+void FlickeringArrow::on_timeOut_timer()
+{
+	//通知主界面刷新箭头
+	emit refreshArrow_arrow();
+}
+
+//开始闪烁
+void FlickeringArrow::startFlickering(int msec)
+{
+	timer->start(msec);
+}
+
+//停止闪烁
+void FlickeringArrow::stopFlickering()
+{
+	timer->stop();
 }
