@@ -5,6 +5,8 @@
 #include <QFileDialog>
 #include <QCoreApplication>
 #include <QMessageBox>
+#include <QDebug>
+
 
 namespace pcb
 {
@@ -13,6 +15,7 @@ namespace pcb
 	inline QString chinese(const QByteArray &src) { return QString::fromLocal8Bit(src); }
 	void delay(unsigned long msec);//非阻塞延迟
 	QString selectDirPath(QWidget *parent, QString windowTitle = "");//交互式文件夹路径选择
+	QString eraseNonDigitalCharInHeadAndTail(QString s); //删除字符串首尾的非数字字符
 #endif //RECHECK_FUNCTIONS
 
 
@@ -60,8 +63,9 @@ namespace pcb
 		QString BufferDirPath; //缓存目录
 
 		enum ParamsIndex {
-			Index_All,
 			Index_None,
+			Index_All,
+			Index_All_SerialNum,
 			Index_serialNum,
 			Index_sampleModelNum,
 			Index_sampleBatchNum,
@@ -72,7 +76,7 @@ namespace pcb
 			ValidParams = 0x000,
 			ValidValue = 0x000,
 			ValidValues = 0x000,
-			Uncheck = 0x200,
+			Unchecked = 0x200,
 			Invalid_serialNum = 0x201,
 			Invalid_sampleModelNum = 0x202,
 			Invalid_sampleBatchNum = 0x203,
@@ -83,6 +87,7 @@ namespace pcb
 	private:
 		const int serialNumSlice[4] = { 8, 2, 2, 4 }; //序号组成
 		ErrorCode errorCode; //错误代码
+		ErrorCode errorCode_SerialNum; //错误代码
 
 	public:
 		RuntimeParams();
@@ -92,7 +97,7 @@ namespace pcb
 		ErrorCode parseSerialNum();//产品序号解析
 		QString getRelativeFolderPath();
 		ErrorCode checkValidity(ParamsIndex index = Index_All); //检查参数有效性
-		bool isValid(bool doCheck = false);//判断运行参数类是否有效
+		bool isValid(ParamsIndex index = Index_All, bool doCheck = false);//判断运行参数类是否有效
 		void showMessageBox(QWidget *parent, ErrorCode code = Default); //弹窗警告
 	};
 #endif //RECHECK_CLASS_RUNTIME_PARAMS

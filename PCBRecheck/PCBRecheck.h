@@ -55,7 +55,6 @@ private:
 	qreal scaledFactor; //PCB大图的尺寸变换因子
 	QGraphicsScene fullImageScene; //显示PCB大图的场景
 	FlickeringArrow flickeringArrow; //PCB大图上闪烁的箭头
-	QTimer *timer; //定时器
 
 	QString IconFolder; //图标文件夹
 	QPixmap lightOnIcon; //亮灯图标 red
@@ -110,5 +109,5 @@ private Q_SLOTS:
 
 	void do_showSerialNumberUI_exitUI();
 	void do_showRecheckMainUI_exitUI();
-	void on_timeOut();
+	void on_refreshArrow_arrow();
 };

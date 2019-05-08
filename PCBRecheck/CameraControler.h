@@ -16,18 +16,27 @@ class CameraControler : public QObject
 private:
 	QTimer *timer;
 	cv::VideoCapture camera;
+	cv::Size resolution; //相机分辨率，默认640*480
 	QImage *qFrame; //相机的帧
-	QString *roiImagePath; //roi图像的路径
-	int roiWidth = 300; //截图区域的宽
-	int roiHeight = 120; //截图区域的高
+	QString *roiImagePath; //ROI图像的路径
+
+	const int roiLineWidth = 2; //绘制ROI区域的矩形框的边界线宽
+	int roiWidth; //截图区域的宽
+	int roiHeight; //截图区域的高
+	cv::Rect roiRect; //ROI区域的位置和大小
+	cv::Rect roiBoxRect; //包含矩形边框的ROI区域的位置和大小
 
 public:
 	CameraControler(QObject *parent = Q_NULLPTR);
 	~CameraControler();
 
 	inline void setRoiImagePath(QString *path) { roiImagePath = path; }
-	inline void setRoiSize(int w, int h) { roiWidth = w; roiHeight = h; }
+	inline void setRoiSize(int w, int h) { roiRect.width = w; roiRect.height = h; }
+	inline void setResolution(int w, int h) { resolution.width = w; resolution.height = h; }
+	void init();
+
 	inline QImage* getFrame() { return qFrame; }
+	inline bool isCameraOpened() { return camera.isOpened(); }
 
 	void openCamera(bool doCapture = true); //打开摄像头 
 	void takePicture(); //拍照 
