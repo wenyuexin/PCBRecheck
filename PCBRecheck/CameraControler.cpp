@@ -46,7 +46,7 @@ void CameraControler::openCamera(bool doCapture)
 {
 	camera = VideoCapture(0);//打开
 	if (!camera.isOpened()) { //打开失败
-		emit openCameraFailed_camera(); return;
+		emit openCameraFinished_camera(false); return;
 	}
 
 	//设置相机分辨率
@@ -57,12 +57,14 @@ void CameraControler::openCamera(bool doCapture)
 	//如果连续两次都不能采集到图像则认为初始化失败
 	if (!camera.grab()) {
 		if (!camera.grab()) {
-			emit openCameraFailed_camera(); return;
+			emit openCameraFinished_camera(false); return;
 		}
 	}
 
 	//启动计时器，每次计时结束后，调用相机获取新的帧
 	if (doCapture) timer->start(120); 
+	//通知序号识别界面，相机已经成功初始化
+	emit openCameraFinished_camera(true);
 }
 
 
@@ -75,8 +77,9 @@ void CameraControler::readFrame()
 	if (cvFrame.empty()) return; //如果仍为空则返回
 
 	cv::rectangle(cvFrame, roiBoxRect, cv::Scalar(0, 0, 255), roiLineWidth, cv::LINE_8, 0);//在帧图像中间位置绘制矩形框
-	QImage image = QImage((const uchar*)cvFrame.data, cvFrame.cols, cvFrame.rows, cvFrame.step, QImage::Format_RGB888);//转换
-	*qFrame = image.rgbSwapped();
+	//cv::imwrite("frame.bmp", cvFrame);
+	*qFrame = QImage((const uchar*)cvFrame.data, cvFrame.cols, cvFrame.rows, cvFrame.step, QImage::Format_RGB888);//转换
+	*qFrame = qFrame->rgbSwapped();
 	emit refreshFrame_camera();//通知产品序号界面更新帧
 }
 
@@ -98,8 +101,8 @@ void CameraControler::takePicture()
 	}
 
 	cv::rectangle(cvFrame, roiBoxRect, cv::Scalar(0, 0, 255), roiLineWidth, cv::LINE_8, 0);//在帧图像中间位置绘制矩形框
-	QImage image = QImage((const uchar*)cvFrame.data, cvFrame.cols, cvFrame.rows, cvFrame.step, QImage::Format_RGB888);//转换
-	*qFrame = image.rgbSwapped();
+	*qFrame = QImage((const uchar*)cvFrame.data, cvFrame.cols, cvFrame.rows, cvFrame.step, QImage::Format_RGB888);//转换
+	*qFrame = qFrame->rgbSwapped();
 	emit refreshFrame_camera();//通知产品序号界面更新帧
 
 	Mat roiImage = cvFrame(roiRect); //截取关键帧的ROI区域

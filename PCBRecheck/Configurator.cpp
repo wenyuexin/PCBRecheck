@@ -97,9 +97,11 @@ void UserConfig::showMessageBox(QWidget *parent, ErrorCode code)
 	if (tempCode == ConfigFileMissing) {
 		QString message = pcb::chinese(".user.config文件丢失，已生成默认文件!    \n")
 			+ pcb::chinese("请在参数设置界面确认参数是否有效 ...   \n");
-		QMessageBox::warning(parent, pcb::chinese("警告"),
-			message + "Config: User: ErrorCode: " + QString::number(tempCode),
-			pcb::chinese("确定"));
+		message += "Config: User: ErrorCode: " + QString::number(tempCode);
+
+		MyMessageBox messageBox;
+		messageBox.set(pcb::MessageBoxType::Warning, message);
+		messageBox.doShow();
 		return;
 	}
 
@@ -122,11 +124,12 @@ void UserConfig::showMessageBox(QWidget *parent, ErrorCode code)
 		valueName = pcb::chinese("-"); break;
 	}
 
-	QMessageBox::warning(parent, pcb::chinese("警告"),
-		pcb::chinese("用户参数无效，请在参数设置界面重新设置！  \n") +
+	MyMessageBox messageBox;
+	QString message = pcb::chinese("用户参数无效，请在参数设置界面重新设置！  \n") +
 		pcb::chinese("错误来源：") + valueName + "   \n" +
-		"Config: User: ErrorCode: " + QString::number(tempCode),
-		pcb::chinese("确定"));
+		"Config: User: ErrorCode: " + QString::number(tempCode);
+	messageBox.set(pcb::MessageBoxType::Warning, message);
+	messageBox.doShow();
 	return;
 }
 

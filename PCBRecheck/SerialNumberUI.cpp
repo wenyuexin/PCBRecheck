@@ -18,6 +18,8 @@ SerialNumberUI::SerialNumberUI(QWidget *parent, QRect &screenRect)
 
 	//成员变量初始化
 	NumberValidator = Q_NULLPTR;
+	cameraControler = Q_NULLPTR;
+	ocrHandle = Q_NULLPTR;
 }
 
 SerialNumberUI::~SerialNumberUI()
@@ -25,6 +27,8 @@ SerialNumberUI::~SerialNumberUI()
 	qDebug() << "~SerialNumberUI";
 	delete NumberValidator;
 	NumberValidator = Q_NULLPTR;
+	delete cameraControler;
+	cameraControler = Q_NULLPTR;
 
 	//删除ROI缓存图像
 	QFile::remove(roiImagePath);
@@ -42,7 +46,7 @@ void SerialNumberUI::init()
 	ui.lineEdit_serialNum->setValidator(NumberValidator);
 
 	//此界面显示时禁用其他窗口
-	this->setWindowModality(Qt::ApplicationModal);
+	//this->setWindowModality(Qt::ApplicationModal);
 
 	//成员变量初始化
 	cameraLabelSize = ui.label_cameraFrame->size();
@@ -57,16 +61,16 @@ void SerialNumberUI::init()
 
 	//初始化相机模块
 	cameraControler = new CameraControler(this);
-	cameraControler->setRoiImagePath(&roiImagePath);
+	connect(cameraControler, SIGNAL(openCameraFinished_camera(bool)), this, SLOT(on_openCameraFinished_camera(bool)));
+	connect(cameraControler, SIGNAL(refreshFrame_camera()), this, SLOT(do_refreshFrame_camera()));
+	connect(cameraControler, SIGNAL(captureFailed_camera()), this, SLOT(on_captureFailed_camera()));
+
+	cameraControler->setRoiImagePath(&roiImagePath); //设置ROI缓存图像的存储路径
 	cameraControler->setRoiSize(userConfig->roiSize_W, userConfig->roiSize_H);
 	cameraControler->setResolution(800, 600); //设置相机分辨率
-	cameraControler->init();
-	frame = cameraControler->getFrame();
+	cameraControler->init(); //相机控制类的初始化
+	frame = cameraControler->getFrame(); //获取关键帧图像变量的指针
 	cameraControler->openCamera(); //打开相机
-	connect(cameraControler, SIGNAL(refreshFrame_camera()), this, SLOT(do_refreshFrame_camera()));
-
-	//设置产品序号的获取模式
-	this->setExecutingMode();
 }
 
 
@@ -122,12 +126,44 @@ void SerialNumberUI::setExecutingMode()
 
 /****************** 相机 *******************/
 
+//相机打开结束
+void SerialNumberUI::on_openCameraFinished_camera(bool success)
+{
+	//弹窗报错
+	if (!success) {
+		ui.lineEdit_serialNum->setFocusPolicy(Qt::NoFocus);
+		this->setFocusPolicy(Qt::NoFocus);
+		statusCode = Camera_OpenCameraFailed;
+		showMessageBox(MessageBoxType::Warning, statusCode);
+	}
+
+	//设置工作模式
+	setExecutingMode();
+}
+
 //刷新界面上相机采集的帧
 void SerialNumberUI::do_refreshFrame_camera()
 {
 	//刷新获取的帧
 	ui.label_cameraFrame->setPixmap(
 		QPixmap::fromImage(frame->scaled(cameraLabelSize, Qt::KeepAspectRatio)));
+}
+
+//相机拍照失败
+void SerialNumberUI::on_captureFailed_camera()
+{
+	//暂时不在输入框中显示光标
+	if (focusOnSerialNumBox) {
+		//ui.lineEdit_serialNum->setEnabled(false);
+		//this->setFocus();
+	}
+
+	//弹窗报错
+	statusCode = Camera_CaptureFailed;
+	showMessageBox(MessageBoxType::Warning, statusCode);
+
+	//设置工作模式，即产品序号的获取模式
+	this->setExecutingMode();
 }
 
 
@@ -144,7 +180,7 @@ void SerialNumberUI::getSerialNum()
 	qApp->processEvents();
 	statusCode = Unchecked;
 
-	clock_t t1 = clock();
+	//clock_t t1 = clock();
 
 	//加载图像
 	string roiFilePath = roiImagePath.toStdString();
@@ -178,8 +214,8 @@ void SerialNumberUI::getSerialNum()
 	serialNum = pcb::eraseNonDigitalCharInHeadAndTail(serialNum);//删除首尾的非数字字符
 	ui.lineEdit_serialNum->setText(serialNum); //显示识别的产品序号
 
-	clock_t t2 = clock();
-	qDebug() << "OCR:" << (t2 -t1) << "ms";
+	//clock_t t2 = clock();
+	//qDebug() << "OCR:" << (t2 -t1) << "ms";
 
 	//解析产品序号
 	runtimeParams->serialNum = serialNum;
@@ -256,59 +292,46 @@ void SerialNumberUI::setActivated(bool activated)
 }
 
 //弹窗报错
-void SerialNumberUI::showMessageBox(MessageBoxType type, StatusCode code)
+void SerialNumberUI::showMessageBox(MessageBoxType boxType, StatusCode code)
 {
 	StatusCode tempCode = (code == Default) ? statusCode : code;
 	if (tempCode == NoError) return;
 
+	//根据状态码生成需要显示的信息字符串
 	QString message = "";
 	switch (tempCode)
 	{
 	case SerialNumberUI::Unchecked:
-		message = pcb::chinese("系统状态未知!  \n");
+		message = pcb::chinese("系统状态未知! \n");
 		message += "SerialNum: ErrorCode: " + QString::number(tempCode); break;
 	case SerialNumberUI::OCR_InitFailed:
-		message = pcb::chinese("OCR模块初始化失败!  \n");
+		message = pcb::chinese("OCR模块初始化失败! \n");
 		message += "SerialNum: ErrorCode: " + QString::number(tempCode); break;
 	case SerialNumberUI::OCR_LoadRoiImageFailed:
-		message = pcb::chinese("OCR缓存图像读取失败!  \n");
-		message += "SerialNum: ErrorCode: " + QString::number(tempCode); break;
+		message = pcb::chinese("OCR缓存图像读取失败，请重新识别! \n");
+		message += "SerialNum: OCR: ErrorCode: " + QString::number(tempCode); break;
 	case SerialNumberUI::OCR_RecognitionFailed:
-		message = pcb::chinese("产品序号识别失败!  \n");
-		message += "SerialNum: ErrorCode: " + QString::number(tempCode); break;
+		message = pcb::chinese("产品序号识别失败! \n");
+		message += "SerialNum: OCR: ErrorCode: " + QString::number(tempCode); break;
 	case SerialNumberUI::OCR_GetUTF8TextFailed:
-		message = pcb::chinese("产品序号转换失败!  \n");
-		message += "SerialNum: ErrorCode: " + QString::number(tempCode); break;
+		message = pcb::chinese("产品序号转换失败! \n");
+		message += "SerialNum: OCR: ErrorCode: " + QString::number(tempCode); break;
 	case SerialNumberUI::OCR_InvalidSerialNum:
-		message = pcb::chinese("产品序号无效，请重新识别或手动输入!  \n");
-		message += "SerialNum: ErrorCode: " + QString::number(tempCode); break;
+		message = pcb::chinese("产品序号无效，请重新识别或手动输入! \n");
+		message += "SerialNum: OCR: ErrorCode: " + QString::number(tempCode); break;
+	case SerialNumberUI::Camera_OpenCameraFailed:
+		message = pcb::chinese("相机打开失败，请重启程序或使用手动输入模式!\n");
+		message += "SerialNum: Camera: ErrorCode: " + QString::number(tempCode); break;
+	case SerialNumberUI::Camera_CaptureFailed:
+		message = pcb::chinese("图像截取失败，请重截取关键帧! \n");
+		message += "SerialNum: Camera: ErrorCode: " + QString::number(tempCode); break;
 	case SerialNumberUI::Default:
 		message = pcb::chinese("未知错误!  \n");
 		message += "SerialNum: ErrorCode: " + QString::number(tempCode); break; 
 	}
 
-	QString messageBoxTitle = "";
-	QString buttonName = pcb::chinese("确定");
-	switch (type)
-	{
-	case pcb::Warning:
-		messageBoxTitle = pcb::chinese("警告");
-		QMessageBox::warning(this, messageBoxTitle, message, buttonName);
-		break;
-	case pcb::Information:
-		messageBoxTitle = pcb::chinese("提示");
-		QMessageBox::information(this, messageBoxTitle, message, buttonName);
-		break;
-	case pcb::Question:
-		messageBoxTitle = pcb::chinese("询问");
-		QMessageBox::question(this, messageBoxTitle, message, buttonName);
-		break;
-	case pcb::Critical:
-		messageBoxTitle = "";
-		break;
-	case pcb::About:
-		messageBoxTitle = "";
-		break;
-	}
-	pcb::delay(10);//延时
+	//显示窗口
+	MyMessageBox messageBox;
+	messageBox.set(boxType, message);
+	messageBox.doShow();
 }
