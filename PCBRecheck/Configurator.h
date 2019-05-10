@@ -1,6 +1,5 @@
 ﻿#pragma once
 #include <QFile>
-#include <QMessageBox>
 #include <QFileDialog>
 #include <QTextStream>
 #include <QString>

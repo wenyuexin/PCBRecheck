@@ -5,6 +5,7 @@
 #include "RuntimeLib.h"
 #include "Configurator.h"
 #include "CameraControler.h"
+#include "MyMessageBox.h"
 #include <allheaders.h>
 #include <capi.h>
 #include "opencv2/opencv.hpp"
@@ -13,7 +14,6 @@
 #include <QRegExpValidator>
 #include <QLatin1Char>
 #include <QDebug>
-#include <QMessageBox>
 #include <QDesktopWidget>
 
 
@@ -72,7 +72,7 @@ private:
 	void setExecutingMode();
 	void getSerialNum();
 	void exitOrParseSerialNum();
-	void showMessageBox(pcb::MessageBoxType type, StatusCode code);
+	void showMessageBox(pcb::MessageBoxType boxType, StatusCode code);
 
 Q_SIGNALS:
 	void exitRecheckSystem_numUI();
@@ -80,5 +80,7 @@ Q_SIGNALS:
 
 private Q_SLOTS:
 	void keyPressEvent(QKeyEvent *event);
+	void on_openCameraFinished_camera(bool);
 	void do_refreshFrame_camera();
+	void on_captureFailed_camera();
 };

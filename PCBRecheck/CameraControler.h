@@ -45,7 +45,7 @@ public:
 	void closeCamera(); //πÿ±’…„œÒÕ∑ 
 
 Q_SIGNALS:
-	void openCameraFailed_camera();
+	void openCameraFinished_camera(bool);
 	void refreshFrame_camera();
 	void captureFailed_camera();
 
