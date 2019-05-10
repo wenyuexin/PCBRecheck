@@ -11,12 +11,12 @@
 #include <QDebug>
 #include <QDir>
 #include <QMap>
-#include <QMessageBox>
 #include <QGraphicsScene>
 #include <QPixmap>
 #include <QRect>
 #include <QDesktopWidget>
 #include <QTimer>
+#include <QMessageBox>
 #include <time.h> 
 #include <windows.h>
 
@@ -28,7 +28,7 @@ class PCBRecheck : public QMainWindow
 public:
 	enum RecheckStatus {
 		NoError,
-		Uncheck,
+		Unchecked,
 		CurrentBatchRechecked, //当前批次已复查完成
 		InvalidFullImageName, //整图的文件名无效
 		FullImageNotFound, //没有找到整图
@@ -89,6 +89,7 @@ private:
 	void showSerialNumberUI();
 	void showExitQueryUI();
 
+	void setPushButtonsEnabled(bool enable);
 	void exitRecheckSystem();
 	void showMessageBox(pcb::MessageBoxType type, RecheckStatus status = Default);
 

@@ -57,6 +57,9 @@
     <ClCompile Include="CameraControler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MyMessageBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="PCBRecheck.h">
@@ -77,6 +80,9 @@
     <QtMoc Include="CameraControler.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="MyMessageBox.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="PCBRecheck.ui">
@@ -86,6 +92,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="ExitQueryUI.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="MyMessageBox.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

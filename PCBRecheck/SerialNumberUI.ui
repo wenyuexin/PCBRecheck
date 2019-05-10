@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>839</width>
-    <height>701</height>
+    <width>1440</width>
+    <height>900</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -20,13 +20,13 @@
    <string>SerialNumberUI</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(235, 238, 238);</string>
+   <string notr="true">background-color: rgb(245, 245, 245);</string>
   </property>
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>70</x>
-     <y>630</y>
+     <x>370</x>
+     <y>710</y>
      <width>101</width>
      <height>35</height>
     </rect>
@@ -51,8 +51,8 @@
   <widget class="QLineEdit" name="lineEdit_serialNum">
    <property name="geometry">
     <rect>
-     <x>190</x>
-     <y>630</y>
+     <x>490</x>
+     <y>710</y>
      <width>311</width>
      <height>37</height>
     </rect>
@@ -72,8 +72,8 @@
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>520</x>
-     <y>630</y>
+     <x>820</x>
+     <y>710</y>
      <width>261</width>
      <height>35</height>
     </rect>
@@ -96,8 +96,8 @@
   <widget class="QLabel" name="label_cameraFrame">
    <property name="geometry">
     <rect>
-     <x>90</x>
-     <y>110</y>
+     <x>390</x>
+     <y>190</y>
      <width>668</width>
      <height>501</height>
     </rect>
@@ -118,8 +118,8 @@
   <widget class="Line" name="line">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>60</y>
+     <x>330</x>
+     <y>140</y>
      <width>781</width>
      <height>5</height>
     </rect>
@@ -134,8 +134,8 @@
   <widget class="QLabel" name="label_5">
    <property name="geometry">
     <rect>
-     <x>230</x>
-     <y>20</y>
+     <x>530</x>
+     <y>100</y>
      <width>381</width>
      <height>41</height>
     </rect>
@@ -173,8 +173,8 @@
   <widget class="QLabel" name="label_4">
    <property name="geometry">
     <rect>
-     <x>70</x>
-     <y>70</y>
+     <x>370</x>
+     <y>150</y>
      <width>111</width>
      <height>35</height>
     </rect>
@@ -199,8 +199,8 @@
   <widget class="QLabel" name="label_background">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>10</y>
+     <x>310</x>
+     <y>90</y>
      <width>821</width>
      <height>681</height>
     </rect>
@@ -224,6 +224,23 @@
     <string/>
    </property>
   </widget>
+  <widget class="QLabel" name="label_background_2">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1440</width>
+     <height>900</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/PCBRecheck/icons/screen.png)</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <zorder>label_background_2</zorder>
   <zorder>label_background</zorder>
   <zorder>label</zorder>
   <zorder>lineEdit_serialNum</zorder>
@@ -234,6 +251,8 @@
   <zorder>label_4</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="PCBRecheck.qrc"/>
+ </resources>
  <connections/>
 </ui>

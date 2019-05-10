@@ -122,6 +122,7 @@
     <ClCompile Include="ExitQueryUI.cpp" />
     <ClCompile Include="FlickeringArrow.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MyMessageBox.cpp" />
     <ClCompile Include="PCBRecheck.cpp" />
     <ClCompile Include="RuntimeLib.cpp" />
     <ClCompile Include="SerialNumberUI.cpp" />
@@ -132,6 +133,7 @@
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="ExitQueryUI.ui" />
+    <QtUic Include="MyMessageBox.ui" />
     <QtUic Include="PCBRecheck.ui" />
     <QtUic Include="SerialNumberUI.ui" />
   </ItemGroup>
@@ -144,6 +146,10 @@
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets</IncludePath>
     </QtMoc>
     <ClInclude Include="Configurator.h" />
+    <QtMoc Include="MyMessageBox.h">
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets</IncludePath>
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets</IncludePath>
+    </QtMoc>
     <ClInclude Include="RuntimeLib.h" />
     <QtMoc Include="FlickeringArrow.h">
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName)\.;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets</IncludePath>

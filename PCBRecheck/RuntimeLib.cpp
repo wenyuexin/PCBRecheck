@@ -146,21 +146,24 @@ void RuntimeParams::showMessageBox(QWidget *parent, ErrorCode code)
 	switch (tempCode)
 	{
 	case pcb::RuntimeParams::Unchecked:
-		valueName = pcb::chinese("\"参数未验证\""); break;
+		valueName = pcb::chinese("参数未验证"); break;
 	case pcb::RuntimeParams::Invalid_serialNum:
 	case pcb::RuntimeParams::Invalid_sampleModelNum:
 	case pcb::RuntimeParams::Invalid_sampleBatchNum:
 	case pcb::RuntimeParams::Invalid_sampleNum:
-		valueName = pcb::chinese("\"产品序号\""); break;
+		valueName = pcb::chinese("产品序号"); break;
 	case pcb::RuntimeParams::Default:
-		valueName = "\"-\""; break;
+		valueName = "-"; break;
 	}
 
-	QMessageBox::warning(parent, pcb::chinese("警告"),
-		pcb::chinese("运行参数无效，请检查产品序号或图像数据是否有效！  \n") +
+	QString message = pcb::chinese("运行参数无效，请检查产品序号或图像数据！ \n") +
 		pcb::chinese("错误信息：") + valueName + "   \n" +
-		"Config: User: ErrorCode: " + QString::number(tempCode),
-		pcb::chinese("确定"));
+		"Config: User: ErrorCode: " + QString::number(tempCode);
+
+	//显示窗口
+	MyMessageBox messageBox;
+	messageBox.set(pcb::MessageBoxType::Warning, message);
+	messageBox.doShow();
 	return;
 }
 

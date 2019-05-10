@@ -4,8 +4,8 @@
 #include "SerialNumberUI.h"
 #include "Configurator.h"
 #include "RuntimeLib.h"
+#include "MyMessageBox.h"
 #include <QDir>
-#include <QMessageBox>
 
 
 class SysInitThread :
@@ -23,7 +23,7 @@ public:
 	~SysInitThread();
 
 	void setOutFolderHierarchy(pcb::FolderHierarchy *ptr) { OutputFolderHierarchy = ptr; }
-	void setRecheckConfig(pcb::UserConfig *ptr) { userConfig = ptr; }
+	void setUserConfig(pcb::UserConfig *ptr) { userConfig = ptr; }
 
 protected:
 	void run();

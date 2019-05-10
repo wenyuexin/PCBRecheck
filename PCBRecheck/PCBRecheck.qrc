@@ -1,6 +1,6 @@
 <RCC>
-    <qresource prefix="/PCBRecheck"/>
-    <qresource prefix="/icons">
+    <qresource prefix="/PCBRecheck">
         <file>icons/logo.png</file>
+        <file>icons/screen.png</file>
     </qresource>
 </RCC>
