@@ -4,9 +4,8 @@
 #include <QTime>
 #include <QFileDialog>
 #include <QCoreApplication>
-#include <QMessageBox>
 #include <QDebug>
-
+#include "MyMessageBox.h"
 
 namespace pcb
 {
@@ -17,18 +16,6 @@ namespace pcb
 	QString selectDirPath(QWidget *parent, QString windowTitle = "");//交互式文件夹路径选择
 	QString eraseNonDigitalCharInHeadAndTail(QString s); //删除字符串首尾的非数字字符
 #endif //RECHECK_FUNCTIONS
-
-
-#ifndef RECHECK_ENUM_MESSAGE_BOX_TYPE
-#define RECHECK_ENUM_MESSAGE_BOX_TYPE
-	enum MessageBoxType {
-		Warning,
-		Information,
-		Question,
-		Critical,
-		About
-	};
-#endif //RECHECK_ENUM_MESSAGE_BOX_TYPE
 
 
 #ifndef RECHECK_TPYE_FOLDER_HIERARCHY
