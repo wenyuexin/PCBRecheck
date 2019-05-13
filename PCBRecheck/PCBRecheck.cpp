@@ -147,7 +147,7 @@ void PCBRecheck::showSerialNumberUI()
 {
 	this->setPushButtonsEnabled(false);
 	serialNumberUI->setActivated(true);
-	serialNumberUI->show();
+	serialNumberUI->showFullScreen();
 }
 
 //由序号设置界面返回，并显示检修主界面
