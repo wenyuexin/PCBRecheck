@@ -264,11 +264,11 @@ __pycache__/
 # Personal files or documents that need to be ignored
 buffer/
 GeneratedFiles/
-PCBRecheck.sln
-PCBRecheck.vcxproj
-PCBRecheck.vcxproj.filters
-PCBRecheck.vcxproj.user
-OpenCV_contrib_x64_Debug_PS.props
-OpenCV_contrib_x64_Release_PS.props
-.user.config
+/PCBRecheck.sln
+/PCBRecheck.vcxproj
+/PCBRecheck.vcxproj.filters
+/PCBRecheck.vcxproj.user
+/OpenCV_contrib_x64_Debug_PS.props
+/OpenCV_contrib_x64_Release_PS.props
+/.user.config
 log.txt
