@@ -145,8 +145,8 @@ void SerialNumberUI::on_openCameraFinished_camera(bool success)
 void SerialNumberUI::do_refreshFrame_camera()
 {
 	//刷新获取的帧
-	ui.label_cameraFrame->setPixmap(
-		QPixmap::fromImage(frame->scaled(cameraLabelSize, Qt::KeepAspectRatio)));
+	QPixmap frameForShow = QPixmap::fromImage(frame->scaled(cameraLabelSize, Qt::KeepAspectRatio));
+	ui.label_cameraFrame->setPixmap(frameForShow);
 }
 
 //相机拍照失败
