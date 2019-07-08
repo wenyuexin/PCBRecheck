@@ -44,6 +44,9 @@ public:
 	void startCapture(); //重新开始获取
 	void closeCamera(); //关闭摄像头 
 
+private:
+	void calcRoiRect(cv::Size sz);
+
 Q_SIGNALS:
 	void openCameraFinished_camera(bool);
 	void refreshFrame_camera();

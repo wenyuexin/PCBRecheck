@@ -323,6 +323,7 @@ bool Configurator::saveConfigFile(const QString &fileName, UserConfig *config)
 		//configurator.jsonSetValue("TemplDirPath", config->TemplDirPath);
 		//configurator.jsonSetValue("SampleDirPath", config->SampleDirPath);
 		configurator.jsonSetValue("OutputDirPath", config->OutputDirPath);
+		configurator.jsonSetValue("ImageFormat", config->ImageFormat);
 		configurator.jsonSetValue("roiSize_W", config->roiSize_W);
 		configurator.jsonSetValue("roiSize_H", config->roiSize_H);
 		configFile.close();
