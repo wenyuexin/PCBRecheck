@@ -265,10 +265,11 @@ __pycache__/
 buffer/
 GeneratedFiles/
 /PCBRecheck.sln
-/PCBRecheck.vcxproj
-/PCBRecheck.vcxproj.filters
-/PCBRecheck.vcxproj.user
-/OpenCV_contrib_x64_Debug_PS.props
-/OpenCV_contrib_x64_Release_PS.props
-/.user.config
+/PCBRecheck/PCBRecheck.vcxproj
+/PCBRecheck/PCBRecheck.vcxproj.filters
+/PCBRecheck/PCBRecheck.vcxproj.user
+/PCBRecheck/OpenCV_contrib_x64_Debug_PS.props
+/PCBRecheck/OpenCV_contrib_x64_Release_PS.props
+/PCBRecheck/.user.config
+!/config/*/*
 log.txt
