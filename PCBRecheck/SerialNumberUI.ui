@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1366</width>
-    <height>768</height>
+    <width>1440</width>
+    <height>900</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -25,8 +25,8 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>330</x>
-     <y>660</y>
+     <x>370</x>
+     <y>710</y>
      <width>101</width>
      <height>35</height>
     </rect>
@@ -51,8 +51,8 @@
   <widget class="QLineEdit" name="lineEdit_serialNum">
    <property name="geometry">
     <rect>
-     <x>450</x>
-     <y>660</y>
+     <x>490</x>
+     <y>710</y>
      <width>311</width>
      <height>37</height>
     </rect>
@@ -72,8 +72,8 @@
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>780</x>
-     <y>660</y>
+     <x>820</x>
+     <y>710</y>
      <width>261</width>
      <height>35</height>
     </rect>
@@ -96,8 +96,8 @@
   <widget class="QLabel" name="label_cameraFrame">
    <property name="geometry">
     <rect>
-     <x>350</x>
-     <y>140</y>
+     <x>390</x>
+     <y>190</y>
      <width>668</width>
      <height>501</height>
     </rect>
@@ -118,8 +118,8 @@
   <widget class="Line" name="line">
    <property name="geometry">
     <rect>
-     <x>290</x>
-     <y>90</y>
+     <x>330</x>
+     <y>140</y>
      <width>781</width>
      <height>5</height>
     </rect>
@@ -134,8 +134,8 @@
   <widget class="QLabel" name="label_5">
    <property name="geometry">
     <rect>
-     <x>490</x>
-     <y>50</y>
+     <x>530</x>
+     <y>100</y>
      <width>381</width>
      <height>41</height>
     </rect>
@@ -173,8 +173,8 @@
   <widget class="QLabel" name="label_4">
    <property name="geometry">
     <rect>
-     <x>330</x>
-     <y>100</y>
+     <x>370</x>
+     <y>150</y>
      <width>111</width>
      <height>35</height>
     </rect>
@@ -199,8 +199,8 @@
   <widget class="QLabel" name="label_background">
    <property name="geometry">
     <rect>
-     <x>270</x>
-     <y>40</y>
+     <x>310</x>
+     <y>90</y>
      <width>821</width>
      <height>681</height>
     </rect>
@@ -229,8 +229,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1366</width>
-     <height>768</height>
+     <width>1440</width>
+     <height>900</height>
     </rect>
    </property>
    <property name="styleSheet">
