@@ -11,7 +11,7 @@ void Session::doRead()
 {
     auto self = shared_from_this();
     async_read_until(m_socket, m_requestBuf_, "\n\n", //读到文件名+文件size（以"\n\n"结尾）
-        [this, self](system::error_code ec, size_t bytes)
+        [this, self](asio::error_code ec, size_t bytes)
         {
             if (!ec)
                 processRead(bytes);//开始读取套接字
@@ -44,7 +44,7 @@ void Session::processRead(size_t t_bytesTransferred)
 
     auto self = shared_from_this();
     m_socket.async_read_some(asio::buffer(m_buf.data(), m_buf.size()),
-        [this, self](system::error_code ec, size_t bytes)
+        [this, self](asio::error_code ec, size_t bytes)
         {
             if (!ec)
                 doReadFileContent(bytes);
@@ -64,8 +64,9 @@ void Session::readData(std::istream &stream)//获取文件名与文件大小
 
 void Session::createFile()
 {
-	if(!filesystem::exists(m_filePath))
-		filesystem::create_directories(m_filePath);
+	using namespace std::filesystem;
+	if(exists(m_filePath))
+		create_directories(m_filePath);
     m_outputFile.open(m_fileName, std::ios_base::binary);
     if (!m_outputFile) {
         //BOOST_LOG_TRIVIAL(error) << __LINE__ << ": 创建文件失败: " << m_fileName;
@@ -86,17 +87,20 @@ void Session::doReadFileContent(size_t t_bytesTransferred)
     }
     auto self = shared_from_this();
     m_socket.async_read_some(asio::buffer(m_buf.data(), m_buf.size()),
-        [this, self](system::error_code ec, size_t bytes)
+        [this, self](asio::error_code ec, size_t bytes)
         {
             doReadFileContent(bytes);
         });
 }
 
 
-void Session::handleError(std::string const& t_functionName, system::error_code const& t_ec)
+void Session::handleError(std::string const& t_functionName, asio::error_code const& t_ec)
 {
     //BOOST_LOG_TRIVIAL(error) << __FUNCTION__ << " in " << t_functionName << " due to " 
     //    << t_ec << " " << t_ec.message() << std::endl;
+	std::cout<< __FUNCTION__ << " in " << t_functionName << " due to " 
+	    << t_ec << " " << t_ec.message() << std::endl;
+	
 }
 
 
@@ -130,7 +134,7 @@ void FileReceiver::startListen()
 void FileReceiver::doAccept()
 {
     m_acceptor->async_accept(*m_socket,
-        [this](system::error_code ec)
+        [this](asio::error_code ec)
     {
         if (!ec)
             std::make_shared<Session>(std::move(*m_socket))->start();
@@ -142,10 +146,10 @@ void FileReceiver::doAccept()
 
 void FileReceiver::createWorkDirectory()
 {
-    using namespace filesystem;
+    using namespace std::filesystem;
     auto currentPath = path(m_workDirectory);
 	if (!exists(currentPath) && !create_directory(currentPath)) {
         //BOOST_LOG_TRIVIAL(error) << "Coudn't create working directory: " << m_workDirectory;
 	}
-    current_path(currentPath);
+	current_path(currentPath);
 }
