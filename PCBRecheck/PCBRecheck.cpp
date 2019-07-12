@@ -19,7 +19,7 @@ PCBRecheck::PCBRecheck(QWidget *parent)
 	this->setGeometry(screenRect);
 
 	//检修界面初始化
-	this->initRecheckMainUI();
+	this->init();
 
 	//显示复查主界面
 	//this->showFullScreen();
@@ -62,7 +62,7 @@ PCBRecheck::~PCBRecheck()
 
 /********************* 检修界面初始化 *********************/
 
-void PCBRecheck::initRecheckMainUI()
+void PCBRecheck::init()
 {
 	//加载logo
 	IconFolder = QDir::currentPath() + "/icons";
@@ -103,6 +103,11 @@ void PCBRecheck::initRecheckMainUI()
 	ui.graphicsView_full->setFocusPolicy(Qt::NoFocus);
 	ui.graphicsView_full->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff); //禁用水平滚动条
 	ui.graphicsView_full->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff); //禁用垂直滚动条
+
+	//启用文件同步
+	fileSyncThread.setUserConfig(&userConfig);
+	fileSyncThread.setRuntimeParams(&runtimeParams);
+	fileSyncThread.start();
 }
 
 
