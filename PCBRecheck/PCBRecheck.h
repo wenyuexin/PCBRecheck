@@ -7,6 +7,7 @@
 #include "SysInitThread.h"
 #include "ExitQueryUI.h"
 #include "FlickeringArrow.h"
+#include "FileSyncThread.h"
 #include <QKeyEvent>
 #include <QDebug>
 #include <QDir>
@@ -19,6 +20,7 @@
 #include <QMessageBox>
 #include <time.h> 
 #include <windows.h>
+
 
 //检修主界面
 class PCBRecheck : public QMainWindow
@@ -67,12 +69,14 @@ private:
 
 	pcb::FolderHierarchy OutFolderHierarchy; //输出目录下的文件夹层次
 
+	FileSyncThread fileSyncThread;//文件同步线程
+
 public:
 	PCBRecheck(QWidget *parent = Q_NULLPTR);
 	~PCBRecheck();
 
 private:
-	void initRecheckMainUI();
+	void init();
 	void showLastFlawImage(); //显示上一张缺陷图
 	void showNextFlawImage(); //显示下一张缺陷图
 	

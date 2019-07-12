@@ -3,21 +3,20 @@
 FileSyncThread::FileSyncThread(QObject *parent)
 	: QThread(parent)
 {
+	runtimeParams = Q_NULLPTR;
 }
 
 FileSyncThread::~FileSyncThread()
 {
+	qDebug() << "~FileSyncThread";
 }
 
 
 void FileSyncThread::run()
 {
-	while (true) {
-		//pcb::delay(1000);
+	//查询是否收到了新的检测结果
+	fileReceiver.startListen();
 
-		//查询是否收到了新的检测结果
-
-		//如果有则发送到其他复查设备
-
-	}
+	//如果有则发送到其他复查设备
+	// ...
 }

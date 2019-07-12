@@ -66,6 +66,12 @@
     <ClCompile Include="FileSender.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="FileSyncThread.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pcbFuncLib.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="PCBRecheck.h">
@@ -87,6 +93,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="MyMessageBox.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="FileSyncThread.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -120,6 +129,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FileSender.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pcbFuncLib.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

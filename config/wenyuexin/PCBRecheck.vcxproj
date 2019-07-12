@@ -124,9 +124,11 @@
     <ClCompile Include="ExitQueryUI.cpp" />
     <ClCompile Include="FileReceiver.cpp" />
     <ClCompile Include="FileSender.cpp" />
+    <ClCompile Include="FileSyncThread.cpp" />
     <ClCompile Include="FlickeringArrow.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MyMessageBox.cpp" />
+    <ClCompile Include="pcbFuncLib.cpp" />
     <ClCompile Include="PCBRecheck.cpp" />
     <ClCompile Include="RuntimeLib.cpp" />
     <ClCompile Include="SerialNumberUI.cpp" />
@@ -156,6 +158,11 @@
     </QtMoc>
     <ClInclude Include="FileReceiver.h" />
     <ClInclude Include="FileSender.h" />
+    <QtMoc Include="FileSyncThread.h">
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets</IncludePath>
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets</IncludePath>
+    </QtMoc>
+    <ClInclude Include="pcbFuncLib.h" />
     <ClInclude Include="RuntimeLib.h" />
     <QtMoc Include="FlickeringArrow.h">
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName)\.;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets</IncludePath>
