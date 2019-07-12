@@ -6,6 +6,7 @@
 #include <memory>
 #include <asio.hpp>
 #include <iostream>
+#include<filesystem>
 #include <QDir>
 
 
@@ -25,7 +26,7 @@ private:
     void createFile();
     void readData(std::istream &stream);
     void doReadFileContent(size_t t_bytesTransferred);
-    void handleError(std::string const& t_functionName, system::error_code const& t_ec);
+    void handleError(std::string const& t_functionName, asio::error_code const& t_ec);
 
 private:
     TcpSocket m_socket;
