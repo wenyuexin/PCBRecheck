@@ -1,12 +1,13 @@
 #pragma once
 
+//#include <WinSock.h>
+#include <asio.hpp>
 #include <array>
 #include <fstream>
 #include <string>
 #include <memory>
-#include <asio.hpp>
 #include <iostream>
-#include<filesystem>
+#include <filesystem>
 #include <QDir>
 
 

@@ -2,19 +2,20 @@
 
 #include <QWidget>
 #include "ui_SerialNumberUI.h"
-#include "RuntimeLib.h"
-#include "Configurator.h"
-#include "CameraControler.h"
-#include "MyMessageBox.h"
-#include <allheaders.h>
-#include <capi.h>
-#include "opencv2/opencv.hpp"
 #include <QString>
 #include <QKeyEvent>
 #include <QRegExpValidator>
 #include <QLatin1Char>
 #include <QDebug>
 #include <QDesktopWidget>
+#include <windows.h>
+#include "opencv2/opencv.hpp"
+#include <capi.h>
+#include <allheaders.h>
+#include "RuntimeParams.h"
+#include "Configurator.h"
+#include "CameraControler.h"
+#include "MyMessageBox.h"
 
 
 //产品序号界面
@@ -54,7 +55,7 @@ private:
 	QString roiImagePath; 
 
 	TessBaseAPI *ocrHandle; //OCR模块
-	cv::Mat roiImage; //包含产品序号的字符图
+	//cv::Mat roiImage; //包含产品序号的字符图
 
 public:
 	SerialNumberUI(QWidget *parent = Q_NULLPTR, QRect &screenRect = QRect());

@@ -2,8 +2,8 @@
 
 #include <QThread>
 #include <QDebug>
-#include "RuntimeLib.h"
 #include "Configurator.h"
+#include "RuntimeParams.h"
 #include "FileReceiver.h"
 
 

@@ -14,8 +14,9 @@
 #include <QDebug>
 #include <QJsonObject>
 #include <string.h>
-#include "RuntimeLib.h"
-#include "windows.h"
+#include "pcbFuncLib.h"
+#include "MyMessageBox.h"
+//#include "windows.h"
 
 namespace pcb 
 {
@@ -102,8 +103,8 @@ namespace pcb
 		static bool loadConfigFile(const QString &fileName, pcb::UserConfig *config);
 		static bool saveConfigFile(const QString &fileName, pcb::UserConfig *config);
 
-		quint64 getDiskFreeSpace(QString driver);
-		bool checkDir(QString dirpath);
+		//quint64 getDiskFreeSpace(QString driver);
+		//bool checkDir(QString dirpath);
 	};
 #endif //CONFIGURATOR_H
 }

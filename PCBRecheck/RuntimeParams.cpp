@@ -1,4 +1,4 @@
-#include "RuntimeLib.h"
+#include "RuntimeParams.h"
 
 using pcb::RuntimeParams;
 
@@ -165,46 +165,4 @@ void RuntimeParams::showMessageBox(QWidget *parent, ErrorCode code)
 	messageBox.set(pcb::MessageBoxType::Warning, message);
 	messageBox.doShow();
 	return;
-}
-
-
-
-/****************************************************/
-/*                   namespace pcb                  */
-/****************************************************/
-
-//非阻塞延迟
-void pcb::delay(unsigned long msec)
-{
-	QTime dieTime = QTime::currentTime().addMSecs(msec);
-	while (QTime::currentTime() < dieTime)
-		QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
-}
-
-//交互式文件夹路径选择
-QString pcb::selectDirPath(QWidget *parent, QString windowTitle)
-{
-	if (windowTitle == "") windowTitle = chinese("请选择路径");
-
-	QFileDialog *fileDialog = new QFileDialog(parent);
-	fileDialog->setWindowTitle(windowTitle); //设置文件保存对话框的标题
-	fileDialog->setFileMode(QFileDialog::Directory); //设置文件对话框弹出的时候显示文件夹
-	fileDialog->setViewMode(QFileDialog::Detail); //文件以详细的形式显示，显示文件名，大小，创建日期等信息
-
-	QString path = "";
-	if (fileDialog->exec() == QDialog::DialogCode::Accepted) //选择路径
-		path = fileDialog->selectedFiles()[0];
-	delete fileDialog;
-	return path;
-}
-
-//删除字符串首尾的非数字字符
-QString pcb::eraseNonDigitalCharInHeadAndTail(QString s)
-{
-	if (s == "") return "";
-	int begin = 0;
-	for (; begin < s.size() && !s.at(begin).isDigit(); begin++) {}
-	int end = s.size() - 1;
-	for (; end > begin && !s.at(end).isDigit(); end--) {}
-	return s.mid(begin, end - begin + 1);
 }

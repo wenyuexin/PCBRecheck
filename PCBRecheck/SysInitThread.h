@@ -1,11 +1,8 @@
 #pragma once
 
 #include <QThread>
-#include "SerialNumberUI.h"
-#include "Configurator.h"
-#include "RuntimeLib.h"
-#include "MyMessageBox.h"
 #include <QDir>
+#include "Configurator.h"
 
 
 class SysInitThread :
@@ -14,7 +11,7 @@ class SysInitThread :
 	Q_OBJECT
 
 private:
-	QWidget *RecheckMainWidget;
+	//QWidget *RecheckMainWidget;
 	pcb::FolderHierarchy *OutputFolderHierarchy; //输出目录下的文件夹层次
 	pcb::UserConfig *userConfig; //检修系统的配置信息
 	

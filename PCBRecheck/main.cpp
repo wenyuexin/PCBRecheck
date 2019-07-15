@@ -1,5 +1,5 @@
-#include "PCBRecheck.h"
 #include <QtWidgets/QApplication>
+#include "PCBRecheck.h"
 
 int main(int argc, char *argv[])
 {

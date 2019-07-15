@@ -2,12 +2,6 @@
 
 #include <QtWidgets/QMainWindow>
 #include "ui_PCBRecheck.h"
-#include "Configurator.h"
-#include "SerialNumberUI.h"
-#include "SysInitThread.h"
-#include "ExitQueryUI.h"
-#include "FlickeringArrow.h"
-#include "FileSyncThread.h"
 #include <QKeyEvent>
 #include <QDebug>
 #include <QDir>
@@ -19,7 +13,14 @@
 #include <QTimer>
 #include <QMessageBox>
 #include <time.h> 
-#include <windows.h>
+#include "pcbFuncLib.h"
+#include "RuntimeParams.h"
+#include "Configurator.h"
+#include "SysInitThread.h"
+#include "SerialNumberUI.h"
+#include "ExitQueryUI.h"
+#include "FlickeringArrow.h"
+#include "FileSyncThread.h"
 
 
 //¼ìÐÞÖ÷½çÃæ
