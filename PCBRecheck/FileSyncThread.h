@@ -14,8 +14,7 @@ class FileSyncThread : public QThread
 private:
 	pcb::UserConfig *userConfig;
 	pcb::RuntimeParams *runtimeParams;
-	FileReceiver fileReceiver;
-
+	FileReceiver *fileReceiver;
 
 public:
 	FileSyncThread(QObject *parent = Q_NULLPTR);
