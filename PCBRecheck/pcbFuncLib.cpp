@@ -29,7 +29,7 @@ QString pcb::eraseNonDigitalCharInHeadAndTail(QString s)
 //交互式文件夹路径选择
 QString pcb::selectDirPath(QWidget *parent, QString windowTitle)
 {
-	if (windowTitle == "") windowTitle = chinese("请选择路径");
+	if (windowTitle == "") windowTitle = pcb::chinese("请选择路径");
 
 	QFileDialog *fileDialog = new QFileDialog(parent);
 	fileDialog->setWindowTitle(windowTitle); //设置文件保存对话框的标题

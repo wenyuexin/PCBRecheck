@@ -1,41 +1,17 @@
 #pragma once
+
 #include <QWidget>
 #include <QString>
 #include <QTime>
 #include <QFileDialog>
 #include <QCoreApplication>
 #include <QDebug>
+#include "pcbFuncLib.h"
 #include "MyMessageBox.h"
+
 
 namespace pcb
 {
-#ifndef RECHECK_FUNCTIONS
-#define RECHECK_FUNCTIONS
-	inline QString chinese(const QByteArray &src) { return QString::fromLocal8Bit(src); }
-	void delay(unsigned long msec);//非阻塞延迟
-	QString selectDirPath(QWidget *parent, QString windowTitle = "");//交互式文件夹路径选择
-	QString eraseNonDigitalCharInHeadAndTail(QString s); //删除字符串首尾的非数字字符
-#endif //RECHECK_FUNCTIONS
-
-
-#ifndef RECHECK_TPYE_FOLDER_HIERARCHY
-#define RECHECK_TPYE_FOLDER_HIERARCHY
-	typedef QMap<int, QMap<int, QList<int>>> FolderHierarchy;
-#endif	
-
-
-#ifndef RECHECK_STRUCT
-#define RECHECK_STRUCT
-	struct FlawImageInfo {
-		QString filePath;
-		QString flawIndex;
-		QString xPos;
-		QString yPos;
-		QString flawType;
-	};
-#endif	
-
-
 #ifndef RECHECK_CLASS_RUNTIME_PARAMS 
 #define RECHECK_CLASS_RUNTIME_PARAMS
 	//程序运行期间使用的临时变量或参数

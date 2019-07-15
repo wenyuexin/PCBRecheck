@@ -335,38 +335,38 @@ bool Configurator::saveConfigFile(const QString &fileName, UserConfig *config)
 /*************** 暂时没用 **********************/
 
 //获取当前磁盘剩余空间
-quint64 Configurator::getDiskFreeSpace(QString driver)  
-{
-	LPCWSTR lpcwstrDriver = (LPCWSTR)driver.utf16();
-	ULARGE_INTEGER liFreeBytesAvailable, liTotalBytes, liTotalFreeBytes;
+//quint64 Configurator::getDiskFreeSpace(QString driver)  
+//{
+//	LPCWSTR lpcwstrDriver = (LPCWSTR)driver.utf16();
+//	ULARGE_INTEGER liFreeBytesAvailable, liTotalBytes, liTotalFreeBytes;
+//
+//	if (!GetDiskFreeSpaceEx(lpcwstrDriver, &liFreeBytesAvailable, &liTotalBytes, &liTotalFreeBytes)) {
+//		qDebug() << "ERROR: Call to GetDiskFreeSpaceEx() failed.";
+//		return 0;
+//	}
+//	return (quint64)liTotalFreeBytes.QuadPart / 1024 / 1024 / 1024;
+//}
 
-	if (!GetDiskFreeSpaceEx(lpcwstrDriver, &liFreeBytesAvailable, &liTotalBytes, &liTotalFreeBytes)) {
-		qDebug() << "ERROR: Call to GetDiskFreeSpaceEx() failed.";
-		return 0;
-	}
-	return (quint64)liTotalFreeBytes.QuadPart / 1024 / 1024 / 1024;
-}
-
-bool Configurator::checkDir(QString dirpath)
-{
-	QDir dir(dirpath);
-	dir.setSorting(QDir::Name | QDir::Time | QDir::Reversed);
-	dir.setFilter(QDir::Dirs | QDir::NoDotAndDotDot);
-	QFileInfoList folder_list = dir.entryInfoList();
-	if (folder_list.size() < 1) {
-		return false;
-	}
-	else {
-		QString name = folder_list.at(0).absoluteFilePath();
-		QDir dir(name);
-		dir.setSorting(QDir::Name | QDir::Time | QDir::Reversed);
-		dir.setFilter(QDir::Dirs | QDir::NoDotAndDotDot);
-		QFileInfoList file_list = dir.entryInfoList();
-		if (file_list.size() < 1) return false;
-
-		QString name2 = file_list.at(0).absoluteFilePath();
-		QFileInfo config(name2 + "/" + "outputImage/");
-		if (!config.isDir()) return false; //没有配置文件 则创建文件
-	}
-	return true;
-}
+//bool Configurator::checkDir(QString dirpath)
+//{
+//	QDir dir(dirpath);
+//	dir.setSorting(QDir::Name | QDir::Time | QDir::Reversed);
+//	dir.setFilter(QDir::Dirs | QDir::NoDotAndDotDot);
+//	QFileInfoList folder_list = dir.entryInfoList();
+//	if (folder_list.size() < 1) {
+//		return false;
+//	}
+//	else {
+//		QString name = folder_list.at(0).absoluteFilePath();
+//		QDir dir(name);
+//		dir.setSorting(QDir::Name | QDir::Time | QDir::Reversed);
+//		dir.setFilter(QDir::Dirs | QDir::NoDotAndDotDot);
+//		QFileInfoList file_list = dir.entryInfoList();
+//		if (file_list.size() < 1) return false;
+//
+//		QString name2 = file_list.at(0).absoluteFilePath();
+//		QFileInfo config(name2 + "/" + "outputImage/");
+//		if (!config.isDir()) return false; //没有配置文件 则创建文件
+//	}
+//	return true;
+//}
