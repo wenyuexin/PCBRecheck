@@ -40,13 +40,13 @@ private:
 class Session
 	: public std::enable_shared_from_this<Session>
 {
-public:
-	static std::string workDirectory = const std::string("");
-
+	
 public:
 	using TcpSocket = asio::ip::tcp::socket;
 	Session(TcpSocket t_socket);
 	void start() { doRead(); }
+public:
+	static void setStorePath(const std::string& path);//用于修改Session存储路径
 
 private:
 	TcpSocket m_socket;
@@ -60,6 +60,9 @@ private:
 	std::string m_filePath; //文件相对路径
 	std::string m_fullName; //输入文件绝对路径
 	std::string fileOutPath; //输出文件的绝对路径
+
+private:
+	static std::string  m_storeRootPath;//存储文件的根路径，路径尾不带"/"或者"\\"
 
 private:
 	void doRead();
