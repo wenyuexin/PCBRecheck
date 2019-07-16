@@ -6,7 +6,8 @@ FileSyncThread::FileSyncThread(QObject *parent)
 	runtimeParams = Q_NULLPTR;
 
 	short t_port = 8888;
-	std::string t_workDirectory = "D:\\PCBData\\output";
+	//std::string t_workDirectory = "D:\\PCBData\\output";
+	std::string t_workDirectory = userConfig->OutputDirPath.toStdString();
 	fileReceiver = new FileReceiver(t_port, t_workDirectory);
 }
 
