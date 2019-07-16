@@ -57,7 +57,6 @@ private:
 	size_t m_fileSize;
 	std::string hierarchy; //目录层次："类型/批次号/样本编号"
 	std::string m_fileName; //文件名
-	std::string m_filePath; //文件相对路径
 	std::string m_fullName; //输入文件绝对路径
 	std::string fileOutPath; //输出文件的绝对路径
 
