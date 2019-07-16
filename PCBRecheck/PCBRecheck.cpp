@@ -226,7 +226,7 @@ void PCBRecheck::on_refreshArrow_arrow()
 //更新界面上显示的信息
 void PCBRecheck::refreshRecheckMainUI()
 {
-	logging(runtimeParams.serialNum);
+	//logging(runtimeParams.serialNum);
 
 	//更新界面中的PCB编号
 	ui.label_serialNum->setText(runtimeParams.serialNum);
@@ -292,8 +292,7 @@ bool PCBRecheck::loadFullImage()
 				break;
 			}
 			else {
-				logging("InvalidFullImageName: pcbInfoList size(): " 
-					+ QString::number(pcbInfoList.size()));
+				//logging("InvalidFullImageName: pcbInfoList size(): " + QString::number(pcbInfoList.size()));
 				recheckStatus = InvalidFullImageName;
 				this->showMessageBox(MessageBoxType::Warning, recheckStatus);
 				serialNumberUI->show(); //显示PCB序号询问界面
@@ -304,7 +303,7 @@ bool PCBRecheck::loadFullImage()
 
 	//判断是否找到fullImage为前缀的ImageFormat格式的图
 	if (fullImagePath == "") {
-		logging("FullImageNotFound");
+		//logging("FullImageNotFound");
 		recheckStatus = FullImageNotFound;
 		this->showMessageBox(MessageBoxType::Warning, recheckStatus);
 		serialNumberUI->show(); //显示PCB序号询问界面
@@ -314,7 +313,7 @@ bool PCBRecheck::loadFullImage()
 	//加载大图
 	QImage fullImg; //读图
 	if (!fullImg.load(fullImagePath)) {
-		logging("LoadFullImageFailed: fullImagePath: " + fullImagePath);
+		//logging("LoadFullImageFailed: fullImagePath: " + fullImagePath);
 		recheckStatus = LoadFullImageFailed;
 		this->showMessageBox(MessageBoxType::Warning, recheckStatus);
 		serialNumberUI->show(); //显示PCB序号询问界面
