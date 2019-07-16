@@ -18,9 +18,6 @@ PCBRecheck::PCBRecheck(QWidget *parent)
 	}
 	this->setGeometry(screenRect);
 
-	//检修界面初始化
-	this->init();
-
 	//显示复查主界面
 	//this->showFullScreen();
 
@@ -33,6 +30,7 @@ PCBRecheck::PCBRecheck(QWidget *parent)
 	sysInitThread->setOutFolderHierarchy(&OutFolderHierarchy);
 	sysInitThread->setUserConfig(&userConfig);
 	sysInitThread->start(); //开启线程
+	pcb::delay(10);
 
 	//编号设置界面
 	serialNumberUI = new SerialNumberUI(Q_NULLPTR, screenRect);
@@ -49,6 +47,9 @@ PCBRecheck::PCBRecheck(QWidget *parent)
 
 	//刷新整图上闪烁的箭头
 	connect(&flickeringArrow, SIGNAL(refreshArrow_arrow()), this, SLOT(on_refreshArrow_arrow()));
+
+	//检修界面初始化
+	this->init();
 }
 
 //复查界面析构函数
@@ -107,6 +108,7 @@ void PCBRecheck::init()
 	//启用文件同步
 	fileSyncThread.setUserConfig(&userConfig);
 	fileSyncThread.setRuntimeParams(&runtimeParams);
+	fileSyncThread.init();
 	fileSyncThread.start();
 }
 

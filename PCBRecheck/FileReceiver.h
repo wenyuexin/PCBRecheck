@@ -37,15 +37,12 @@ private:
 
 
 //会话层
-class Session
-	: public std::enable_shared_from_this<Session>
+class Session : public std::enable_shared_from_this<Session>
 {
-	
 public:
 	using TcpSocket = asio::ip::tcp::socket;
 	Session(TcpSocket t_socket);
 	void start() { doRead(); }
-public:
 	static void setStorePath(const std::string& path);//用于修改Session存储路径
 
 private:
@@ -61,7 +58,7 @@ private:
 	std::string fileOutPath; //输出文件的绝对路径
 
 private:
-	static std::string  m_storeRootPath;//存储文件的根路径，路径尾不带"/"或者"\\"
+	static std::string m_storeRootPath;//存储文件的根路径，路径尾不带"/"或者"\\"
 
 private:
 	void doRead();

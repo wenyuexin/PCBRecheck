@@ -81,14 +81,14 @@ void Session::processRead(size_t t_bytesTransferred)
 	std::istream requestStream(&m_requestBuf_);
 	readData(requestStream);
 
-	auto pos1 = m_fullName.find(hierarchy);
+	auto pos1 = m_fullName.find(hierarchy);//寻找表示目录层次的子字符串
 	auto pos2 = m_fullName.find_last_of("/");
 	if (pos2 == std::string::npos) {
 		pos2 = m_fullName.find_last_of("\\");
 	}
 
 	if (pos1 != std::string::npos && pos2 != std::string::npos) {
-		fileOutPath = m_storeRootPath+"/"+m_fullName.substr(pos1, pos2 - pos1 + 1);//文件路径，根目录到文件名前
+		fileOutPath = m_storeRootPath + "/" + m_fullName.substr(pos1, pos2 - pos1 + 1);//文件路径，根目录到文件名前
 		m_fileName = fileOutPath + m_fullName.substr(pos2 + 1);//包含文件名的完整路径
 	}
 
@@ -124,7 +124,7 @@ void Session::readData(std::istream &stream)//获取文件名与文件大小
 void Session::createFile()
 {
 	using namespace std::filesystem;
-	if (exists(fileOutPath)) {
+	if (!exists(fileOutPath)) {
 		create_directories(fileOutPath);
 	}
 	m_outputFile.open(m_fileName, std::ios_base::binary);
