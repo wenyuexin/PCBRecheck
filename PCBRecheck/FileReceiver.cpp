@@ -8,7 +8,7 @@ FileReceiver::FileReceiver(short port, std::string const& workDirectory)
 	m_socket = new TcpSocket(*m_iomanager);
 	m_acceptor = new TcpAcceptor(*m_iomanager, asio::ip::tcp::endpoint(asio::ip::tcp::v4(), port));
 	createWorkDirectory(workDirectory);
-	Session::workDirectory = workDirectory;
+	Session::setStorePath(workDirectory);
 	doAccept();
 }
 
@@ -88,8 +88,8 @@ void Session::processRead(size_t t_bytesTransferred)
 	}
 
 	if (pos1 != std::string::npos && pos2 != std::string::npos) {
-		m_filePath = m_storeRootPath+"/"+m_fullName.substr(pos1, pos2 - pos1 + 1);//文件路径，根目录到文件名前
-		m_fileName = m_filePath + m_fullName.substr(pos2 + 1);//包含文件名的完整路径
+		fileOutPath = m_storeRootPath+"/"+m_fullName.substr(pos1, pos2 - pos1 + 1);//文件路径，根目录到文件名前
+		m_fileName = fileOutPath + m_fullName.substr(pos2 + 1);//包含文件名的完整路径
 	}
 
 	createFile();//创建目录与文件
