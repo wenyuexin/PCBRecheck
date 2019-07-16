@@ -1,14 +1,13 @@
 #include "FileSyncThread.h"
 
+using std::string;
+
 FileSyncThread::FileSyncThread(QObject *parent)
 	: QThread(parent)
 {
+	userConfig = Q_NULLPTR;
 	runtimeParams = Q_NULLPTR;
-
-	short t_port = 8888;
-	//std::string t_workDirectory = "D:\\PCBData\\output";
-	std::string t_workDirectory = userConfig->OutputDirPath.toStdString();
-	fileReceiver = new FileReceiver(t_port, t_workDirectory);
+	fileReceiver = Q_NULLPTR;
 }
 
 FileSyncThread::~FileSyncThread()
@@ -19,11 +18,19 @@ FileSyncThread::~FileSyncThread()
 }
 
 
+void FileSyncThread::init()
+{
+	short port = 8888;
+	string workDirectory = userConfig->OutputDirPath.toStdString();
+	fileReceiver = new FileReceiver(port, workDirectory);
+}
+
+
 void FileSyncThread::run()
 {
 	//查询是否收到了新的检测结果
 	fileReceiver->startListen();
 
-	//如果有则发送到其他复查设备
+	//将受到的文件转发到其他复查设备
 	// ...
 }

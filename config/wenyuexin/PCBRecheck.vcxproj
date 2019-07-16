@@ -130,7 +130,7 @@
     <ClCompile Include="MyMessageBox.cpp" />
     <ClCompile Include="pcbFuncLib.cpp" />
     <ClCompile Include="PCBRecheck.cpp" />
-    <ClCompile Include="RuntimeLib.cpp" />
+    <ClCompile Include="RuntimeParams.cpp" />
     <ClCompile Include="SerialNumberUI.cpp" />
     <ClCompile Include="SysInitThread.cpp" />
   </ItemGroup>
@@ -159,11 +159,11 @@
     <ClInclude Include="FileReceiver.h" />
     <ClInclude Include="FileSender.h" />
     <QtMoc Include="FileSyncThread.h">
-      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets</IncludePath>
-      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets</IncludePath>
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;D:\MyLab\asio-1.12.2\include;$(NOINHERIT)</IncludePath>
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;D:\MyLab\asio-1.12.2\include;$(NOINHERIT)</IncludePath>
     </QtMoc>
     <ClInclude Include="pcbFuncLib.h" />
-    <ClInclude Include="RuntimeLib.h" />
+    <ClInclude Include="RuntimeParams.h" />
     <QtMoc Include="FlickeringArrow.h">
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName)\.;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets</IncludePath>
       <Define Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">UNICODE;_UNICODE;WIN32;WIN64;QT_DLL;QT_CORE_LIB;QT_GUI_LIB;QT_WIDGETS_LIB</Define>

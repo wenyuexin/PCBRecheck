@@ -51,13 +51,16 @@
     <ClCompile Include="FlickeringArrow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RuntimeLib.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CameraControler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MyMessageBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pcbFuncLib.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RuntimeParams.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FileReceiver.cpp">
@@ -67,9 +70,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FileSyncThread.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="pcbFuncLib.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -122,16 +122,16 @@
     <ClInclude Include="Configurator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RuntimeLib.h">
+    <ClInclude Include="pcbFuncLib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeParams.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FileReceiver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FileSender.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="pcbFuncLib.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
