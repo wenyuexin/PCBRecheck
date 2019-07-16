@@ -14,6 +14,8 @@ FileReceiver::FileReceiver(short port, std::string const& workDirectory)
 
 FileReceiver::~FileReceiver()
 {
+	m_socket->close();
+	m_iomanager->stop();
 	delete m_acceptor;
 	delete m_socket;
 	delete m_iomanager;
