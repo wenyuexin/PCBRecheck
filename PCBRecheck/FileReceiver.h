@@ -41,18 +41,12 @@ class Session
 	: public std::enable_shared_from_this<Session>
 {
 public:
-	using TcpSocket = asio::ip::tcp::socket;
+	static std::string workDirectory = const std::string("");
 
+public:
+	using TcpSocket = asio::ip::tcp::socket;
 	Session(TcpSocket t_socket);
 	void start() { doRead(); }
-
-private:
-	void doRead();
-	void processRead(size_t t_bytesTransferred);
-	void createFile();
-	void readData(std::istream &stream);
-	void doReadFileContent(size_t t_bytesTransferred);
-	void handleError(std::string const& t_functionName, asio::error_code const& t_ec);
 
 private:
 	TcpSocket m_socket;
@@ -66,4 +60,12 @@ private:
 	std::string m_filePath; //文件相对路径
 	std::string m_fullName; //输入文件绝对路径
 	std::string fileOutPath; //输出文件的绝对路径
+
+private:
+	void doRead();
+	void processRead(size_t t_bytesTransferred);
+	void createFile();
+	void readData(std::istream &stream);
+	void doReadFileContent(size_t t_bytesTransferred);
+	void handleError(std::string const& t_functionName, asio::error_code const& t_ec);
 };

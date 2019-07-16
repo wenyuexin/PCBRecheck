@@ -8,6 +8,7 @@ FileReceiver::FileReceiver(short port, std::string const& workDirectory)
 	m_socket = new TcpSocket(*m_iomanager);
 	m_acceptor = new TcpAcceptor(*m_iomanager, asio::ip::tcp::endpoint(asio::ip::tcp::v4(), port));
 	createWorkDirectory(workDirectory);
+	Session::workDirectory = workDirectory;
 	doAccept();
 }
 
