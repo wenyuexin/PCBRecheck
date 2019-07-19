@@ -15,16 +15,24 @@ FileReceiver::FileReceiver(short port, std::string const& workDirectory)
 FileReceiver::~FileReceiver()
 {
 	m_socket->close();
-	m_iomanager->stop();
-	delete m_acceptor;
 	delete m_socket;
+	m_socket = nullptr;
+	m_iomanager->stop();
+	//while (!m_iomanager->stopped())
+	//	Sleep(5);
+	Sleep(300);
+	delete m_acceptor;
 	delete m_iomanager;
 }
 
 
 void FileReceiver::startListen()
 {
-	m_iomanager->run();
+		m_iomanager->run();
+		if (m_iomanager->stopped())
+		{
+			m_acceptor->close();
+		}
 }
 
 void FileReceiver::doAccept()
