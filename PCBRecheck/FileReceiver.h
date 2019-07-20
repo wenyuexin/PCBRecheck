@@ -28,6 +28,7 @@ private:
     void createWorkDirectory(const std::string &workDirectory);
 
 private:
+	std::string serialNum;//正在接收的板子的序号
 	std::string m_workpath;//文件存储路径
 
 	IoService  *m_iomanager;
