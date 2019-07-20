@@ -8,6 +8,7 @@
 #include <iostream>
 #include <filesystem>
 #include <QDir>
+#include "pcbFuncLib.h"
 
 
 //文件接收类

@@ -18,9 +18,7 @@ FileReceiver::~FileReceiver()
 	delete m_socket;
 	m_socket = nullptr;
 	m_iomanager->stop();
-	//while (!m_iomanager->stopped())
-	//	Sleep(5);
-	Sleep(300);
+	pcb::delay(300);
 	delete m_acceptor;
 	delete m_iomanager;
 }
