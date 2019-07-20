@@ -17,20 +17,23 @@ FileReceiver::~FileReceiver()
 	m_socket->close();
 	delete m_socket;
 	m_socket = nullptr;
+
 	m_iomanager->stop();
 	pcb::delay(300);
 	delete m_acceptor;
+	m_acceptor = nullptr;
+
 	delete m_iomanager;
+	m_iomanager = nullptr;
 }
 
 
 void FileReceiver::startListen()
 {
-		m_iomanager->run();
-		if (m_iomanager->stopped())
-		{
-			m_acceptor->close();
-		}
+	m_iomanager->run();
+	if (m_iomanager->stopped()){
+		m_acceptor->close();
+	}
 }
 
 void FileReceiver::doAccept()
@@ -88,6 +91,7 @@ void Session::processRead(size_t t_bytesTransferred)
 {
 	std::istream requestStream(&m_requestBuf_);
 	readData(requestStream);
+	if (hierarchy == "") return;
 
 	auto pos1 = m_fullName.find(hierarchy);//寻找表示目录层次的子字符串
 	auto pos2 = m_fullName.find_last_of("/");
@@ -125,6 +129,14 @@ void Session::readData(std::istream &stream)//获取文件名与文件大小
 	stream >> hierarchy;//目录层次
 	stream >> m_fullName;//文件绝对路径
 	stream >> m_fileSize;//文件大小
+	if (hierarchy == "" && m_fileSize != 0) { //开始接收
+		std::string serialNum = m_fullName; //正在接收的PCB的序号
+		return; 
+	}
+	if (hierarchy == "" && m_fileSize == 0) { //接收结束 
+		std::string serialNum = ""; //正在接收的PCB的序号
+		return; 
+	} 
 	stream.read(m_buf.data(), 2);
 }
 
