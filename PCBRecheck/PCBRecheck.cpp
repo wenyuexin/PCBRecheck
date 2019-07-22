@@ -530,6 +530,7 @@ void PCBRecheck::on_pushButton_exit_clicked()
 void PCBRecheck::exitRecheckSystem()
 {
 	this->close();
+	pcb::delay(10);
 	qApp->exit(0);
 }
 
