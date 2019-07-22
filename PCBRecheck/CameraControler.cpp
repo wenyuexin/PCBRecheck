@@ -10,6 +10,7 @@ using cv::Point;
 CameraControler::CameraControler(QObject *parent)
 	: QObject(parent)
 {
+	qFrame = Q_NULLPTR;
 }
 
 CameraControler::~CameraControler()
@@ -81,7 +82,8 @@ void CameraControler::calcRoiRect(Size sz)
 void CameraControler::closeCamera()
 {
 	timer->stop();
-	camera.release();
+	if (camera.isOpened())
+		camera.release();
 }
 
 
