@@ -41,6 +41,8 @@ void CameraControler::openCamera(bool doCapture)
 	}
 
 	//设置相机分辨率
+	//低分辨率下，目标物体的图像可能不在相机视野中央
+	//可以通过设置最高分辨率，然后这里用代码裁剪的方式修正
 	bool success = true;
 	success &= camera.set(cv::CAP_PROP_FRAME_WIDTH, resolution.width);
 	success &= camera.set(cv::CAP_PROP_FRAME_HEIGHT, resolution.height);
