@@ -3,16 +3,15 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <IncludePath>D:\Apps\OpenCV3.4.3\install\include;D:\Apps\OpenCV3.4.3\install\include\opencv;D:\Apps\OpenCV3.4.3\install\include\opencv2;D:\Apps\tesseract\include;D:\Apps\tesseract\include\leptonica;D:\Apps\tesseract\include\tesseract;C:\Program Files (x86)\MindVision\Demo\VC++\Include;D:\workspace\cpp\asio-1.12.2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Apps\OpenCV3.4.3\install\x64\vc15\lib;D:\Apps\tesseract\lib\x64\release;$(LibraryPath)</LibraryPath>
+    <IncludePath>E:\App\opencv_contrib\include;E:\App\opencv_contrib\include\opencv;E:\App\opencv_contrib\include\opencv2;E:\App\tesseract\include;E:\App\tesseract\include\leptonica;E:\App\tesseract\include\tesseract;C:\Program Files (x86)\MindVision\Demo\VC++\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>E:\App\opencv_contrib\x64\vc15\lib;E:\App\tesseract\lib\x64\release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <Link>
-      <AdditionalDependencies>opencv_world343.lib;NETDLL.lib;libtesseract-4.lib;pvt.cppan.demo.danbloomberg.leptonica-1.74.1.lib;pvt.cppan.demo.gif-5.1.4.lib;pvt.cppan.demo.jpeg-9.2.0.lib;pvt.cppan.demo.madler.zlib-1.2.11.lib;pvt.cppan.demo.mgk25.jbig.ar-2.1.0.lib;pvt.cppan.demo.mgk25.jbig.jbig-2.1.0.lib;pvt.cppan.demo.openjpeg.openjp2-2.1.2.lib;pvt.cppan.demo.png-1.6.28.lib;pvt.cppan.demo.tiff-4.0.7.lib;pvt.cppan.demo.webp-0.6.0.lib;pvt.cppan.demo.xz_utils.lzma-5.2.2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opencv_world410.lib;libtesseract-4.lib;pvt.cppan.demo.danbloomberg.leptonica-1.74.1.lib;pvt.cppan.demo.gif-5.1.4.lib;pvt.cppan.demo.jpeg-9.2.0.lib;pvt.cppan.demo.madler.zlib-1.2.11.lib;pvt.cppan.demo.mgk25.jbig.ar-2.1.0.lib;pvt.cppan.demo.mgk25.jbig.jbig-2.1.0.lib;pvt.cppan.demo.openjpeg.openjp2-2.1.2.lib;pvt.cppan.demo.png-1.6.28.lib;pvt.cppan.demo.tiff-4.0.7.lib;pvt.cppan.demo.webp-0.6.0.lib;pvt.cppan.demo.xz_utils.lzma-5.2.2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ClCompile>
-      <PreprocessorDefinitions>ASIO_STANDALONE;WIN32_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup />
