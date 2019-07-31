@@ -263,8 +263,8 @@ __pycache__/
 
 # Personal files or documents that need to be ignored
 buffer/
-GeneratedFiles/
 /PCBRecheck.sln
+/PCBRecheck/GeneratedFiles/*
 /PCBRecheck/PCBRecheck.vcxproj
 /PCBRecheck/PCBRecheck.vcxproj.filters
 /PCBRecheck/PCBRecheck.vcxproj.user
